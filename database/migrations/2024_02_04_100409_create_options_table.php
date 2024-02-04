@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\UserType;
+use App\Models\Question;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,14 +11,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('options', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('type')->default(UserType::USER->value);
-            $table->rememberToken();
+            $table->string('label');
+            $table
+                ->foreignIdFor(Question::class)
+                ->constrained()
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -28,6 +27,9 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::table('options', function (Blueprint $table) {
+            $table->dropForeignIdFor(Question::class);
+            $table->dropIfExists();
+        });
     }
 };
