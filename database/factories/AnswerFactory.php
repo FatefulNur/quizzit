@@ -2,6 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Answer;
+use App\Models\Option;
+use App\Models\Question;
+use App\Models\UserResponse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +19,14 @@ class AnswerFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'user_response_id' => UserResponse::factory(),
+            'question_id' => Question::factory(),
+            'option_id' => Option::factory(),
         ];
     }
 }
