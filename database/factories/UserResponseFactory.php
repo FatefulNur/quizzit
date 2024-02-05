@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Quiz;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class UserResponseFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'marks' => fake()->numberBetween(0, 100),
+            'user_id' => User::factory(),
+            'quiz_id' => Quiz::factory(),
         ];
     }
 }
