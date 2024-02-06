@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Option;
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +16,12 @@ class OptionFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
     public function definition(): array
     {
         return [
-            //
+            'label' => fake()->word(),
+            'question_id' => Question::factory(),
         ];
     }
 }

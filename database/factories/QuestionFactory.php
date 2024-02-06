@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Quiz;
+use App\Models\Question;
+use App\Enums\QuestionType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +17,15 @@ class QuestionFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
+
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->sentence(),
+            'hint' => fake()->sentence(),
+            'type' => fake()->randomElement(QuestionType::class),
+            'quiz_id' => Quiz::factory(),
         ];
     }
 }

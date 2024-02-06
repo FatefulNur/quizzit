@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Question;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class QuestionSeeder extends Seeder
 {
@@ -12,6 +13,8 @@ class QuestionSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Question::factory()
+        ->count(50) 
+        ->create();
     }
 }
