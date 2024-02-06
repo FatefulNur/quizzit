@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\UserResponse;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserResponseSeeder extends Seeder
 {
@@ -12,6 +13,8 @@ class UserResponseSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        UserResponse::factory()
+            ->count(50) 
+            ->create();
     }
 }
