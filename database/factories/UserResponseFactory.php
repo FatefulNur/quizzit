@@ -19,7 +19,7 @@ class UserResponseFactory extends Factory
     public function definition(): array
     {
         return [
-            'marks' => fake()->numberBetween(0, 100),
+            'result' => fake()->numberBetween(0, 100),
             'user_id' => User::factory(),
             'quiz_id' => Quiz::factory(),
         ];
