@@ -14,6 +14,7 @@ class Question extends Model
     protected $fillable = [
         'title',
         'hint',
+        'marks',
         'type',
         'quiz_id',
     ];
