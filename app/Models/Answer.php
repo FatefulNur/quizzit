@@ -11,6 +11,7 @@ class Answer extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
+        'correct',
         'user_id',
         'user_response_id',
         'question_id',

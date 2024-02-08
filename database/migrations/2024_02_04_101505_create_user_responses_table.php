@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('user_responses', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->integer('marks');
+            $table->integer('result');
             $table
                 ->foreignIdFor(User::class)
                 ->constrained()

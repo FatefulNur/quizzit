@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->string('title');
             $table->text('hint');
+            $table->integer('marks');
             $table->string('type')->default(QuestionType::SHORT_TEXT->value);
             $table
                 ->foreignIdFor(Quiz::class)

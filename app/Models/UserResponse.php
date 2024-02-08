@@ -11,7 +11,7 @@ class UserResponse extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'marks',
+        'result',
         'user_id',
         'quiz_id',
     ];
