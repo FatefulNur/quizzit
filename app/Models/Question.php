@@ -22,4 +22,24 @@ class Question extends Model
     protected $casts = [
         'type' => QuestionType::class,
     ];
+
+    public function isShortText(): bool
+    {
+        return $this->type === QuestionType::SHORT_TEXT;
+    }
+
+    public function isLongText(): bool
+    {
+        return $this->type === QuestionType::LONG_TEXT;
+    }
+
+    public function isRadio(): bool
+    {
+        return $this->type === QuestionType::RADIO;
+    }
+
+    public function isCheckbox(): bool
+    {
+        return $this->type === QuestionType::CHECKBOX;
+    }
 }
