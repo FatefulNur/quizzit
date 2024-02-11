@@ -19,10 +19,12 @@ return new class extends Migration {
             $table->string('correct');
             $table
                 ->foreignIdFor(User::class)
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
             $table
                 ->foreignIdFor(UserResponse::class)
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
             $table
@@ -31,6 +33,7 @@ return new class extends Migration {
                 ->cascadeOnDelete();
             $table
                 ->foreignIdFor(Option::class)
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
             $table->timestamps();
