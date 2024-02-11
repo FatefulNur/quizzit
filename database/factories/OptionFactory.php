@@ -21,6 +21,7 @@ class OptionFactory extends Factory
     {
         return [
             'label' => fake()->word(),
+            'is_correct' => fake()->numberBetween(0, 1),
             'question_id' => Question::factory(),
         ];
     }

@@ -12,6 +12,11 @@ class Option extends Model
 
     protected $fillable = [
         'label',
+        'is_correct',
         'question_id',
+    ];
+
+    protected $casts = [
+        'is_correct' => 'boolean',
     ];
 }
