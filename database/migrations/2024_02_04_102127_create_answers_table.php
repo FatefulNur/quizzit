@@ -29,6 +29,7 @@ return new class extends Migration {
                 ->cascadeOnDelete();
             $table
                 ->foreignIdFor(Question::class)
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
             $table
