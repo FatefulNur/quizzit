@@ -14,6 +14,9 @@ class CreateQuiz extends Component
     #[Validate('nullable')]
     public $description;
 
+    #[Validate('nullable')]
+    public $type;
+
     #[Validate('required|date|after:today')]
     public $expired_at;
 
@@ -21,7 +24,7 @@ class CreateQuiz extends Component
         'questions.*.title' => 'required|max:255',
         'questions.*.hint' => 'nullable',
         'questions.*.marks' => 'required|integer',
-        'questions.*.type' => 'required',
+        'questions.*.type' => 'required|in:short_text,long_text,radio,checkbox',
         'questions.*.options.*.is_correct' => 'nullable|boolean',
         'questions.*.options.*.label' => 'nullable|max:255',
     ], attribute: [
@@ -64,7 +67,7 @@ class CreateQuiz extends Component
     public function addOption($questionKey)
     {
         $this->questions[$questionKey]['options'][] = [
-            'label' => '',
+            'label' => 'Option',
             'is_correct' => 0,
         ];
     }
@@ -85,7 +88,7 @@ class CreateQuiz extends Component
 
         session()->flash('status', 'Success!');
 
-        $this->redirect(Index::class);
+        $this->redirect(Index::class, navigate: true);
     }
 
     public function render()
@@ -97,7 +100,7 @@ class CreateQuiz extends Component
     {
         return [
             [
-                'label' => '',
+                'label' => 'Option',
                 'is_correct' => 0,
             ]
         ];
