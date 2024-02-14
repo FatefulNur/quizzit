@@ -23,7 +23,7 @@ class QuizFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'description' => fake()->paragraph(3),
-            'marks_total' => fake()->numberBetween(10, 100),
+            'marks_total' => fake()->numberBetween(1, 25),
             'type' => fake()->randomElement(QuizType::class),
             'user_id' => User::factory(),
             'expired_at' => now()->addDays(fake()->numberBetween(1, 30)),

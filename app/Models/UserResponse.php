@@ -15,4 +15,8 @@ class UserResponse extends Model
         'user_id',
         'quiz_id',
     ];
+
+    protected $casts = [
+        'result' => 'integer',
+    ];
 }

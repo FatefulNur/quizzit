@@ -24,7 +24,7 @@ class QuestionFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'hint' => fake()->sentence(),
-            'marks' => fake()->numberBetween(0, 100),
+            'marks' => fake()->numberBetween(1, 5),
             'type' => fake()->randomElement(QuestionType::class),
             'quiz_id' => Quiz::factory(),
         ];

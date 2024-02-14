@@ -21,28 +21,29 @@ class QuizSeeder extends Seeder
 
         foreach ($quizzes as $quiz) {
             $questions = Question::factory(5)->create(['quiz_id' => $quiz->id]);
+            $userResponse = UserResponse::factory()->create(['quiz_id' => $quiz->id]);
 
             foreach ($questions as $question) {
-                if ($question->isRadio() || $question->isCheckbox()) {
-                    // Short / Long text don't need an option
-                    $options = Option::factory(rand(2, 4))->create(['question_id' => $question->id]);
-                    $randomOptions = $options->shuffle()->take(rand(1, 2));
+                $options = Option::factory(rand(2, 4))->create(['question_id' => $question->id]);
+                $chosenOptions = $options->shuffle()->take(rand(1, 2));
 
-                    foreach ($randomOptions as $option) {
-                        Answer::factory()->create([
-                            'correct' => $option->label,
-                            'question_id' => $question->id,
-                            'option_id' => $option->id,
-                        ]);
-                    }
-                } else {
+                $correctOptionLabels = $options
+                    ->where('is_correct', 1)
+                    ->map->label->all();
+
+                $correct = implode(', ', $correctOptionLabels);
+
+                foreach ($chosenOptions as $option) {
                     Answer::factory()->create([
+                        'correct' => $correct,
+                        'user_id' => $userResponse->user_id,
+                        'user_response_id' => $userResponse->id,
                         'question_id' => $question->id,
+                        'option_id' => $option->id,
                     ]);
                 }
             }
 
-            UserResponse::factory(rand(1, 3))->create(['quiz_id' => $quiz->id]);
         }
     }
 }

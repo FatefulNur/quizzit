@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->integer('marks_total');
+            $table->integer('marks_total')->nullable();
             $table->string('type')->default(QuizType::PUBLIC ->value);
             $table
                 ->foreignIdFor(User::class)
