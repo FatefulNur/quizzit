@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\QuizType;
 use Illuminate\Support\Facades\DB;
 
 class QuizService
@@ -10,8 +11,12 @@ class QuizService
     {
         return DB::transaction(function () use ($data) {
             $marks_total = 0;
-            $quizzes = collect($data)->except('questions')->all();
-            $quiz = auth()->user()->quizzes()->create($quizzes);
+            $quizzes = collect($data)->except(['type', 'questions'])->all();
+            $type = ($data['type']) ? QuizType::PRIVATE : QuizType::PUBLIC;
+            $quiz = auth()->user()->quizzes()->create([
+                ...$quizzes,
+                'type' => $type,
+            ]);
 
             $questionsData = collect($data['questions'])->all();
             foreach ($questionsData as $item) {
