@@ -11,7 +11,8 @@
                         <label for="quiz_type"
                             class="mr-1 text-sm font-medium text-gray-900 cursor-pointer ms-3 dark:text-gray-300">Private?</label>
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <input id="quiz_type" type="checkbox" class="sr-only peer">
+                            <input wire:model="type" id="quiz_type" type="checkbox" value="private"
+                                class="sr-only peer">
                             <div
                                 class="w-9 h-5 shadow-sm bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600">
                             </div>

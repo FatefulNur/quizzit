@@ -14,6 +14,9 @@ class CreateQuiz extends Component
     #[Validate('nullable')]
     public $description;
 
+    #[Validate('nullable')]
+    public $type;
+
     #[Validate('required|date|after:today')]
     public $expired_at;
 
@@ -64,7 +67,7 @@ class CreateQuiz extends Component
     public function addOption($questionKey)
     {
         $this->questions[$questionKey]['options'][] = [
-            'label' => '',
+            'label' => 'Option',
             'is_correct' => 0,
         ];
     }
@@ -85,7 +88,7 @@ class CreateQuiz extends Component
 
         session()->flash('status', 'Success!');
 
-        $this->redirect(Index::class);
+        $this->redirect(Index::class, navigate: true);
     }
 
     public function render()
@@ -97,7 +100,7 @@ class CreateQuiz extends Component
     {
         return [
             [
-                'label' => '',
+                'label' => 'Option',
                 'is_correct' => 0,
             ]
         ];
