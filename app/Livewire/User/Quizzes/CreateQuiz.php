@@ -24,7 +24,7 @@ class CreateQuiz extends Component
         'questions.*.title' => 'required|max:255',
         'questions.*.hint' => 'nullable',
         'questions.*.marks' => 'required|integer',
-        'questions.*.type' => 'required',
+        'questions.*.type' => 'required|in:short_text,long_text,radio,checkbox',
         'questions.*.options.*.is_correct' => 'nullable|boolean',
         'questions.*.options.*.label' => 'nullable|max:255',
     ], attribute: [
