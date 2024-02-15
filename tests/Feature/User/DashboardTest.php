@@ -1,7 +1,7 @@
 <?php
 use App\Models\User;
 
-test('user can see dashboard page', function () {
+test('dashboard page can be visited', function () {
     $response = $this
         ->actingAs(User::factory()->create())
         ->get(route('user.dashboard'));
@@ -11,7 +11,7 @@ test('user can see dashboard page', function () {
     $this->assertAuthenticated();
 });
 
-test("user cannot see dashboard page when unauthenticated", function () {
+test('dashboard page cannot be visited when unauthenticated', function () {
     $response = $this->get(route('user.dashboard'));
 
     $response

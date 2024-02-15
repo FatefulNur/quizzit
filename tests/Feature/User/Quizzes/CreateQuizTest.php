@@ -4,10 +4,9 @@ use App\Livewire\User\Quizzes\CreateQuiz;
 use App\Livewire\User\Quizzes\Index;
 use App\Models\Quiz;
 use Livewire\Livewire;
-use Tests\TestCase;
 use App\Models\User;
 
-test('user can see create quiz page', function () {
+test('create quiz page can be visited', function () {
     $response = $this
         ->actingAs(User::factory()->create())
         ->get(route('user.quizzes.create'));
@@ -19,7 +18,7 @@ test('user can see create quiz page', function () {
     $this->assertAuthenticated();
 });
 
-test('user cannot see create quiz page when unauthenticated', function () {
+test('create quiz page cannot be visited when unauthenticated', function () {
     $response = $this->get(route('user.quizzes.create'));
 
     $response
@@ -29,7 +28,7 @@ test('user cannot see create quiz page when unauthenticated', function () {
     $this->assertGuest();
 });
 
-test('user can add questions', function () {
+test('questions can be added', function () {
     $this->actingAs(User::factory()->create());
 
     $component = Livewire::test(CreateQuiz::class);
@@ -43,7 +42,7 @@ test('user can add questions', function () {
             'type' => '',
             'options' => [
                 [
-                    'label' => 'Option',
+                    'label' => 'Option 1',
                     'is_correct' => 0,
                 ]
             ],
@@ -60,7 +59,7 @@ test('user can add questions', function () {
             'type' => '',
             'options' => [
                 [
-                    'label' => 'Option',
+                    'label' => 'Option 1',
                     'is_correct' => 0,
                 ]
             ],
@@ -72,7 +71,7 @@ test('user can add questions', function () {
             'type' => '',
             'options' => [
                 [
-                    'label' => 'Option',
+                    'label' => 'Option 1',
                     'is_correct' => 0,
                 ]
             ],
@@ -80,7 +79,7 @@ test('user can add questions', function () {
     ]);
 });
 
-test('user can remove questions', function () {
+test('questions can be removed', function () {
     $this->actingAs(User::factory()->create());
 
     $component = Livewire::test(CreateQuiz::class)
@@ -92,7 +91,7 @@ test('user can remove questions', function () {
                 'type' => '',
                 'options' => [
                     [
-                        'label' => 'Option',
+                        'label' => 'Option 1',
                         'is_correct' => 0,
                     ]
                 ],
@@ -104,7 +103,7 @@ test('user can remove questions', function () {
                 'type' => '',
                 'options' => [
                     [
-                        'label' => 'Option_d7s0',
+                        'label' => 'Option 1',
                         'is_correct' => 0,
                     ]
                 ],
@@ -121,7 +120,7 @@ test('user can remove questions', function () {
             'type' => '',
             'options' => [
                 [
-                    'label' => 'Option',
+                    'label' => 'Option 1',
                     'is_correct' => 0,
                 ]
             ],
@@ -129,7 +128,7 @@ test('user can remove questions', function () {
     ]);
 });
 
-test('user can add options', function () {
+test('options can be added', function () {
     $this->actingAs(User::factory()->create());
 
     $component = Livewire::test(CreateQuiz::class);
@@ -139,21 +138,21 @@ test('user can add options', function () {
 
     $component->assertSet('questions.0.options', [
         [
-            'label' => 'Option',
+            'label' => 'Option 1',
             'is_correct' => 0,
         ],
         [
-            'label' => 'Option',
+            'label' => 'Option 2',
             'is_correct' => 0,
         ],
         [
-            'label' => 'Option',
+            'label' => 'Option 3',
             'is_correct' => 0,
         ],
     ]);
 });
 
-test('user can remove options', function () {
+test('options can be removed', function () {
     $this->actingAs(User::factory()->create());
 
     $component = Livewire::test(CreateQuiz::class);
@@ -163,15 +162,15 @@ test('user can remove options', function () {
 
     $component->assertSet('questions.0.options', [
         [
-            'label' => 'Option',
+            'label' => 'Option 1',
             'is_correct' => 0,
         ],
         [
-            'label' => 'Option',
+            'label' => 'Option 2',
             'is_correct' => 0,
         ],
         [
-            'label' => 'Option',
+            'label' => 'Option 3',
             'is_correct' => 0,
         ],
     ]);
@@ -180,17 +179,17 @@ test('user can remove options', function () {
 
     $component->assertSet('questions.0.options', [
         0 => [
-            'label' => 'Option',
+            'label' => 'Option 1',
             'is_correct' => 0,
         ],
         2 => [
-            'label' => 'Option',
+            'label' => 'Option 3',
             'is_correct' => 0,
         ],
     ]);
 });
 
-test('user can create quiz', function () {
+test('quiz can be created', function () {
     $this->actingAs(User::factory()->create());
 
     $component = Livewire::test(CreateQuiz::class);
@@ -200,6 +199,7 @@ test('user can create quiz', function () {
         ->set('title', 'New Quiz')
         ->set('description', 'new quiz description.')
         ->set('type', false)
+        ->set('started_at', now()->addDay())
         ->set('expired_at', now()->addDays(3));
 
     // Question 1
@@ -270,7 +270,7 @@ test('user can create quiz', function () {
     $this->assertSame(11, Quiz::first()->marks_total);
 });
 
-test('user cannot create quiz with invalid inputs', function ($title, $description, $type, $expired_at, $question_title, $question_hint, $question_marks, $question_type, $errors) {
+test('quiz cannot be created with invalid inputs', function ($title, $description, $type, $started_at, $expired_at, $question_title, $question_hint, $question_marks, $question_type, $errors) {
     $this->actingAs(User::factory()->create());
 
     $component = Livewire::test(CreateQuiz::class);
@@ -280,6 +280,7 @@ test('user cannot create quiz with invalid inputs', function ($title, $descripti
         ->set('title', $title)
         ->set('description', $description)
         ->set('type', $type)
+        ->set('started_at', $started_at)
         ->set('expired_at', $expired_at);
 
     // Question 1
