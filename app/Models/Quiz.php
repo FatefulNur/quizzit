@@ -18,14 +18,26 @@ class Quiz extends Model
         'marks_total',
         'type',
         'user_id',
+        'started_at',
         'expired_at',
     ];
 
     protected $casts = [
         'type' => QuizType::class,
+        'started_at' => 'datetime',
         'expired_at' => 'datetime',
         'marks_total' => 'integer',
     ];
+
+    public function isPublic(): bool
+    {
+        return $this->type === QuizType::PUBLIC;
+    }
+
+    public function isPrivate(): bool
+    {
+        return $this->type === QuizType::PRIVATE;
+    }
 
     public function questions(): HasMany
     {
