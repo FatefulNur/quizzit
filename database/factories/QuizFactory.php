@@ -26,7 +26,8 @@ class QuizFactory extends Factory
             'marks_total' => fake()->numberBetween(1, 25),
             'type' => fake()->randomElement(QuizType::class),
             'user_id' => User::factory(),
-            'expired_at' => now()->addDays(fake()->numberBetween(1, 30)),
+            'started_at' => now()->addDays(fake()->numberBetween(1, 6)),
+            'expired_at' => now()->addDays(fake()->numberBetween(6, 12)),
         ];
     }
 }

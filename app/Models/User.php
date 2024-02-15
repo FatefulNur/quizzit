@@ -47,6 +47,11 @@ class User extends Authenticatable
         'type' => UserType::class,
     ];
 
+    public function isAdmin(): bool
+    {
+        return $this->type === UserType::ADMIN;
+    }
+
     public function quizzes(): HasMany
     {
         return $this->hasMany(Quiz::class);

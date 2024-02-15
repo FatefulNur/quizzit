@@ -17,7 +17,10 @@ class CreateQuiz extends Component
     #[Validate('nullable')]
     public $type;
 
-    #[Validate('required|date|after:today')]
+    #[Validate('required|date|before:expired_at')]
+    public $started_at;
+
+    #[Validate('required|date|after:started_at')]
     public $expired_at;
 
     #[Validate([
@@ -66,8 +69,9 @@ class CreateQuiz extends Component
 
     public function addOption($questionKey)
     {
+        $optionsCount = count($this->questions[$questionKey]['options']);
         $this->questions[$questionKey]['options'][] = [
-            'label' => 'Option',
+            'label' => 'Option ' . ($optionsCount + 1),
             'is_correct' => 0,
         ];
     }
@@ -100,7 +104,7 @@ class CreateQuiz extends Component
     {
         return [
             [
-                'label' => 'Option',
+                'label' => 'Option 1',
                 'is_correct' => 0,
             ]
         ];

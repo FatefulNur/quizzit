@@ -10,6 +10,7 @@ dataset('quiz_validation', [
         '',
         '',
         '',
+        '',
         [
             'title',
             'expired_at',
@@ -18,10 +19,25 @@ dataset('quiz_validation', [
             'questions.0.type',
         ]
     ],
-    'Wrong expired_date string' => [
+    'invalid started_date string' => [
         'Quiz title',
         'Quiz Description',
         true,
+        'random_string',
+        now(),
+        'question 1?',
+        'short text',
+        2,
+        'short_text',
+        [
+            'started_at'
+        ],
+    ],
+    'invalid expired_date string' => [
+        'Quiz title',
+        'Quiz Description',
+        true,
+        now(),
         'random_string',
         'question 1?',
         'short text',
@@ -31,23 +47,26 @@ dataset('quiz_validation', [
             'expired_at'
         ],
     ],
-    'Past expired_date string' => [
+    'expired_date before started_at' => [
         'Quiz title',
         'Quiz Description',
         true,
-        now()->subDay(),
+        now()->addDay(),
+        now(),
         'question 1?',
         'short text',
         2,
         'short_text',
         [
-            'expired_at'
+            'started_at',
+            'expired_at',
         ],
     ],
-    'Wrong question_marks data type' => [
+    'invalid question_marks data type' => [
         'Quiz title',
         'Quiz Description',
         true,
+        now()->subDays(2),
         now()->subDay(),
         'question 1?',
         'short text',
@@ -57,14 +76,15 @@ dataset('quiz_validation', [
             'questions.0.marks'
         ],
     ],
-    'Wrong question type' => [
+    'invalid question type' => [
         'Quiz title',
         'Quiz Description',
         true,
-        now()->subDay(),
+        now(),
+        now()->addDays(4),
         'question 1?',
         'short text',
-        '1_00',
+        100,
         'textarea',
         [
             'questions.0.type'
