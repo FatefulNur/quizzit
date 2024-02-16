@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Quiz;
 use App\Models\User;
 
 it('has home page', function () {
@@ -8,7 +9,7 @@ it('has home page', function () {
     $response->assertOk();
 });
 
-it("has access without authentication", function () {
+it('has access without authentication', function () {
     $response = $this->get('/');
 
     $response->assertOk();
@@ -16,7 +17,7 @@ it("has access without authentication", function () {
     $this->assertGuest();
 });
 
-it("has access with authentication", function () {
+it('has access with authentication', function () {
     $response = $this
         ->actingAs(User::factory()->create())
         ->get('/');
@@ -24,4 +25,24 @@ it("has access with authentication", function () {
     $response->assertOk();
 
     $this->assertAuthenticated();
+});
+
+it('has list of quizzes', function () {
+    $response = $this->get('/');
+
+    $response
+        ->assertOk()
+        ->assertViewIs('index')
+        ->assertViewHas('quizzes');
+});
+
+it('cannot contain more that 12 quiz information', function () {
+    $quizzes = Quiz::factory(18)->create();
+
+    $response = $this->get('/');
+
+    $response
+        ->assertOk()
+        ->assertViewIs('index')
+        ->assertViewHas('quizzes', fn($quizzes) => $quizzes->count() === 12);
 });
