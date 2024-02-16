@@ -1,11 +1,17 @@
 <div>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            {{ __('Your Quizzes') }}
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                {{ __('Your Quizzes') }}
+            </h2>
+            <a href="{{ route('user.quizzes.create') }}"
+                class="relative px-5 py-1 text-white bg-indigo-600 rounded-md text-md hover:bg-indigo-500 focus:ring-2 ring-indigo-600 ring-offset-2 disabled:opacity-50">
+                Add New
+            </a>
+        </div>
     </x-slot>
 
-    <div class="p-5 m-auto max-w-6xl">
+    <div class="p-5 m-auto max-w-4xl">
         <ul
             class="grid gap-3 grid-cols-[repeat(auto-fit,_minmax(280px,_1fr))] sm:grid-cols-[repeat(2,_minmax(300px,_1fr))] *:rounded-md *:shadow-lg *:border *:bg-white *:transition-all">
             @forelse ($quizzes as $quiz)
@@ -31,12 +37,7 @@
             </li>
 
             @empty
-            <li
-                class="p-3 flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 bg-white border-none min-h-40 *:bg-gray-100">
-                <div class=" flex-1 p-4 flex items-center justify-center">
-                    No Content
-                </div>
-            </li>
+            <x-no-content />
             @endforelse
 
         </ul>
