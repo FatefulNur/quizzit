@@ -12,14 +12,16 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.user.quizzes.index', [
-            'quizzes' => Quiz::select([
-                'title',
-                'description',
-                'type',
-                'marks_total',
-                'created_at',
-            ])->where('user_id', auth()->id())->simplePaginate(10),
-        ]);
+        $quizzes = Quiz::select([
+            'title',
+            'description',
+            'type',
+            'marks_total',
+            'created_at',
+        ])
+            ->where('user_id', auth()->id())
+            ->simplePaginate(10);
+
+        return view('livewire.user.quizzes.index', compact('quizzes'));
     }
 }
