@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $quizzes = Quiz::with('user:id,name')
+        $quizzes = Quiz::query()->with('user:id,name')
             ->select([
                 'title',
                 'description',
@@ -17,7 +17,9 @@ class HomeController extends Controller
                 'user_id',
                 'expired_at',
                 'created_at',
-            ])->latest()->paginate(12);
+            ])
+            ->whereDate('started_at', '<=', now())
+            ->latest()->paginate(12);
 
         return view('index', compact('quizzes'));
     }
