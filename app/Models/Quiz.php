@@ -40,6 +40,25 @@ class Quiz extends Model
         return $this->type === QuizType::PRIVATE;
     }
 
+    public function hasStarted(): bool
+    {
+        return $this->started_at <= now();
+    }
+
+    public function hasExpired(): bool
+    {
+        return $this->expired_at <= now();
+    }
+
+    public function getDaysLeft(): int
+    {
+        if ($this->hasExpired()) {
+            return 0;
+        }
+
+        return $this->expired_at->diffInDays(now());
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
