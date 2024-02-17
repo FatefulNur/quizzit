@@ -16,7 +16,7 @@
 </head>
 
 <body class="antialiased bg-gray-100">
-    <section class="bg-white dark:bg-gray-900 w-full">
+    <section class="dark:bg-gray-900 w-full space-y-4">
         <div class="flex flex-col items-center justify-center p-12 border-b border-b-gray-200"
             style="background: url({{ asset('images/Cloudy.svg') }})">
             <h1
@@ -42,7 +42,8 @@
 
             @forelse ($quizzes as $quiz)
 
-            <div class="flex flex-col justify-between p-4 leading-normal bg-white border border-gray-400 rounded">
+            <div @class(["flex flex-col justify-between p-4 leading-normal bg-white border border-gray-400
+                rounded", "bg-amber-100 opacity-80"=> $quiz->hasExpired()])>
 
                 <div class="mb-8">
                     @if ($quiz->isPublic())
@@ -74,7 +75,7 @@
                         </p>
                         <p
                             class="bg-red-100 text-red-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">
-                            {{ $quiz->expired_at->diffInDays() }} Days Left
+                            {{ $quiz->getDaysLeft() }} Days Left
                         </p>
                     </div>
                 </div>
@@ -86,7 +87,7 @@
 
         </div>
         @if ($quizzes->isNotEmpty())
-        <div class="bg-white py-5 max-w-4xl m-auto border-t border-t-gray-300">
+        <div class="bg-white p-5 max-w-4xl !mt-6 m-auto border-t border-t-gray-300">
             {{ $quizzes->links() }}
         </div>
         @endif
