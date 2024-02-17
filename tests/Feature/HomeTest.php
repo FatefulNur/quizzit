@@ -36,13 +36,33 @@ it('has list of quizzes', function () {
         ->assertViewHas('quizzes');
 });
 
-it('cannot contain more that 12 quiz information', function () {
-    $quizzes = Quiz::factory(18)->create();
+it('has 12 quizzes data per pages', function () {
+    Quiz::factory(18)->create([
+        'started_at' => now(),
+    ]);
 
     $response = $this->get('/');
 
-    $response
-        ->assertOk()
-        ->assertViewIs('index')
-        ->assertViewHas('quizzes', fn($quizzes) => $quizzes->count() === 12);
+    $response->assertViewHas('quizzes', fn($quizzes) => $quizzes->count() === 12);
+
+    $response = $this->get('/?page=2');
+
+    $response->assertViewHas('quizzes', fn($quizzes) => $quizzes->count() === 6);
+});
+
+it('cannot show quizzes has not been started yet', function () {
+    Quiz::factory(6)->create([
+        'started_at' => now()->addDays(2),
+    ]);
+    Quiz::factory(6)->create([
+        'started_at' => now(),
+    ]);
+
+    $response = $this->get('/');
+
+    $response->assertViewHas('quizzes', fn($quizzes) => $quizzes->count() === 6);
+
+    $response = $this->get('/?page=2');
+
+    $response->assertViewHas('quizzes', fn($quizzes) => $quizzes->count() === 0);
 });
