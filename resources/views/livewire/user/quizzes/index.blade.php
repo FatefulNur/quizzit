@@ -53,7 +53,7 @@
 
                         @if ($quiz->isAvailable())
                         <span
-                            class="px-3 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full shadow-sm w-fit me-2 dark:bg-green-900 dark:text-green-300">Avaiable</span>
+                            class="px-3 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full shadow-sm w-fit me-2 dark:bg-green-900 dark:text-green-300">Available</span>
                         @endif
 
                         <span
