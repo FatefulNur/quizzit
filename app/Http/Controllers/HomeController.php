@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $quizzes = Quiz::query()->with('user:id,name')
+        $quizzes = Quiz::with('user:id,name')
             ->select([
                 'title',
                 'description',
