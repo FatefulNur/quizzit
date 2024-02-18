@@ -11,10 +11,10 @@ class Index extends Component
 {
     use WithPagination;
 
-    #[Url(except: '')]
+    #[Url(except: '', history: true)]
     public string $date = '';
 
-    #[Url(except: false)]
+    #[Url(except: false, history: true)]
     public $isPrivate = false;
 
     public function queryParams()
