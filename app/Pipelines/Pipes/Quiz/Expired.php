@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pipelines\Filters\Quiz;
+namespace App\Pipelines\Pipes\Quiz;
 
 use App\Enums\QuizDateFilter;
 use Closure;
