@@ -16,7 +16,7 @@
 </head>
 
 <body class="antialiased bg-gray-100">
-    <section class="dark:bg-gray-900 w-full space-y-4">
+    <section class="w-full space-y-4 dark:bg-gray-900">
         <div class="flex flex-col items-center justify-center p-12 border-b border-b-gray-200"
             style="background: url({{ asset('images/Cloudy.svg') }})">
             <h1
@@ -43,7 +43,7 @@
             @forelse ($quizzes as $quiz)
 
             <div @class(["flex flex-col justify-between p-4 leading-normal bg-white border border-gray-400
-                rounded", "bg-amber-100 opacity-80"=> $quiz->hasExpired()])>
+                rounded", "!bg-gray-200 opacity-60"=> $quiz->hasExpired()])>
 
                 <div class="mb-8">
                     @if ($quiz->isPublic())
@@ -57,11 +57,11 @@
                     @endif
 
                     <div class="mb-2 text-xl font-bold text-gray-900">{{ $quiz->title }}</div>
-                    <p class="text-sm text-gray-600 line-clamp-2 leading-tight">Lorem,
+                    <p class="text-sm leading-tight text-gray-600 line-clamp-2">Lorem,
                         {{ $quiz->description }}
                     </p>
                 </div>
-                <div class="flex flex-wrap justify-between gap-2 items-center text-sm">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-sm">
                     <p class="text-lg font-extrabold text-stone-500">{{ $quiz->user->name }}</p>
                     <div class="flex gap-1">
                         <p
