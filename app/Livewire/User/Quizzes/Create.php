@@ -6,7 +6,7 @@ use App\Services\QuizService;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-class CreateQuiz extends Component
+class Create extends Component
 {
     #[Validate('required|max:255', as: 'quiz title')]
     public $title;
@@ -97,7 +97,7 @@ class CreateQuiz extends Component
 
     public function render()
     {
-        return view('livewire.user.quizzes.create-quiz');
+        return view('livewire.user.quizzes.create');
     }
 
     private function option()
