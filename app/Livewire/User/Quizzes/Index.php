@@ -2,7 +2,8 @@
 
 namespace App\Livewire\User\Quizzes;
 
-use App\Models\Quiz;
+use App\Services\QuizService;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -10,17 +11,34 @@ class Index extends Component
 {
     use WithPagination;
 
+    #[Url(except: '')]
+    public string $date = '';
+
+    #[Url(except: false)]
+    public $isPrivate = false;
+
+    public function queryParams()
+    {
+        return [
+            'date' => $this->date,
+            'private' => $this->isPrivate,
+        ];
+    }
+
     public function render()
     {
-        $quizzes = Quiz::select([
-            'title',
-            'description',
-            'type',
-            'marks_total',
-            'created_at',
-        ])
+        $quizzes = QuizService::get($this->queryParams())
+            ->select([
+                'title',
+                'description',
+                'type',
+                'marks_total',
+                'started_at',
+                'expired_at',
+                'created_at',
+            ])
             ->where('user_id', auth()->id())
-            ->simplePaginate(10);
+            ->paginate(10);
 
         return view('livewire.user.quizzes.index', compact('quizzes'));
     }
