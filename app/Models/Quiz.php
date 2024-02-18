@@ -50,6 +50,11 @@ class Quiz extends Model
         return $this->expired_at <= now();
     }
 
+    public function isAvailable()
+    {
+        return $this->hasStarted() && !$this->hasExpired();
+    }
+
     public function getDaysLeft(): int
     {
         if ($this->hasExpired()) {

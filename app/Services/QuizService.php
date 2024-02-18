@@ -3,10 +3,22 @@
 namespace App\Services;
 
 use App\Enums\QuizType;
+use App\Models\Quiz;
+use App\Pipelines\QuizFilter;
 use Illuminate\Support\Facades\DB;
 
 class QuizService
 {
+    public static function get($queryParams = [])
+    {
+        $query = Quiz::query();
+
+        return app(QuizFilter::class)->getResults([
+            'builder' => $query,
+            'params' => $queryParams,
+        ]);
+    }
+
     public static function store(array $data)
     {
         return DB::transaction(function () use ($data) {

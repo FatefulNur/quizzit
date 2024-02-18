@@ -126,6 +126,10 @@ test('questions can be removed', function () {
             ],
         ],
     ]);
+
+    $component->call('removeQuestion', 0);
+
+    $component->assertSet('questions', []);
 });
 
 test('options can be added', function () {
