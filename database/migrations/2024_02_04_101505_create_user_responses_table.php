@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->integer('result');
             $table
                 ->foreignIdFor(User::class)
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
             $table
