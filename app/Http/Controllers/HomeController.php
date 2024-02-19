@@ -18,7 +18,7 @@ class HomeController extends Controller
                 'expired_at',
                 'created_at',
             ])
-            ->whereDate('started_at', '<=', now())
+            ->where('started_at', '<=', now())
             ->latest()->paginate(12);
 
         return view('index', compact('quizzes'));
