@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Quiz;
 use App\Models\User;
 use App\Enums\QuizType;
 use Illuminate\Database\Eloquent\Factories\Factory;

@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Quiz;
-use App\Models\Question;
 use App\Enums\QuestionType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
