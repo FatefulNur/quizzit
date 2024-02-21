@@ -8,7 +8,6 @@ use App\Models\Option;
 use App\Models\Question;
 use App\Models\UserResponse;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class QuizSeeder extends Seeder
 {
@@ -36,6 +35,7 @@ class QuizSeeder extends Seeder
                 foreach ($chosenOptions as $option) {
                     Answer::factory()->create([
                         'correct' => $correct,
+                        'answer' => $option->answer ?? fake()->word(),
                         'user_id' => $userResponse->user_id,
                         'user_response_id' => $userResponse->id,
                         'question_id' => $question->id,
