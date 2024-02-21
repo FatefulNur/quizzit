@@ -24,17 +24,14 @@ return new class extends Migration {
                 ->cascadeOnDelete();
             $table
                 ->foreignIdFor(UserResponse::class)
-                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
             $table
                 ->foreignIdFor(Question::class)
-                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
             $table
                 ->foreignIdFor(Option::class)
-                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
             $table->timestamps();

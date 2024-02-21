@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pipelines\Filters\Quiz;
+namespace App\Pipelines\Pipes\Quiz;
 
 use App\Enums\QuizDateFilter;
 use Closure;
@@ -11,8 +11,8 @@ class Available
     {
         if ($contents['params']['date'] === QuizDateFilter::AVAILABLE->value) {
             $contents['builder']
-                ->whereDate('started_at', '<=', now())
-                ->whereDate('expired_at', '>', now());
+                ->where('started_at', '<=', now())
+                ->where('expired_at', '>', now());
         }
 
         return $next($contents);

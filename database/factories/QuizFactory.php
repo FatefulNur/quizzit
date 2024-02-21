@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Quiz;
 use App\Models\User;
 use App\Enums\QuizType;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -27,7 +26,7 @@ class QuizFactory extends Factory
             'type' => fake()->randomElement(QuizType::class),
             'user_id' => User::factory(),
             'started_at' => fake()->dateTimeBetween('-3 days', '3 days'),
-            'expired_at' => fake()->dateTimeBetween('-3 days', '12 days'),
+            'expired_at' => fake()->dateTimeBetween('4 days', '12 days'),
         ];
     }
 }

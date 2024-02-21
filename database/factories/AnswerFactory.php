@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Models\Answer;
 use App\Models\Option;
 use App\Models\Question;
 use App\Models\UserResponse;

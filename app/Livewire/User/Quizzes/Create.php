@@ -2,42 +2,20 @@
 
 namespace App\Livewire\User\Quizzes;
 
+use App\Enums\QuestionType;
 use App\Services\QuizService;
-use Livewire\Attributes\Validate;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
-class CreateQuiz extends Component
+class Create extends Component
 {
-    #[Validate('required|max:255', as: 'quiz title')]
     public $title;
-
-    #[Validate('nullable')]
     public $description;
-
-    #[Validate('nullable')]
     public $type;
-
-    #[Validate('required|date|before:expired_at')]
     public $started_at;
-
-    #[Validate('required|date|after:started_at')]
     public $expired_at;
 
-    #[Validate([
-        'questions.*.title' => 'required|max:255',
-        'questions.*.hint' => 'nullable',
-        'questions.*.marks' => 'required|integer',
-        'questions.*.type' => 'required|in:short_text,long_text,radio,checkbox',
-        'questions.*.options.*.is_correct' => 'nullable|boolean',
-        'questions.*.options.*.label' => 'nullable|max:255',
-    ], attribute: [
-        'questions.*.title' => 'question title',
-        'questions.*.hint' => 'question hint',
-        'questions.*.marks' => 'marks',
-        'questions.*.type' => 'question type',
-        'questions.*.options.*.is_correct' => 'correct',
-        'questions.*.options.*.label' => 'label',
-    ])]
+
     public $questions = [];
 
     public function mount()
@@ -65,6 +43,8 @@ class CreateQuiz extends Component
     public function resetOptions($questionKey)
     {
         $this->questions[$questionKey]['options'] = $this->option();
+        // $this->reset("questions.$questionKey.options.*.is_correct");
+        // TODO: rerender
     }
 
     public function addOption($questionKey)
@@ -72,7 +52,7 @@ class CreateQuiz extends Component
         $optionsCount = count($this->questions[$questionKey]['options']);
         $this->questions[$questionKey]['options'][] = [
             'label' => 'Option ' . ($optionsCount + 1),
-            'is_correct' => 0,
+            'is_correct' => false,
         ];
     }
 
@@ -80,6 +60,36 @@ class CreateQuiz extends Component
     {
         unset($this->questions[$questionKey]['options'][$optionKey]);
         $this->reset("questions.$questionKey.options.$optionKey");
+    }
+
+    public function rules()
+    {
+        return [
+            'title' => 'required|max:255',
+            'description' => 'nullable',
+            'type' => 'nullable',
+            'started_at' => 'required|date|before:expired_at',
+            'expired_at' => 'required|date|after:started_at',
+            'questions.*.title' => 'required|max:255',
+            'questions.*.hint' => 'nullable',
+            'questions.*.marks' => 'required|integer|min:1|max:100',
+            'questions.*.type' => ['required', Rule::enum(QuestionType::class)],
+            'questions.*.options.*.is_correct' => 'nullable|boolean',
+            'questions.*.options.*.label' => 'nullable|max:255',
+        ];
+    }
+
+    public function validationAttributes()
+    {
+        return [
+            'title' => 'quiz title',
+            'questions.*.title' => 'question title',
+            'questions.*.hint' => 'question hint',
+            'questions.*.marks' => 'marks',
+            'questions.*.type' => 'question type',
+            'questions.*.options.*.is_correct' => 'correct',
+            'questions.*.options.*.label' => 'label',
+        ];
     }
 
     public function save()
@@ -97,7 +107,7 @@ class CreateQuiz extends Component
 
     public function render()
     {
-        return view('livewire.user.quizzes.create-quiz');
+        return view('livewire.user.quizzes.create');
     }
 
     private function option()
@@ -105,7 +115,7 @@ class CreateQuiz extends Component
         return [
             [
                 'label' => 'Option 1',
-                'is_correct' => 0,
+                'is_correct' => false,
             ]
         ];
     }

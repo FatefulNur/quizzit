@@ -11,10 +11,10 @@ class Index extends Component
 {
     use WithPagination;
 
-    #[Url(except: '')]
+    #[Url(except: '', history: true)]
     public string $date = '';
 
-    #[Url(except: false)]
+    #[Url(except: false, history: true)]
     public $isPrivate = false;
 
     public function queryParams()
@@ -29,6 +29,7 @@ class Index extends Component
     {
         $quizzes = QuizService::get($this->queryParams())
             ->select([
+                'id',
                 'title',
                 'description',
                 'type',
@@ -38,6 +39,7 @@ class Index extends Component
                 'created_at',
             ])
             ->where('user_id', auth()->id())
+            ->latest()
             ->paginate(10);
 
         return view('livewire.user.quizzes.index', compact('quizzes'));
