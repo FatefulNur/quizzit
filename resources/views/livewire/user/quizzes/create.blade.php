@@ -48,7 +48,7 @@
         </div>
     </header>
 
-    <div class="py-12 space-y-8">
+    <div class="py-12">
         <div class="max-w-4xl mx-auto space-y-6 sm:px-6 lg:px-8">
 
             {{-- ====================Expired/Started Date Field======================= --}}
@@ -155,7 +155,9 @@
                             <div
                                 class="absolute h-[2px] bottom-0 left-1/2 right-1/2 bg-indigo-700 peer-focus:left-0 peer-focus:right-0 peer-focus:transition-all z-20">
                             </div>
-                            <div class="absolute h-[2px] bottom-0 left-0 right-0 bg-gray-200 w-full z-10">
+                            <div class="absolute h-[2px] bottom-0 left-0 right-0 bg-gray-200 w-full @error('questions.'.$questionKey.'.marks')
+                                !bg-red-500
+                            @enderror z-10">
                             </div>
                         </div>
                         @error("questions.$questionKey.marks")
@@ -177,7 +179,8 @@
 
                             <x-question.select wire:model="questions.{{ $questionKey }}.type"
                                 wire:change="resetOptions({{ $questionKey }})" :items="App\Enums\QuestionType::cases()"
-                                :error="$errors?->first('questions.'.$questionKey.'.type')" />
+                                :error="$errors?->first('questions.'.$questionKey.'.type')"
+                                :disabled="!empty($questions[$questionKey]['type'])" />
                             @error("questions.$questionKey.type")
                             <x-input-error :messages="$message" />
                             @enderror
