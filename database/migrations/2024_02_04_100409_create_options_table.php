@@ -13,7 +13,8 @@ return new class extends Migration {
     {
         Schema::create('options', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('label');
+            $table->string('label')
+                ->nullable();
             $table->boolean('is_correct');
             $table
                 ->foreignIdFor(Question::class)
