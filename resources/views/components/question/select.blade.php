@@ -1,11 +1,11 @@
-@props(['items', 'error'])
+@props(['items', 'error', 'disabled' => false])
 
 <div class="relative text-stone-600">
     <select name="type" id="type" {{ $attributes->merge(['class'=>"w-full border-0 h-14 bg-gray-50
         peer"]) }} style="box-shadow: none"
         title="Question type" x-on:change="questionType = $event.target.value">
 
-        <option selected>Select a Question Type</option>
+        <option selected @disabled($disabled)>Select a Question Type</option>
         @foreach ($items as $item)
 
         <option value="{{ $item?->value }}">{{ $item?->getLabel() }}</option>
