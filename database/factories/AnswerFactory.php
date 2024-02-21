@@ -23,6 +23,7 @@ class AnswerFactory extends Factory
     {
         return [
             'correct' => fake()->word(),
+            'answer' => fake()->word(),
             'user_id' => User::factory(),
             'user_response_id' => UserResponse::factory(),
             'question_id' => Question::factory(),
