@@ -24,4 +24,18 @@ class OptionFactory extends Factory
             'question_id' => Question::factory(),
         ];
     }
+
+    public function correct(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'is_correct' => true,
+        ]);
+    }
+
+    public function incorrect(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'is_correct' => false,
+        ]);
+    }
 }
