@@ -289,7 +289,10 @@
 
                                         @if (count($question['options']) > 1)
 
-                                        <button x-on:click="$el.parentNode.remove()"
+                                        <button
+                                            wire:loading.attr="disabled"
+                                            wire:target="removeOption"
+                                            x-on:click="$el.parentNode.remove()"
                                             wire:click="removeOption({{ $questionKey }}, {{ $optionKey }})"
                                             type="button"
                                             class="absolute z-30 invisible inline-block text-2xl font-bold leading-6 text-red-600 transition bg-white border rounded-full shadow-md -top-1 -right-1 w-7 h-7 group-hover:visible">&times;</button>
@@ -315,7 +318,10 @@
 
                                     @endforeach
 
-                                    <div class="flex items-center w-2/5 h-8 me-4"
+                                    <div
+                                        wire:loading.class="pointer-events-none"
+                                        wire:target="addOption"
+                                        class="flex items-center w-2/5 h-8 me-4"
                                         wire:click="addOption({{ $questionKey }})">
                                         <label
                                             class="inline-block w-full h-8 px-0 text-sm leading-8 text-gray-800 border-0 border-b-2 cursor-pointer bg-gray-50 focus:shadow-none outline-0">
@@ -356,7 +362,10 @@
 
                                         @if (count($question['options']) > 1)
 
-                                        <button x-on:click="$el.parentNode.remove()"
+                                        <button
+                                            wire:loading.attr="disabled"
+                                            wire:target="removeOption"
+                                            x-on:click="$el.parentNode.remove()"
                                             wire:click="removeOption({{ $questionKey }}, {{ $optionKey }})"
                                             type="button"
                                             class="absolute z-30 invisible inline-block text-2xl font-bold leading-6 text-red-600 transition bg-white border rounded-full shadow-md -top-1 -right-1 w-7 h-7 group-hover:visible">&times;</button>
@@ -382,7 +391,10 @@
 
                                     @endforeach
 
-                                    <div class="flex items-center w-2/5 h-8 me-4"
+                                    <div
+                                        wire:loading.class="pointer-events-none"
+                                        wire:target="addOption"
+                                        class="flex items-center w-2/5 h-8 me-4"
                                         wire:click="addOption({{ $questionKey }})">
                                         <label
                                             class="inline-block w-full h-8 px-0 text-sm leading-8 text-gray-800 border-0 border-b-2 cursor-pointer bg-gray-50 focus:shadow-none outline-0">
