@@ -39,6 +39,17 @@ test('Edit quiz page cannot be visited when unauthenticated', function () {
     $this->assertGuest();
 });
 
+test('Edit quiz page cannot be visited when unauthorized', function () {
+    $this->actingAs(User::factory()->create());
+
+    $response = $this->get(route('user.quizzes.edit', $this->quiz->id));
+
+    $response
+        ->assertForbidden();
+
+    $this->assertAuthenticated();
+});
+
 test('questions can be added', function () {
     $this->actingAs($this->user);
 
