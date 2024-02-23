@@ -11,9 +11,11 @@ class HomeController extends Controller
     {
         $quizzes = Quiz::with('user:id,name')
             ->select([
+                'id',
                 'title',
                 'description',
                 'type',
+                'marks_total',
                 'user_id',
                 'expired_at',
                 'created_at',
