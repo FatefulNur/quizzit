@@ -22,7 +22,14 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/quizzes/create', Create::class)->name('quizzes.create');
     Route::get('/quizzes/{quiz}/edit', Edit::class)->name('quizzes.edit');
     Route::get('/quizzes', QuizIndex::class)->name('quizzes.index');
-    Route::get('/quizzes/{quiz}', QuizShow::class)->name('quizzes.show');
-    Route::get('/quizzes/{quiz}/responses', ResponseIndex::class)->name('quizzes.responses.index');
-    Route::get('/quizzes/{quiz}/responses/{response}', ResponseShow::class)->name('quizzes.responses.show');
+    Route::get('/quizzes/{quiz}', QuizShow::class)->name('quizzes.show')
+        ->withoutMiddleware('auth')
+        ->middleware('intercept.quiz');
+    Route::get('/responses', ResponseIndex::class)->name('responses.index');
+    Route::get('/responses/{response}', ResponseShow::class)->name('responses.show');
+});
+
+Route::prefix('notify')->name('notify.')->group(function () {
+    Route::view('/responses/{response}/show', 'notify.responses.show')->name('responses.show');
+    Route::view('/quizzes/show', 'notify.quizzes.show')->name('quizzes.show');
 });
