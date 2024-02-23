@@ -12,7 +12,7 @@
                     <div class="flex flex-col ml-3">
                         <div class="font-medium leading-none">Have an Issue?</div>
                         <p class="mt-1 text-sm leading-none text-gray-600">
-                            You have to must login to visit the page. GO login first
+                            You must be logging in to visit the page. GO login and join private quizzes
                         </p>
                     </div>
                 </div>
