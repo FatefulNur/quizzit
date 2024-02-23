@@ -36,6 +36,10 @@ new class extends Component {
                         wire:navigate>
                         {{ __('Quizzes') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('user.responses.index')" :active="request()->routeIs('user.responses.index')"
+                        wire:navigate>
+                        {{ __('Your Responses') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -101,6 +105,11 @@ new class extends Component {
             <x-responsive-nav-link :href="route('user.quizzes.index')"
                 :active="request()->routeIs('user.quizzes.index')" wire:navigate>
                 {{ __('Quizzes') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('user.responses.index')" :active="request()->routeIs('user.responses.index')"
+                wire:navigate>
+                {{ __('Your Responses') }}
             </x-responsive-nav-link>
         </div>
 
