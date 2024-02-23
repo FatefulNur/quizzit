@@ -25,6 +25,9 @@ class Edit extends Component
     public function mount(Quiz $quiz)
     {
         $this->quiz = $quiz;
+
+        $this->authorize('update', $this->quiz);
+
         $type = $this->quiz->isPrivate() ? true : false;
 
         $this->title = $this->quiz->title;

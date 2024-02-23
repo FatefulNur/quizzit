@@ -28,4 +28,36 @@ class QuestionFactory extends Factory
             'quiz_id' => Quiz::factory(),
         ];
     }
+
+    public function shortText(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => QuestionType::SHORT_TEXT->value,
+            'marks' => 2
+        ]);
+    }
+
+    public function longText(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => QuestionType::LONG_TEXT->value,
+            'marks' => 2,
+        ]);
+    }
+
+    public function radio(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => QuestionType::RADIO->value,
+            'marks' => 1,
+        ]);
+    }
+
+    public function checkbox(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => QuestionType::CHECKBOX->value,
+            'marks' => 1,
+        ]);
+    }
 }

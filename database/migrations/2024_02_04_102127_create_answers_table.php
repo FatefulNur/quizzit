@@ -17,6 +17,7 @@ return new class extends Migration {
         Schema::create('answers', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('correct');
+            $table->string('answer');
             $table
                 ->foreignIdFor(User::class)
                 ->nullable()

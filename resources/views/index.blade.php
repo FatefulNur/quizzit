@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Laravel</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="antialiased bg-gray-100">
+<x-frontend-layout>
     <section class="w-full space-y-4 dark:bg-gray-900">
         <div class="flex flex-col items-center justify-center p-12 border-b border-b-gray-200"
             style="background: url({{ asset('images/Cloudy.svg') }})">
@@ -42,44 +25,48 @@
 
             @forelse ($quizzes as $quiz)
 
-            <div @class(["flex flex-col justify-between p-4 leading-normal bg-white border border-gray-400
-                rounded", "!bg-gray-200 opacity-60"=> $quiz->hasExpired()])>
+                <a href="{{ route('user.quizzes.show', $quiz->id) }}"
+                    wire:navigate
+                 @class(["relative flex flex-col justify-between p-4 leading-normal bg-white border border-gray-400
+                    rounded", "!bg-gray-200 opacity-60"=> $quiz->hasExpired()])>
+                    <div class="absolute text-sm font-bold top-2 right-2 text-emerald-700 dark:text-white">
+                        Marks: {{ $quiz->marks_total }}
+                    </div>
+                    <div class="mb-8">
+                        @if ($quiz->isPrivate())
+                        <span
+                            class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{
+                            $quiz->type }}</span>
+                        @else
+                        <span
+                            class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{
+                            $quiz->type }}</span>
+                        @endif
 
-                <div class="mb-8">
-                    @if ($quiz->isPrivate())
-                    <span
-                        class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{
-                        $quiz->type }}</span>
-                    @else
-                    <span
-                        class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{
-                        $quiz->type }}</span>
-                    @endif
-
-                    <div class="mb-2 text-xl font-bold text-gray-900">{{ $quiz->title }}</div>
-                    <p class="text-sm leading-tight text-gray-600 line-clamp-2">Lorem,
-                        {{ $quiz->description }}
-                    </p>
-                </div>
-                <div class="flex flex-wrap items-center justify-between gap-2 text-sm">
-                    <p class="text-lg font-extrabold text-stone-500">{{ $quiz->user->name }}</p>
-                    <div class="flex gap-1">
-                        <p
-                            class="bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">
-                            <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
-                            </svg>
-                            {{ $quiz->created_at->diffForHumans() }}
-                        </p>
-                        <p
-                            class="bg-red-100 text-red-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">
-                            {{ $quiz->getDaysLeft() }} Days Left
+                        <div class="mb-2 text-xl font-bold text-gray-900">{{ $quiz->title }}</div>
+                        <p class="text-sm leading-tight text-gray-600 line-clamp-2">Lorem,
+                            {{ $quiz->description }}
                         </p>
                     </div>
-                </div>
-            </div>
+                    <div class="flex flex-wrap items-center justify-between gap-2 text-sm">
+                        <p class="text-lg font-extrabold text-stone-500">{{ $quiz->user->name }}</p>
+                        <div class="flex gap-1">
+                            <p
+                                class="bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">
+                                <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
+                                </svg>
+                                {{ $quiz->created_at->diffForHumans() }}
+                            </p>
+                            <p
+                                class="bg-red-100 text-red-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">
+                                {{ $quiz->getDaysLeft() }} Days Left
+                            </p>
+                        </div>
+                    </div>
+                </a>
 
             @empty
             <x-no-content />
@@ -92,6 +79,4 @@
         </div>
         @endif
     </section>
-</body>
-
-</html>
+</x-frontend-layout>

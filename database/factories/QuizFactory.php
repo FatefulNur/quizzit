@@ -29,4 +29,18 @@ class QuizFactory extends Factory
             'expired_at' => fake()->dateTimeBetween('4 days', '12 days'),
         ];
     }
+
+    public function public (): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => QuizType::PUBLIC ->value,
+        ]);
+    }
+
+    public function private (): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => QuizType::PRIVATE ->value,
+        ]);
+    }
 }
