@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\User\Quizzes\Create;
+use App\Livewire\User\Quizzes\Edit;
 use App\Livewire\User\Quizzes\Index;
 use App\Models\Quiz;
 use Livewire\Livewire;
@@ -265,7 +266,7 @@ test('quiz can be created', function () {
         ->assertOk()
         ->assertHasNoErrors()
         ->assertSessionHas('status', 'Success!')
-        ->assertRedirect(Index::class);
+        ->assertRedirect(route('user.quizzes.edit', Quiz::first()->id));
 
     $this->assertDatabaseCount('quizzes', 1);
     $this->assertDatabaseHas('quizzes', [

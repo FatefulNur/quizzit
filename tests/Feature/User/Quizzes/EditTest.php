@@ -341,7 +341,7 @@ test('quiz can be edited without any modification', function () {
         ->assertOk()
         ->assertHasNoErrors()
         ->assertSessionHas('status', 'Success!')
-        ->assertRedirect(Index::class);
+        ->assertRedirect(route('user.quizzes.edit', $this->quiz->id));
 
     $this->assertDatabaseCount('quizzes', 1);
     $this->assertDatabaseHas('quizzes', [
@@ -469,7 +469,7 @@ test('quiz can be edited with modification of questions', function () {
         ->assertOk()
         ->assertHasNoErrors()
         ->assertSessionHas('status', 'Success!')
-        ->assertRedirect(Index::class);
+        ->assertRedirect(route('user.quizzes.edit', $this->quiz->id));
 
     $this->assertDatabaseCount('quizzes', 1);
     $this->assertDatabaseHas('quizzes', [
@@ -583,7 +583,7 @@ test('quiz can be edited with modification of options', function () {
         ->assertOk()
         ->assertHasNoErrors()
         ->assertSessionHas('status', 'Success!')
-        ->assertRedirect(Index::class);
+        ->assertRedirect(route('user.quizzes.edit', $this->quiz->id));
 
     $this->assertDatabaseCount('quizzes', 1);
     $this->assertDatabaseCount('questions', 4);
@@ -627,7 +627,7 @@ test('Options destroyed from database when switch question type', function () {
         ->assertOk()
         ->assertHasNoErrors()
         ->assertSessionHas('status', 'Success!')
-        ->assertRedirect(Index::class);
+        ->assertRedirect(route('user.quizzes.edit', $this->quiz->id));
 
     $this->assertDatabaseCount('quizzes', 1);
     $this->assertDatabaseCount('questions', 3);

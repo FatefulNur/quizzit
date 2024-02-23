@@ -142,7 +142,7 @@ class Edit extends Component
     {
         $validated = $this->validate();
 
-        QuizService::update(
+        $quiz = QuizService::update(
             $this->quiz,
             $validated
         );
@@ -151,7 +151,7 @@ class Edit extends Component
 
         session()->flash('status', 'Success!');
 
-        $this->redirect(Index::class, navigate: true);
+        $this->redirectAction(self::class, $quiz->id);
     }
 
     public function render()
