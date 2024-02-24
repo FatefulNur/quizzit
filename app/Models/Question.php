@@ -45,8 +45,18 @@ class Question extends Model
         return $this->type === QuestionType::CHECKBOX;
     }
 
+    public function isMCQ(): bool
+    {
+        return $this->isCheckbox() || $this->isRadio();
+    }
+
     public function options(): HasMany
     {
         return $this->hasMany(Option::class);
+    }
+
+    public function answers(): HasMany
+    {
+        return $this->hasMany(Answer::class);
     }
 }
