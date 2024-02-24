@@ -12,11 +12,11 @@
                     <div class="flex flex-col ml-3">
                         <div class="font-medium leading-none">Have an Issue?</div>
                         <p class="mt-1 text-sm leading-none text-gray-600">
-                            You must be logging in to visit the page. GO login and join private quizzes
+                            This isn't available write now.
                         </p>
                     </div>
                 </div>
-                <a href="{{ route('login') }}" class="px-5 py-2 ml-4 text-sm font-medium tracking-wider text-white bg-red-500 border-2 border-red-500 rounded-full shadow-sm flex-no-shrink hover:shadow-lg">Login</a>
+                <a href="{{ url()->previous() }}" class="px-5 py-2 ml-4 text-sm font-medium tracking-wider text-white bg-red-500 border-2 border-red-500 rounded-full shadow-sm flex-no-shrink hover:shadow-lg">Get Back</a>
             </div>
         </div>
     </div>

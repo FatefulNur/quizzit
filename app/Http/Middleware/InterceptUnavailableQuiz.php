@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class InterceptPrivateQuiz
+class InterceptUnavailableQuiz
 {
     /**
      * Handle an incoming request.
@@ -15,8 +15,8 @@ class InterceptPrivateQuiz
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->guest() && $request->quiz?->isPrivate()) {
-            return redirect()->route('notify.quizzes.show_private');
+        if (!$request->quiz?->isAvailable()) {
+            return redirect()->route('notify.quizzes.show_unavailable');
         }
 
         return $next($request);

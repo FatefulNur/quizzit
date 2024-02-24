@@ -96,13 +96,13 @@ class Create extends Component
     {
         $validated = $this->validate();
 
-        QuizService::store($validated);
+        $quiz = QuizService::store($validated);
 
         $this->reset();
 
         session()->flash('status', 'Success!');
 
-        $this->redirect(Index::class, navigate: true);
+        $this->redirectRoute('user.quizzes.edit', $quiz->id, navigate: true);
     }
 
     public function render()

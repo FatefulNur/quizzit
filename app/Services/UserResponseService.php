@@ -35,12 +35,14 @@ class UserResponseService
                     }
                 }
 
+                $trimmedCorrectOptionsLabel = array_map('trim', $correctOptionsLabel);
+
                 $correct = implode(', ', $correctOptionsLabel);
                 $isMarked = false;
 
                 foreach ($answers['answer'] as $key => $answer) {
 
-                    if (!$isMarked && in_array($answer, $correctOptionsLabel)) {
+                    if (!$isMarked && in_array($answer, $trimmedCorrectOptionsLabel)) {
                         $result += $question->marks;
                         $isMarked = true;
                     }

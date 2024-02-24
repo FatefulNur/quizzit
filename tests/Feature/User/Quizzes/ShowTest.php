@@ -10,7 +10,11 @@ use App\Livewire\User\Quizzes\Show;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
-    $this->quiz = Quiz::factory()->public()->create(['user_id' => $this->user->id]);
+    $this->quiz = Quiz::factory()->public()->create([
+        'user_id' => $this->user->id,
+        'started_at' => now()->subDay(),
+        'expired_at' => now()->addWeek(),
+    ]);
     $this->shortTextQuestion = Question::factory()->shortText()->create(['quiz_id' => $this->quiz->id]);
     $this->longTextQuestion = Question::factory()->longText()->create(['quiz_id' => $this->quiz->id]);
     $this->radioQuestion = Question::factory()->radio()->create(['quiz_id' => $this->quiz->id]);
@@ -51,7 +55,22 @@ test('user need to authenticate to participate private quiz', function () {
 
     $response
         ->assertStatus(302)
-        ->assertRedirectToRoute('notify.quizzes.show');
+        ->assertRedirectToRoute('notify.quizzes.show_private');
+
+    $this->assertGuest();
+});
+
+test('user cannot participate an expired quiz', function () {
+    $quiz = Quiz::factory()->public()->create([
+        'started_at' => now()->subDays(5),
+        'expired_at' => now()->subDay(),
+    ]);
+
+    $response = $this->get(route('user.quizzes.show', $quiz->id));
+
+    $response
+        ->assertStatus(302)
+        ->assertRedirectToRoute('notify.quizzes.show_unavailable');
 
     $this->assertGuest();
 });
@@ -104,7 +123,7 @@ test('result can be generate from the quiz response', function () {
     $radioQuestion = Question::factory()->radio()->create(['quiz_id' => $quiz->id]);
     $checkboxQuestion = Question::factory()->checkbox()->create(['quiz_id' => $quiz->id]);
 
-    $shortTextOption = Option::factory()->correct()->create(['question_id' => $shortTextQuestion->id]);
+    $shortTextOption = Option::factory()->correct()->create(['label' => 'long, text', 'question_id' => $shortTextQuestion->id]);
     $longTextOption = Option::factory()->correct()->create(['question_id' => $longTextQuestion->id]);
     $radioOption1 = Option::factory()->correct()->create(['question_id' => $radioQuestion->id]);
     $radioOption2 = Option::factory()->incorrect()->create(['question_id' => $radioQuestion->id]);
@@ -115,7 +134,7 @@ test('result can be generate from the quiz response', function () {
     $component = Livewire::test(Show::class, ['quiz' => $quiz]);
 
     $component
-        ->set('answers.0.answer.0', $shortTextOption->label)
+        ->set('answers.0.answer.0', 'text')
         ->set('answers.0.option_id.0', $shortTextOption->id)
         ->set('answers.0.question_id', $shortTextQuestion->id);
 

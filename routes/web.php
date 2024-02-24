@@ -24,12 +24,15 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/quizzes', QuizIndex::class)->name('quizzes.index');
     Route::get('/quizzes/{quiz}', QuizShow::class)->name('quizzes.show')
         ->withoutMiddleware('auth')
-        ->middleware('intercept.quiz');
+        ->middleware('intercept.private')
+        ->middleware('intercept.expired');
     Route::get('/responses', ResponseIndex::class)->name('responses.index');
-    Route::get('/responses/{response}', ResponseShow::class)->name('responses.show');
+    Route::get('/responses/{response}', ResponseShow::class)->name('responses.show')
+        ->withoutMiddleware('auth');
 });
 
 Route::prefix('notify')->name('notify.')->group(function () {
     Route::view('/responses/{response}/show', 'notify.responses.show')->name('responses.show');
-    Route::view('/quizzes/show', 'notify.quizzes.show')->name('quizzes.show');
+    Route::view('/quizzes/show-private', 'notify.quizzes.show-private')->name('quizzes.show_private');
+    Route::view('/quizzes/show-unavailable', 'notify.quizzes.show-unavailable')->name('quizzes.show_unavailable');
 });

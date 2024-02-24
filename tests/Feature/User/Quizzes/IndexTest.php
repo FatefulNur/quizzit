@@ -56,3 +56,33 @@ test('index is paginated with 10 quizzes per page', function () {
     $component
         ->assertViewHas('quizzes', fn($quizzes) => $quizzes->count() === 10);
 });
+
+test('quiz can be deleted', function () {
+    $this->actingAs($user = User::factory()->create());
+
+    $quiz = Quiz::factory()->state(['user_id' => $user->id])->create();
+
+    $component = Livewire::test(Index::class);
+
+    $component->call('delete', $quiz);
+
+    $component
+        ->assertSessionHas('status', 'deleted')
+        ->assertRedirect(Index::class);
+
+    $this->assertDatabaseEmpty('quizzes');
+});
+
+test('quiz cannot be deleted by unauthorize user', function () {
+    $this->actingAs(User::factory()->create());
+
+    $quiz = Quiz::factory()->state(['user_id' => User::factory()->create()->id])->create();
+
+    $component = Livewire::test(Index::class);
+
+    $component->call('delete', $quiz);
+
+    $component->assertForbidden();
+
+    $this->assertAuthenticated();
+});
