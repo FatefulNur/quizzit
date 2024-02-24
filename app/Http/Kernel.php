@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\InterceptPrivateQuiz;
+use App\Http\Middleware\InterceptUnavailableQuiz;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -65,6 +66,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'intercept.quiz' => InterceptPrivateQuiz::class,
+        'intercept.private' => InterceptPrivateQuiz::class,
+        'intercept.expired' => InterceptUnavailableQuiz::class,
     ];
 }
