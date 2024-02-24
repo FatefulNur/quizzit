@@ -30,8 +30,8 @@
 
             <div
                 @class(["relative p-4 sm:p-8 bg-white border border-slate-300 border-l-4 dark:bg-gray-800 shadow sm:rounded-lg rounded-md has-[:focus]:border-l-indigo-600 space-y-3",
-                '!bg-green-50' => $response->isCorrectAnswer($question->id) && $question->isMCQ(),
-                '!bg-red-50' => !$response->isCorrectAnswer($question->id) && $question->isMCQ()
+                '!bg-green-50' => $response->hasCorrectAnswer($question->id) && $question->isMCQ(),
+                '!bg-red-50' => !$response->hasCorrectAnswer($question->id) && $question->isMCQ()
                 ]) wire:key="{{ $questionKey }}">
                 <div class="text-right">
                     <span class="absolute px-2 py-1 ml-auto text-sm text-center text-white bg-indigo-500 rounded-full min-w-6 top-2 right-2">{{ $question->marks }}</span>
@@ -69,13 +69,13 @@
                             <div class="flex items-center h-8 me-4">
 
                                 <label @class(["inline-block w-full h-8 px-0 text-sm leading-8 text-gray-800 border-0 border-b-2 cursor-pointer bg-gray-50 focus:shadow-none outline-0",
-                                'border-indigo-600' => $response->isSelectedOption($option->id),
+                                'border-indigo-600' => $response->hasSelectedOption($option->id),
                                 'bg-lime-200' => $response->hasOtherCorrectOptions($question, $option->id),
-                                'bg-red-200' => $response->isSelectedOption($option->id) && !$response->isCorrectOption($option->id),
+                                'bg-red-200' => $response->hasSelectedOption($option->id) && !$response->hasCorrectOption($option->id),
                                 ])>
 
-                                    <span @class(["relative inline-block w-4 h-4 mr-1 align-middle bg-gray-100 border border-gray-300 rounded-full", 'border-indigo-600' => $response->isSelectedOption($option->id)])>
-                                        @if ($response->isSelectedOption($option->id))
+                                    <span @class(["relative inline-block w-4 h-4 mr-1 align-middle bg-gray-100 border border-gray-300 rounded-full", 'border-indigo-600' => $response->hasSelectedOption($option->id)])>
+                                        @if ($response->hasSelectedOption($option->id))
                                             <span class="absolute top-[1px] left-[1px] bottom-[1px] right-[1px] bg-indigo-500 rounded-full"></span>
                                         @endif
                                     </span>
@@ -104,13 +104,13 @@
                             <div class="flex items-center h-8 me-4">
 
                                 <label @class(["inline-block w-full h-8 px-0 text-sm leading-8 text-gray-800 border-0 border-b-2 cursor-pointer bg-gray-50 focus:shadow-none outline-0",
-                                'border-indigo-600' => $response->isSelectedOption($option->id),
+                                'border-indigo-600' => $response->hasSelectedOption($option->id),
                                 'bg-lime-200' => $response->hasOtherCorrectOptions($question, $option->id),
-                                'bg-red-200' => $response->isSelectedOption($option->id) && !$response->isCorrectOption($option->id),
+                                'bg-red-200' => $response->hasSelectedOption($option->id) && !$response->hasCorrectOption($option->id),
                                 ])>
 
-                                    <span @class(["relative inline-block w-4 h-4 mr-1 align-middle bg-gray-100 border border-gray-300 rounded-sm", 'border-indigo-600' => $response->isSelectedOption($option->id)])>
-                                        @if ($response->isSelectedOption($option->id))
+                                    <span @class(["relative inline-block w-4 h-4 mr-1 align-middle bg-gray-100 border border-gray-300 rounded-sm", 'border-indigo-600' => $response->hasSelectedOption($option->id)])>
+                                        @if ($response->hasSelectedOption($option->id))
                                             <span class="absolute top-[1px] left-[1px] bottom-[1px] right-[1px] bg-indigo-500"></span>
                                         @endif
                                     </span>
@@ -139,14 +139,14 @@
 
                 @endif
 
-                @if ($response->isCorrectAnswer($question->id) && $question->isMCQ())
+                @if ($response->hasCorrectAnswer($question->id) && $question->isMCQ())
 
                     <div class="p-2 text-sm border-l-2 text-lime-800 bg-lime-100 border-l-lime-800 dark:bg-gray-800 dark:text-lime-300"
                         role="alert">
                         Considered as correct answer.
                     </div>
 
-                @elseif(!$response->isCorrectAnswer($question->id) && $question->isMCQ())
+                @elseif(!$response->hasCorrectAnswer($question->id) && $question->isMCQ())
 
                     <div class="p-2 text-sm text-red-800 bg-red-100 border-l-2 border-l-red-800 dark:bg-gray-800 dark:text-red-300"
                     role="alert">

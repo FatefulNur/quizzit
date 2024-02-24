@@ -27,12 +27,12 @@ class UserResponse extends Model
         return $this->answers()->where('question_id', $questionId)->first()->answer;
     }
 
-    public function isSelectedOption($optionId): bool
+    public function hasSelectedOption($optionId): bool
     {
         return $this->answers()->where('option_id', $optionId)->exists();
     }
 
-    public function isCorrectOption($optionId): bool
+    public function hasCorrectOption($optionId): bool
     {
         $answer = $this->answers()->where('option_id', $optionId)->first();
 
@@ -47,7 +47,7 @@ class UserResponse extends Model
         return in_array($answer->answer, $trimmedCorrectOptions);
     }
 
-    public function isCorrectAnswer($questionId): bool
+    public function hasCorrectAnswer($questionId): bool
     {
         $answers = $this
             ->answers()
