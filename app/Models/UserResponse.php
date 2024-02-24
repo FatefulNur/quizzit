@@ -22,6 +22,59 @@ class UserResponse extends Model
         'result' => 'integer',
     ];
 
+    public function getFirstQuestionAnswer($questionId)
+    {
+        return $this->answers()->where('question_id', $questionId)->first()->answer;
+    }
+
+    public function isSelectedOption($optionId): bool
+    {
+        return $this->answers()->where('option_id', $optionId)->exists();
+    }
+
+    public function isCorrectOption($optionId): bool
+    {
+        $answer = $this->answers()->where('option_id', $optionId)->first();
+
+        if (!$answer) {
+            return false;
+        }
+
+        $correctOptions = explode(',', $answer->correct);
+
+        $trimmedCorrectOptions = array_map('trim', $correctOptions);
+
+        return in_array($answer->answer, $trimmedCorrectOptions);
+    }
+
+    public function isCorrectAnswer($questionId): bool
+    {
+        $answers = $this
+            ->answers()
+            ->where('question_id', $questionId)->get();
+
+        $answerList = array_unique($answers->pluck('answer')->toArray());
+        $correctOption = array_unique($answers->pluck('correct')->toArray());
+        $correctOptionList = explode(',', $correctOption[0]);
+        $trimmedCorrectOptionList = array_map('trim', $correctOptionList);
+
+
+        $correctAnswers = array_intersect($answerList, $trimmedCorrectOptionList);
+
+        return !empty($correctAnswers);
+    }
+
+
+    public function hasOtherCorrectOptions($question, $optionId): bool
+    {
+        $correctOptionIds = $question
+            ->options()
+            ->where('is_correct', true)
+            ->pluck('id')->toArray();
+
+        return in_array($optionId, $correctOptionIds);
+    }
+
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class);
