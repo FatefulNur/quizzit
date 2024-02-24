@@ -7,7 +7,7 @@
 
     @forelse ($responses as $response)
 
-    <a class="flex flex-col flex-wrap gap-4 p-4 transition transform bg-white rounded-sm shadow hover:shadow-lg" href="#">
+    <a wire:navigate href="{{ route('user.responses.show', $response->id) }}" class="flex flex-col flex-wrap gap-4 p-4 transition transform bg-white rounded-sm shadow hover:shadow-lg">
 
         <!-- Icon -->
         <div class="flex justify-between">
