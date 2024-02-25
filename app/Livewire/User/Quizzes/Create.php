@@ -42,9 +42,8 @@ class Create extends Component
 
     public function resetOptions($questionKey)
     {
+        $this->reset("questions.$questionKey.options");
         $this->questions[$questionKey]['options'] = $this->option();
-        // $this->reset("questions.$questionKey.options.*.is_correct");
-        // TODO: rerender
     }
 
     public function addOption($questionKey)

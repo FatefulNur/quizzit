@@ -82,10 +82,9 @@ class Edit extends Component
     {
         $question = $this->questions[$questionKey];
         $destroyRelations($question['id'], 'options');
+        $this->reset("questions.$questionKey.options");
         $question['options'] = $this->option();
-        // $this->reset("questions.$questionKey.options.*.is_correct");
-        // $this->reset("questions.$questionKey.options.*.label");
-        // TODO: Fix
+        $this->questions[$questionKey] = $question;
     }
 
     public function addOption($questionKey)
