@@ -9,9 +9,11 @@
         <div
             class="relative flex flex-col p-4 space-y-3 bg-white border border-t-8 rounded-md shadow sm:p-8 border-slate-300 dark:bg-gray-800 sm:rounded-lg border-t-indigo-600">
 
-            <div class="absolute text-lg font-bold text-right text-indigo-500 top-2 right-2">
-                Result: <span class="px-2 py-1 text-sm text-white bg-indigo-500 rounded-full">{{ $response->result }}</span>
-            </div>
+            @if ($response->quiz->marks_total)
+                <div class="absolute text-lg font-bold text-right text-indigo-500 top-2 right-2">
+                    Result: <span class="px-2 py-1 text-sm text-white bg-indigo-500 rounded-full">{{ $response->result }}</span>
+                </div>
+            @endif
 
             <h1 class="text-2xl font-bold tracking-tight text-center sm:text-3xl text-stone-500">
                 {{ $response->quiz?->title }}
@@ -33,9 +35,12 @@
                 '!bg-green-50' => $response->hasCorrectAnswer($question->id) && $question->isMCQ(),
                 '!bg-red-50' => !$response->hasCorrectAnswer($question->id) && $question->isMCQ()
                 ]) wire:key="{{ $questionKey }}">
-                <div class="text-right">
-                    <span class="absolute px-2 py-1 ml-auto text-sm text-center text-white bg-indigo-500 rounded-full min-w-6 top-2 right-2">{{ $question->marks }}</span>
-                </div>
+
+                @if ($response->quiz->marks_total)
+                    <div class="text-right">
+                        <span class="absolute px-2 py-1 ml-auto text-sm text-center text-white bg-indigo-500 rounded-full min-w-6 top-2 right-2">{{ $question->marks }}</span>
+                    </div>
+                @endif
 
                 <div class="flex justify-between gap-5">
                     <div class="flex-1 text-lg font-bold tracking-tight sm:text-xl text-stone-600">
@@ -43,18 +48,18 @@
                     </div>
                 </div>
 
-                @if ($question->isShortText() && $response->answers->count())
+                @if ($question->isShortText())
 
-                    <div class="w-full border-b border-slate-500">
+                    <div class="w-full border-b border-indigo-500">
                         <label
-                            class="inline-block w-full h-8 p-2 px-0 text-sm text-gray-800 border-0 bg-gray-50 focus:shadow-none outline-0">{{ $response->getFirstQuestionAnswer($question->id) }}</label>
+                            class="inline-block w-full h-8 p-2 px-0 text-sm font-bold border-0 text-stone-500 bg-gray-50 focus:shadow-none outline-0">{{ $response->getFirstQuestionAnswer($question->id) }}</label>
                     </div>
 
                 @elseif ($question->isLongText())
 
-                    <div class="w-full border-b border-slate-500">
+                    <div class="w-full border-b border-indigo-500">
                         <label
-                            class="inline-block w-full h-12 p-2 px-0 text-sm text-gray-800 border-0 bg-gray-50 focus:shadow-none outline-0">{{ $response->getFirstQuestionAnswer($question->id) }}</label>
+                            class="inline-block w-full h-12 p-2 px-0 text-sm font-bold border-0 text-stone-500 bg-gray-50 focus:shadow-none outline-0">{{ $response->getFirstQuestionAnswer($question->id) }}</label>
                     </div>
 
                 @elseif($question->isRadio())
