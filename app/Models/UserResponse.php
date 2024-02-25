@@ -55,9 +55,8 @@ class UserResponse extends Model
 
         $answerList = array_unique($answers->pluck('answer')->toArray());
         $correctOption = array_unique($answers->pluck('correct')->toArray());
-        $correctOptionList = explode(',', $correctOption[0]);
+        $correctOptionList = !empty($correctAnswers) ? explode(',', $correctOption[0]) : [];
         $trimmedCorrectOptionList = array_map('trim', $correctOptionList);
-
 
         $correctAnswers = array_intersect($answerList, $trimmedCorrectOptionList);
 
