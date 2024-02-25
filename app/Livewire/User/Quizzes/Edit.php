@@ -116,7 +116,7 @@ class Edit extends Component
             'questions.*.id' => 'nullable|uuid',
             'questions.*.title' => 'required|max:255',
             'questions.*.hint' => 'nullable',
-            'questions.*.marks' => 'required|integer|min:1|max:100',
+            'questions.*.marks' => 'required|integer|min:0|max:100',
             'questions.*.type' => ['required', Rule::enum(QuestionType::class)],
             'questions.*.options.*.id' => 'nullable|uuid',
             'questions.*.options.*.is_correct' => 'nullable|boolean',
