@@ -16,6 +16,8 @@ class InterceptPrivateQuiz
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->guest() && $request->quiz?->isPrivate()) {
+            redirect()->setIntendedUrl(route('user.quizzes.show', $request->quiz?->id));
+
             return redirect()->route('notify.quizzes.show_private');
         }
 
