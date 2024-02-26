@@ -7,6 +7,7 @@ use App\Models\UserResponse;
 use Livewire\Livewire;
 use App\Models\Question;
 use App\Livewire\User\Quizzes\Show;
+use Livewire\Volt\Volt;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
@@ -49,7 +50,10 @@ test('single quiz page can be visited when unauthenticated', function () {
 });
 
 test('user need to authenticate to participate private quiz', function () {
-    $quiz = Quiz::factory()->private()->create();
+    $quiz = Quiz::factory()->private()->create([
+        'started_at' => now()->subDay(),
+        'expired_at' => now()->addWeek(),
+    ]);
 
     $response = $this->get(route('user.quizzes.show', $quiz->id));
 
@@ -58,6 +62,13 @@ test('user need to authenticate to participate private quiz', function () {
         ->assertRedirectToRoute('notify.quizzes.show_private');
 
     $this->assertGuest();
+
+    Volt::test('pages.auth.login')
+        ->set('form.email', $this->user->email)
+        ->set('form.password', 'password')
+        ->call('login')
+        ->assertHasNoErrors()
+        ->assertRedirect(route('user.quizzes.show', $quiz->id));
 });
 
 test('user cannot participate an expired quiz', function () {
