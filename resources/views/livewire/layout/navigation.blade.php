@@ -32,13 +32,11 @@ new class extends Component {
                     <x-nav-link :href="route('user.dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('user.quizzes.index')" :active="request()->routeIs('user.quizzes.index')"
-                        wire:navigate>
+                    <x-nav-link :href="route('user.quizzes.index')" :active="request()->routeIs('user.quizzes.index')" wire:navigate>
                         {{ __('Quizzes') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('user.responses.index')" :active="request()->routeIs('user.responses.index')"
-                        wire:navigate>
-                        {{ __('Your Responses') }}
+                    <x-nav-link :href="route('user.responses.index')" :active="request()->routeIs('user.responses.index')" wire:navigate>
+                        {{ __('Responses') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -97,28 +95,24 @@ new class extends Component {
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('user.dashboard')" :active="request()->routeIs('dashboard')"
-                wire:navigate>
+            <x-responsive-nav-link :href="route('user.dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('user.quizzes.index')"
-                :active="request()->routeIs('user.quizzes.index')" wire:navigate>
+            <x-responsive-nav-link :href="route('user.quizzes.index')" :active="request()->routeIs('user.quizzes.index')" wire:navigate>
                 {{ __('Quizzes') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('user.responses.index')" :active="request()->routeIs('user.responses.index')"
-                wire:navigate>
-                {{ __('Your Responses') }}
+            <x-responsive-nav-link :href="route('user.responses.index')" :active="request()->routeIs('user.responses.index')" wire:navigate>
+                {{ __('Responses') }}
             </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
-                <div class="text-base font-medium text-gray-800 dark:text-gray-200"
-                    x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
-                    x-on:profile-updated.window="name = $event.detail.name"></div>
+                <div class="text-base font-medium text-gray-800 dark:text-gray-200" x-data="{{ json_encode(['name' => auth()->user()->name]) }}"
+                    x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
                 <div class="text-sm font-medium text-gray-500">{{ auth()->user()->email }}</div>
             </div>
 
