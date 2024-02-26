@@ -34,7 +34,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 Login Here
             </h1>
 
-            <label class="block text-sm mt-4">
+            <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Email</span>
                 <input
                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -56,9 +56,9 @@ new #[Layout('layouts.guest')] class extends Component {
             <div class="block mt-4">
                 <label for="remember" class="inline-flex items-center">
                     <input wire:model="form.remember" id="remember" type="checkbox"
-                        class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
+                        class="text-indigo-600 border-gray-300 rounded shadow-sm dark:bg-gray-900 dark:border-gray-700 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
                         name="remember">
-                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
+                    <span class="text-sm text-gray-600 ms-2 dark:text-gray-400">{{ __('Remember me') }}</span>
                 </label>
             </div>
 
@@ -67,19 +67,20 @@ new #[Layout('layouts.guest')] class extends Component {
                 Login
             </button>
 
-            {{-- Forget Password --}}
-            <p class="text-sm font-medium">
-                Forget Password? <a class="text-purple-600 dark:text-purple-400 hover:underline"
-                    href="{{ route('password.request') }}">Set a new one.</a>
-            </p>
+            <div class="space-y-1 text-sm font-medium text-center ">
+                <p>
+                    Don't have an account? <a class="font-medium text-purple-600 dark:text-purple-400 hover:underline"
+                        href="{{ route('register') }}">
+                        Register
+                    </a>
+                </p>
 
-            <p class="mt-2">
-                Don't have an account? <a
-                    class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                    href="{{ route('register') }}">
-                    Register
-                </a>
-            </p>
+                {{-- Forget Password --}}
+                <p>
+                    Forget Password? <a class="text-purple-600 dark:text-purple-400 hover:underline"
+                        href="{{ route('password.request') }}">Set new password.</a>
+                </p>
+            </div>
         </form>
     </div>
 
