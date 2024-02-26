@@ -24,8 +24,8 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/quizzes', QuizIndex::class)->name('quizzes.index');
     Route::get('/quizzes/{quiz}', QuizShow::class)->name('quizzes.show')
         ->withoutMiddleware('auth')
-        ->middleware('intercept.private')
-        ->middleware('intercept.expired');
+        ->middleware('intercept.expired')
+        ->middleware('intercept.private');
     Route::get('/responses', ResponseIndex::class)->name('responses.index');
     Route::get('/responses/{response}', ResponseShow::class)->name('responses.show')
         ->withoutMiddleware('auth');
