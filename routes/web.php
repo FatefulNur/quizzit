@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\User\Billings\Index as BillingIndex;
 use App\Livewire\User\Quizzes\Create;
 use App\Livewire\User\Quizzes\Edit;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/responses', ResponseIndex::class)->name('responses.index');
     Route::get('/responses/{response}', ResponseShow::class)->name('responses.show')
         ->withoutMiddleware('auth');
+    Route::get('billings', BillingIndex::class)->name('billings.index');
 });
 
 Route::prefix('notify')->name('notify.')->group(function () {
