@@ -15,6 +15,7 @@ class UserResponse extends Model
     protected $fillable = [
         'result',
         'user_id',
+        'tenant_id',
         'quiz_id',
     ];
 

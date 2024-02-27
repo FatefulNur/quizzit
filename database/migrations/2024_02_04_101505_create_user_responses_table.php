@@ -2,9 +2,10 @@
 
 use App\Models\Quiz;
 use App\Models\User;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Tenant;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration {
     /**
@@ -17,6 +18,11 @@ return new class extends Migration {
             $table->integer('result');
             $table
                 ->foreignIdFor(User::class)
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
+            $table
+                ->foreignIdFor(Tenant::class)
                 ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
@@ -35,6 +41,7 @@ return new class extends Migration {
     {
         Schema::table('user_responses', function (Blueprint $table) {
             $table->dropForeignIdFor(User::class);
+            $table->dropForeignIdFor(Tenant::class);
             $table->dropForeignIdFor(Quiz::class);
             $table->dropIfExists();
         });

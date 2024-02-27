@@ -1,12 +1,13 @@
 <?php
 
-use App\Models\Option;
-use App\Models\Question;
 use App\Models\User;
+use App\Models\Option;
+use App\Models\Tenant;
+use App\Models\Question;
 use App\Models\UserResponse;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration {
     /**
@@ -20,6 +21,11 @@ return new class extends Migration {
             $table->string('answer');
             $table
                 ->foreignIdFor(User::class)
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
+            $table
+                ->foreignIdFor(Tenant::class)
                 ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
@@ -46,6 +52,7 @@ return new class extends Migration {
     {
         Schema::table('answers', function (Blueprint $table) {
             $table->dropForeignIdFor(User::class);
+            $table->dropForeignIdFor(Tenant::class);
             $table->dropForeignIdFor(UserResponse::class);
             $table->dropForeignIdFor(Question::class);
             $table->dropForeignIdFor(Option::class);

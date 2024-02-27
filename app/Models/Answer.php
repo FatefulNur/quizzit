@@ -14,6 +14,7 @@ class Answer extends Model
         'correct',
         'answer',
         'user_id',
+        'tenant_id',
         'user_response_id',
         'question_id',
         'option_id',
