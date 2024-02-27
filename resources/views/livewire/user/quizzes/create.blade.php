@@ -148,7 +148,7 @@
                     wire:model="questions.{{ $questionKey }}.type">
                     <div>
                         <div class="relative inline-block w-[70px]">
-                            <input wire:model="questions.{{ $questionKey }}.marks" min="1" type="number" name="marks"
+                            <input wire:model="questions.{{ $questionKey }}.marks" min="0" type="number" name="marks"
                                 id="marks" placeholder="Marks"
                                 class="w-full h-12 px-0 text-center border-0 text-md bg-gray-50 focus:shadow-none outline-0 peer"
                                 style="box-shadow: none" autocomplete="off">

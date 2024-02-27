@@ -1,5 +1,8 @@
 <x-frontend-layout>
-    <section class="w-full space-y-4 dark:bg-gray-900">
+    <section class="container mx-auto space-y-4 dark:bg-gray-900">
+
+        @include('partials.navbar')
+
         <div class="flex flex-col items-center justify-center p-12 border-b border-b-gray-200"
             style="background: url({{ asset('images/Cloudy.svg') }})">
             <h1
@@ -24,23 +27,21 @@
         <div class="p-4 max-w-4xl grid m-auto gap-3 grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))]">
 
             @forelse ($quizzes as $quiz)
-
-                <a href="{{ route('user.quizzes.show', $quiz->id) }}"
-                    wire:navigate
-                 @class(["relative flex flex-col justify-between p-4 leading-normal bg-white border border-gray-400
-                    rounded", "!bg-gray-200 opacity-60"=> $quiz->hasExpired()])>
+                <a href="{{ route('user.quizzes.show', $quiz->id) }}" wire:navigate @class([
+                    "relative flex flex-col justify-between p-4 leading-normal bg-white border border-gray-400
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    rounded",
+                    '!bg-gray-200 opacity-60' => $quiz->hasExpired(),
+                ])>
                     <div class="absolute text-sm font-bold top-2 right-2 text-emerald-700 dark:text-white">
                         Marks: {{ $quiz->marks_total }}
                     </div>
                     <div class="mb-8">
                         @if ($quiz->isPrivate())
-                        <span
-                            class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{
-                            $quiz->type }}</span>
+                            <span
+                                class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{ $quiz->type }}</span>
                         @else
-                        <span
-                            class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{
-                            $quiz->type }}</span>
+                            <span
+                                class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{{ $quiz->type }}</span>
                         @endif
 
                         <div class="mb-2 text-xl font-bold text-gray-900">{{ $quiz->title }}</div>
@@ -69,14 +70,95 @@
                 </a>
 
             @empty
-            <x-no-content />
+                <x-no-content />
             @endforelse
 
         </div>
         @if ($quizzes->isNotEmpty())
-        <div class="bg-white p-5 max-w-4xl !mt-6 m-auto border-t border-t-gray-300">
-            {{ $quizzes->links() }}
-        </div>
+            <div class="bg-white p-5 max-w-4xl !mt-6 m-auto border-t border-t-gray-300">
+                {{ $quizzes->links() }}
+            </div>
         @endif
+
+        {{-- Available Plans Card --}}
+        <div id="pricing"
+            class="mx-auto !mt-36 py-36 pt-12 flex flex-wrap justify-center gap-8 px-4 sm:px-8 md:px-32 *:shadow-lg *:min-w-[250px] bg-gradient-to-t from-slate-100 to-slate-300 from-30% *:-mt-28">
+            <div
+                class="relative flex-1 flex items-center max-w-md justify-between p-4 rounded-lg bg-white shadow-indigo-400 shadow-xl">
+                <div>
+                    <h2 class="text-gray-900 text-lg font-bold">Total Ballance</h2>
+                    <h3 class="mt-2 text-xl font-bold text-indigo-500 text-left">+ 150.000 ₭</h3>
+                    <ul class="mt-4 space-y-3">
+                        <li class="flex items-center">
+                            <svg class="flex-shrink-0 w-4 h-4 text-indigo-700 dark:text-indigo-500" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                            </svg>
+                            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">2
+                                team
+                                members</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="flex-shrink-0 w-4 h-4 text-indigo-700 dark:text-indigo-500" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                            </svg>
+                            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">2
+                                team
+                                members</span>
+                        </li>
+                    </ul>
+                    <button
+                        class="text-sm mt-6 px-4 py-2 bg-indigo-400  text-white rounded-lg  tracking-wider hover:bg-indigo-500 outline-none">Add
+                        to cart</button>
+                </div>
+                <div
+                    class="absolute -top-2 -right-2 bg-gradient-to-tr from-indigo-500 to-indigo-500 w-32 h-32  rounded-full shadow-2xl shadow-indigo-400 border-white  border-dashed border-2  flex justify-center items-center ">
+                    <div>
+                        <h1 class="text-white text-2xl">Basic</h1>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="relative flex-1 flex items-center max-w-md justify-between p-4 rounded-lg bg-white shadow-indigo-400 shadow-xl">
+                <div>
+                    <h2 class="text-gray-900 text-lg font-bold">Total Ballance</h2>
+                    <h3 class="mt-2 text-xl font-bold text-indigo-500 text-left">+ 150.000 ₭</h3>
+                    <ul class="mt-4 space-y-3">
+                        <li class="flex items-center">
+                            <svg class="flex-shrink-0 w-4 h-4 text-indigo-700 dark:text-indigo-500" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                            </svg>
+                            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">2
+                                team
+                                members</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="flex-shrink-0 w-4 h-4 text-indigo-700 dark:text-indigo-500" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                            </svg>
+                            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">2
+                                team
+                                members</span>
+                        </li>
+                    </ul>
+                    <button
+                        class="text-sm mt-6 px-4 py-2 bg-indigo-400  text-white rounded-lg  tracking-wider hover:bg-indigo-500 outline-none">Add
+                        to cart</button>
+                </div>
+                <div
+                    class="absolute -top-2 -right-2 bg-gradient-to-tr from-indigo-500 to-indigo-500 w-32 h-32  rounded-full shadow-2xl shadow-indigo-400 border-white  border-dashed border-2  flex justify-center items-center ">
+                    <div>
+                        <h1 class="text-white text-2xl">Basic</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </x-frontend-layout>

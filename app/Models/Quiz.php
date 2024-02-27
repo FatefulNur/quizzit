@@ -19,6 +19,7 @@ class Quiz extends Model
         'marks_total',
         'type',
         'user_id',
+        'tenant_id',
         'started_at',
         'expired_at',
     ];

@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\UserType;
+use App\Models\Tenant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,6 +19,11 @@ return new class extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('type')->default(UserType::USER->value);
+            $table
+                ->foreignIdFor(Tenant::class)
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -28,6 +34,9 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeignIdFor(Tenant::class);
+            $table->dropIfExists();
+        });
     }
 };

@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\User;
+use App\Models\Plan;
 use App\Models\Tenant;
-use App\Enums\QuizType;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,14 +12,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('quizzes', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->integer('marks_total')->nullable();
-            $table->string('type')->default(QuizType::PUBLIC ->value);
+        Schema::create('plan_tenant', function (Blueprint $table) {
+            $table->id();
             $table
-                ->foreignIdFor(User::class)
+                ->foreignIdFor(Plan::class)
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
             $table
@@ -28,8 +24,6 @@ return new class extends Migration {
                 ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->timestamp('started_at');
-            $table->timestamp('expired_at');
             $table->timestamps();
         });
     }
@@ -39,8 +33,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('quizzes', function (Blueprint $table) {
-            $table->dropForeignIdFor(User::class);
+        Schema::table('plan_tenant', function (Blueprint $table) {
+            $table->dropForeignIdFor(Plan::class);
             $table->dropForeignIdFor(Tenant::class);
             $table->dropIfExists();
         });
