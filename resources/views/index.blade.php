@@ -28,8 +28,7 @@
 
             @forelse ($quizzes as $quiz)
                 <a href="{{ route('user.quizzes.show', $quiz->id) }}" wire:navigate @class([
-                    "relative flex flex-col justify-between p-4 leading-normal bg-white border border-gray-400
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    rounded",
+                    'relative flex flex-col justify-between p-4 leading-normal bg-white border border-gray-400 rounded',
                     '!bg-gray-200 opacity-60' => $quiz->hasExpired(),
                 ])>
                     <div class="absolute text-sm font-bold top-2 right-2 text-emerald-700 dark:text-white">
@@ -80,85 +79,53 @@
             </div>
         @endif
 
-        {{-- Available Plans Card --}}
-        <div id="pricing"
-            class="mx-auto !mt-36 py-36 pt-12 flex flex-wrap justify-center gap-8 px-4 sm:px-8 md:px-32 *:shadow-lg *:min-w-[250px] bg-gradient-to-t from-slate-100 to-slate-300 from-30% *:-mt-28">
-            <div
-                class="relative flex-1 flex items-center max-w-md justify-between p-4 rounded-lg bg-white shadow-indigo-400 shadow-xl">
-                <div>
-                    <h2 class="text-gray-900 text-lg font-bold">Total Ballance</h2>
-                    <h3 class="mt-2 text-xl font-bold text-indigo-500 text-left">+ 150.000 ₭</h3>
-                    <ul class="mt-4 space-y-3">
-                        <li class="flex items-center">
-                            <svg class="flex-shrink-0 w-4 h-4 text-indigo-700 dark:text-indigo-500" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                            </svg>
-                            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">2
-                                team
-                                members</span>
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="flex-shrink-0 w-4 h-4 text-indigo-700 dark:text-indigo-500" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                            </svg>
-                            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">2
-                                team
-                                members</span>
-                        </li>
-                    </ul>
-                    <button
-                        class="text-sm mt-6 px-4 py-2 bg-indigo-400  text-white rounded-lg  tracking-wider hover:bg-indigo-500 outline-none">Add
-                        to cart</button>
-                </div>
-                <div
-                    class="absolute -top-2 -right-2 bg-gradient-to-tr from-indigo-500 to-indigo-500 w-32 h-32  rounded-full shadow-2xl shadow-indigo-400 border-white  border-dashed border-2  flex justify-center items-center ">
-                    <div>
-                        <h1 class="text-white text-2xl">Basic</h1>
+        @if ($plans->count())
+            {{-- Available Plans Card --}}
+            <div id="pricing"
+                class="mx-auto !mt-36 py-36 pt-12 flex flex-row-reverse flex-wrap md:flex-nowrap justify-center gap-8 px-4 sm:px-8 md:px-32 *:shadow-lg *:min-w-[320px] bg-gradient-to-t from-slate-100 to-slate-300 from-30% md:*:-mt-28">
+
+                @foreach ($plans as $plan)
+                    <div
+                        class="relative flex items-center justify-between flex-1 max-w-md p-4 bg-white rounded-lg shadow-xl shadow-indigo-400">
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-900">Total Ballance</h2>
+                            <h3 class="mt-2 text-xl font-bold text-left text-indigo-500">{{ $plan->price_formatted }}
+                            </h3>
+                            <ul class="mt-4 space-y-3">
+                                @foreach (call_user_func(["App\\Constants\\Plan\\$plan->name", 'getFacilities']) as $facility)
+                                    <li class="flex items-center">
+                                        <svg class="flex-shrink-0 w-4 h-4 text-indigo-700 dark:text-indigo-500"
+                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                            viewBox="0 0 20 20">
+                                            <path
+                                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                                        </svg>
+                                        <span
+                                            class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">{{ $facility }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            @if ($plan->isFresher())
+                                <a href="{{ route('login') }}"
+                                    class="inline-block px-4 py-2 mt-6 text-sm tracking-wider text-white bg-indigo-400 rounded-lg outline-none hover:bg-indigo-500">Try
+                                    it Out</a>
+                            @else
+                                <a href="{{ route('user.billings.plan') }}"
+                                    class="inline-block px-4 py-2 mt-6 text-sm tracking-wider text-white bg-red-400 rounded-lg outline-none hover:bg-red-500">Try
+                                    it Out</a>
+                            @endif
+                        </div>
+                        <div @class([
+                            'absolute flex items-center justify-center w-32 h-32 border-2 border-white border-dashed rounded-full shadow-2xl -top-2 -right-2 bg-gradient-to-tr from-indigo-500 to-indigo-500 shadow-indigo-400',
+                            'from-red-500 to-red-500 shadow-red-400' => !$plan->isFresher(),
+                        ])>
+                            <div>
+                                <h1 class="text-2xl text-white">{{ $plan->name }}</h1>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
-            <div
-                class="relative flex-1 flex items-center max-w-md justify-between p-4 rounded-lg bg-white shadow-indigo-400 shadow-xl">
-                <div>
-                    <h2 class="text-gray-900 text-lg font-bold">Total Ballance</h2>
-                    <h3 class="mt-2 text-xl font-bold text-indigo-500 text-left">+ 150.000 ₭</h3>
-                    <ul class="mt-4 space-y-3">
-                        <li class="flex items-center">
-                            <svg class="flex-shrink-0 w-4 h-4 text-indigo-700 dark:text-indigo-500" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                            </svg>
-                            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">2
-                                team
-                                members</span>
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="flex-shrink-0 w-4 h-4 text-indigo-700 dark:text-indigo-500" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                            </svg>
-                            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">2
-                                team
-                                members</span>
-                        </li>
-                    </ul>
-                    <button
-                        class="text-sm mt-6 px-4 py-2 bg-indigo-400  text-white rounded-lg  tracking-wider hover:bg-indigo-500 outline-none">Add
-                        to cart</button>
-                </div>
-                <div
-                    class="absolute -top-2 -right-2 bg-gradient-to-tr from-indigo-500 to-indigo-500 w-32 h-32  rounded-full shadow-2xl shadow-indigo-400 border-white  border-dashed border-2  flex justify-center items-center ">
-                    <div>
-                        <h1 class="text-white text-2xl">Basic</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endif
     </section>
 </x-frontend-layout>
