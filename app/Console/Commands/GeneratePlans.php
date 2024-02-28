@@ -25,12 +25,12 @@ class GeneratePlans extends Command
     /**
      * Execute the console command.
      */
-    public function handle(Lemonsqueezy $lemonsqueezy)
+    public function handle()
     {
         $this->newLine();
         $this->info('Generating.....');
 
-        $response = $lemonsqueezy::getProducts();
+        $response = Lemonsqueezy::getProducts();
 
         if ($response->failed()) {
             $this->newLine();
