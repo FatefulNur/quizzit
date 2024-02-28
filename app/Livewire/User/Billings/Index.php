@@ -20,7 +20,7 @@ class Index extends Component
 
     public function saveChanges()
     {
-        $this->form->store();
+        $this->form->update();
 
         session()->flash('status', 'Saved!');
 

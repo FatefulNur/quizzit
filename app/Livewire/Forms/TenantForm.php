@@ -6,7 +6,6 @@ use Livewire\Attributes\Validate;
 use Livewire\Form;
 use App\Models\Tenant;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 
 class TenantForm extends Form
 {
@@ -39,19 +38,12 @@ class TenantForm extends Form
         ];
     }
 
-    public function store()
+    public function update()
     {
         $this->validate();
 
-        DB::transaction(function () {
-            $tenant = Tenant::query()->updateOrCreate(
-                ['email' => $this->email],
-                $this->all(),
-            );
-
-            auth()->user()->update(['tenant_id' => $tenant->id]);
-
-            return $tenant;
-        });
+        auth()->user()->tenant()->update(
+            $this->all()
+        );
     }
 }
