@@ -10,4 +10,9 @@ class Lemonsqueezy
     {
         return Http::lemonsqueezy()->get('/v1/products');
     }
+
+    public static function getCustomer(int $id)
+    {
+        return Http::lemonsqueezy()->get("/v1/customers/{$id}");
+    }
 }
