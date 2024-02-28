@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->id();
+            $table->string('identity');
             $table->string('name');
             $table->string('email')->unique();
             $table->string('city')->nullable();

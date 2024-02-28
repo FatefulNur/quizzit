@@ -11,6 +11,7 @@ class Plan extends Model
     use HasFactory;
 
     protected $fillable = [
+        'identity',
         'name',
         'slug',
         'description',
