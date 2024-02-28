@@ -44,9 +44,9 @@ class GeneratePlans extends Command
 
         $this->newLine();
 
-        $plansList = $response->collect('data')->pluck('attributes');
+        $plansList = $response->collect('data');
         foreach ($plansList as $key => $item) {
-            $plan = collect($item)->only([
+            $plan = collect($item['attributes'])->only([
                 'name',
                 'slug',
                 'description',
@@ -56,7 +56,10 @@ class GeneratePlans extends Command
                 'buy_now_url',
             ])->toArray();
 
-            $plan = Plan::create($plan);
+            $plan = Plan::create([
+                'identity' => $item['id'],
+                ...$plan,
+            ]);
             $this->line(($key + 1) . ". {$plan->name} created.");
         }
 
