@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WebhookController;
 use App\Livewire\User\Billings\Index as BillingIndex;
 use App\Livewire\User\Billings\Product as BillingPlan;
 use App\Livewire\User\Billings\Subscription as BillingSubscription;
@@ -35,6 +36,10 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('billings', BillingIndex::class)->name('billings.index');
     Route::get('billings/plan', BillingPlan::class)->name('billings.plan');
     Route::get('billings/subscription', BillingSubscription::class)->name('billings.subscription');
+});
+
+Route::prefix('webhook')->name('webhook.')->group(function () {
+    Route::post('/subscriptions', [WebhookController::class, 'storeSubscription'])->name('subscriptions.store');
 });
 
 Route::prefix('notify')->name('notify.')->group(function () {
