@@ -10,6 +10,7 @@ class Tenant extends Model
     use HasFactory;
 
     protected $fillable = [
+        'identity',
         'name',
         'email',
         'city',

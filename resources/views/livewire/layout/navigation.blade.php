@@ -57,7 +57,13 @@ new class extends Component {
 
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('user.billings.index')" wire:navigate>
-                                    {{ __('Dashboard') }}
+                                    {{ __('General') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('user.billings.plan')" wire:navigate>
+                                    {{ __('Plans') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('user.billings.subscription')" wire:navigate>
+                                    {{ __('Subscriptions') }}
                                 </x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
@@ -133,6 +139,24 @@ new class extends Component {
         </div>
 
         <!-- Responsive Settings Options -->
+        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+            <div class="px-4">
+                <div class="text-sm font-medium text-gray-500">Billings</div>
+            </div>
+
+            <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('user.billings.index')" wire:navigate>
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('user.billings.plan')" wire:navigate>
+                    {{ __('Plans') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('user.billings.subscription')" wire:navigate>
+                    {{ __('Subscriptions') }}
+                </x-responsive-nav-link>
+            </div>
+        </div>
+
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
                 <div class="text-base font-medium text-gray-800 dark:text-gray-200" x-data="{{ json_encode(['name' => auth()->user()->name]) }}"
