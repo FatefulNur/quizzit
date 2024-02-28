@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants\Plan\Fresher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,4 +23,9 @@ class Plan extends Model
     protected $casts = [
         'price' => 'decimal:8',
     ];
+
+    public function isFresher(): bool
+    {
+        return $this->name === Fresher::NAME;
+    }
 }
