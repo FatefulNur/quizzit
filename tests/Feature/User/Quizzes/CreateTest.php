@@ -1,9 +1,9 @@
 <?php
 
 use App\Livewire\User\Quizzes\Create;
-use App\Livewire\User\Quizzes\Edit;
-use App\Livewire\User\Quizzes\Index;
 use App\Models\Quiz;
+use App\Models\Subscription;
+use App\Models\Tenant;
 use Livewire\Livewire;
 use App\Models\User;
 
@@ -27,6 +27,54 @@ test('create quiz page cannot be visited when unauthenticated', function () {
         ->assertRedirectToRoute('login');
 
     $this->assertGuest();
+});
+
+test('quiz cannot be created when fresher reached their max attempt', function () {
+    $this->actingAs($user = User::factory()->create());
+
+    Quiz::factory(5)->create(['user_id' => $user->id]);
+
+    $component = Livewire::test(Create::class);
+
+    $component->call('save');
+
+    $component->assertOk()
+        ->assertRedirect(route('notify.plans.create_quiz'));
+
+    $this->assertAuthenticated();
+});
+
+test('unlimited quiz can be created when fresher upgrade to enterprise plan', function () {
+    $this->artisan('app:generate-plans')->assertSuccessful();
+
+    $this->actingAs($user = User::factory()->create());
+
+    $tenant = Tenant::factory()->create([
+        'email' => 'robert@test.io',
+    ]);
+    $user->tenant()->associate($tenant);
+    Subscription::create([
+        'identity' => 2187281,
+        'plan_name' => 'Enterprise',
+        'user_name' => 'robert',
+        'user_email' => 'robert@test.io',
+        'status' => 'active',
+        'card_brand' => 'visa',
+        'renews_at' => null,
+        'ends_at' => null,
+        'tenant_id' => $tenant->id,
+        'plan_id' => 1,
+    ]);
+
+    Quiz::factory(78)->create(['user_id' => $user->id]);
+
+    $component = Livewire::test(Create::class);
+
+    $component->call('save');
+
+    $component->assertOk();
+
+    $this->assertAuthenticated();
 });
 
 test('questions can be added', function () {

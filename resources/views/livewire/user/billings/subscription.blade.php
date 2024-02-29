@@ -5,5 +5,5 @@
         </h2>
     </x-slot>
 
-
+    {{ $this->table }}
 </div>

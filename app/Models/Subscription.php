@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SubscriptionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,7 +24,18 @@ class Subscription extends Model
     ];
 
     protected $casts = [
+        'status' => SubscriptionStatus::class,
         'renews_at' => 'datetime',
         'ends_at' => 'datetime',
     ];
+
+    public function isActive(): bool
+    {
+        return $this->status === SubscriptionStatus::ACTIVE;
+    }
+
+    public function isNotActive(): bool
+    {
+        return !$this->isActive();
+    }
 }

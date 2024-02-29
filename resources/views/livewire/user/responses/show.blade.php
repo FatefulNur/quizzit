@@ -62,7 +62,7 @@
                                 class="inline-block w-full h-12 p-2 px-0 text-sm font-bold border-0 text-stone-500 bg-gray-50 focus:shadow-none outline-0">{{ $response->getFirstQuestionAnswer($question->id) }}</label>
                         </div>
                     @elseif($question->isRadio())
-                        @if ($question->options->count())
+                        @if ($question->options()->count())
                             <div
                                 class="grid gap-2 *:pb-2 *:inline-block *:max-w-xs *:text-gray-700 *:text-[15px] *:h-7">
 
@@ -74,7 +74,7 @@
                                             <label @class([
                                                 'inline-block w-full h-8 px-0 text-sm leading-8 text-gray-800 border-0 border-b-2 cursor-pointer bg-gray-50 focus:shadow-none outline-0',
                                                 'border-indigo-600' => $response->hasSelectedOption($option->id),
-                                                'bg-lime-200' => $response->hasOtherCorrectOptions($question, $option->id),
+                                                'bg-lime-200' => $response->hasAnyCorrectOptions($question, $option->id),
                                                 'bg-red-200' =>
                                                     $response->hasSelectedOption($option->id) &&
                                                     !$response->hasCorrectOption($option->id),
@@ -101,7 +101,7 @@
                             <span class="inline-block text-sm text-orange-600">No Options are available</span>
                         @endif
                     @else
-                        @if ($question->options->count())
+                        @if ($question->options()->count())
                             <div
                                 class="grid gap-2 *:pb-2 *:inline-block *:max-w-xs *:text-gray-700 *:text-[15px] *:h-7">
 
@@ -112,7 +112,7 @@
                                             <label @class([
                                                 'inline-block w-full h-8 px-0 text-sm leading-8 text-gray-800 border-0 border-b-2 cursor-pointer bg-gray-50 focus:shadow-none outline-0',
                                                 'border-indigo-600' => $response->hasSelectedOption($option->id),
-                                                'bg-lime-200' => $response->hasOtherCorrectOptions($question, $option->id),
+                                                'bg-lime-200' => $response->hasAnyCorrectOptions($question, $option->id),
                                                 'bg-red-200' =>
                                                     $response->hasSelectedOption($option->id) &&
                                                     !$response->hasCorrectOption($option->id),

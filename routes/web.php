@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\WebhookController;
 use App\Livewire\User\Billings\Index as BillingIndex;
-use App\Livewire\User\Billings\Product as BillingPlan;
+use App\Livewire\User\Billings\Plan as BillingPlan;
 use App\Livewire\User\Billings\Subscription as BillingSubscription;
 use App\Livewire\User\Quizzes\Create;
 use App\Livewire\User\Quizzes\Edit;
@@ -19,7 +19,7 @@ require __DIR__ . '/auth.php';
 
 Route::get('/', HomeController::class)->name('home');
 
-Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
+Route::middleware([/* 'verified', */ 'auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('/profile', ProfileController::class)->name('profile');
 
@@ -48,4 +48,5 @@ Route::prefix('notify')->name('notify.')->group(function () {
     Route::view('/quizzes/show-private', 'notify.quizzes.show-private')->name('quizzes.show_private');
     Route::view('/quizzes/show-unavailable', 'notify.quizzes.show-unavailable')->name('quizzes.show_unavailable');
     Route::view('/quizzes/show-timeout', 'notify.quizzes.show-timeout')->name('quizzes.show_timeout');
+    Route::view('/plans/create-quiz', 'notify.plans.create-quiz')->name('plans.create_quiz');
 });

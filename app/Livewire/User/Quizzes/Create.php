@@ -4,6 +4,7 @@ namespace App\Livewire\User\Quizzes;
 
 use App\Enums\QuestionType;
 use App\Services\QuizService;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -95,6 +96,10 @@ class Create extends Component
 
     public function save()
     {
+        if (Gate::denies('create-quiz')) {
+            return $this->redirectRoute('notify.plans.create_quiz');
+        }
+
         $validated = $this->validate();
 
         $quiz = QuizService::store($validated);

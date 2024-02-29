@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Constants\Plan\Fresher;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
 use App\Enums\UserType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser/* , MustVerifyEmail */
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
@@ -54,6 +55,11 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->isAdmin();
+    }
+
+    public function canAttemptQuizzes(): bool
+    {
+        return $this->quizzes()->count() < Fresher::MAX_ATTEMPT_QUIZZES;
     }
 
     public function isAdmin(): bool
