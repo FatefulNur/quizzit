@@ -24,20 +24,22 @@ class QuizFactory extends Factory
             'description' => fake()->paragraph(3),
             'marks_total' => fake()->numberBetween(1, 25),
             'type' => fake()->randomElement(QuizType::class),
+            'timer' => fake()->randomNumber(2, 5),
+            'is_timeout' => false,
             'user_id' => User::factory(),
             'started_at' => fake()->dateTimeBetween('-3 days', '3 days'),
             'expired_at' => fake()->dateTimeBetween('4 days', '12 days'),
         ];
     }
 
-    public function public (): static
+    public function public(): static
     {
         return $this->state(fn(array $attributes) => [
             'type' => QuizType::PUBLIC ->value,
         ]);
     }
 
-    public function private (): static
+    public function private(): static
     {
         return $this->state(fn(array $attributes) => [
             'type' => QuizType::PRIVATE ->value,
