@@ -67,10 +67,11 @@ class UserResponse extends Model
         $correctAnswers = array_intersect($answerList, $trimmedCorrectOptionList);
 
         return !empty($correctAnswers);
+        // TODO: To Fix empty array keys [0 => '']
     }
 
 
-    public function hasOtherCorrectOptions($question, $optionId): bool
+    public function hasAnyCorrectOptions($question, $optionId): bool
     {
         $correctOptionIds = $question
             ->options()
