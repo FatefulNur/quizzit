@@ -18,6 +18,8 @@ class Quiz extends Model
         'description',
         'marks_total',
         'type',
+        'timer',
+        'is_timeout',
         'user_id',
         'tenant_id',
         'started_at',
@@ -29,6 +31,7 @@ class Quiz extends Model
         'started_at' => 'datetime',
         'expired_at' => 'datetime',
         'marks_total' => 'integer',
+        'is_timeout' => 'boolean',
     ];
 
     public function isPublic(): bool
