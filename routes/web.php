@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\WebhookController;
 use App\Livewire\User\Billings\Index as BillingIndex;
-use App\Livewire\User\Billings\Product as BillingPlan;
+use App\Livewire\User\Billings\Plan as BillingPlan;
 use App\Livewire\User\Billings\Subscription as BillingSubscription;
 use App\Livewire\User\Quizzes\Create;
 use App\Livewire\User\Quizzes\Edit;

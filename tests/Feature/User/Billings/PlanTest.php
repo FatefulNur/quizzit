@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use Livewire\Livewire;
-use App\Livewire\User\Billings\Product;
+use App\Livewire\User\Billings\Plan;
 
 test('plan page can be visited', function () {
     $response = $this
@@ -11,7 +11,7 @@ test('plan page can be visited', function () {
 
     $response
         ->assertOk()
-        ->assertSeeLivewire(Product::class);
+        ->assertSeeLivewire(Plan::class);
 
     $this->assertAuthenticated();
 });
@@ -31,7 +31,7 @@ test('responses data can be displayed', function () {
 
     $this->actingAs(User::factory()->create());
 
-    $component = Livewire::test(Product::class);
+    $component = Livewire::test(Plan::class);
 
     $component
         ->assertSee('Fresher')
