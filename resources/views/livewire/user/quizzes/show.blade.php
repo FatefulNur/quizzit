@@ -1,6 +1,6 @@
 <div>
 
-    @if ($quiz?->questions->count())
+    @if ($quiz?->questions()->count())
 
         <div class="py-12">
             {{-- ====================Quiz Informations======================= --}}
@@ -100,7 +100,7 @@
                             <x-input-error :messages="$message" />
                         @enderror
                     @elseif($question->isRadio())
-                        @if ($question->options->count())
+                        @if ($question->options()->count())
                             @error("answers.$questionKey.answer")
                                 <x-input-error :messages="$message" />
                             @enderror
@@ -137,7 +137,7 @@
                             <span class="inline-block text-sm text-orange-600">No Options are available</span>
                         @endif
                     @else
-                        @if ($question->options->count())
+                        @if ($question->options()->count())
                             @error("answers.$questionKey.answer")
                                 <x-input-error :messages="$message" />
                             @enderror
