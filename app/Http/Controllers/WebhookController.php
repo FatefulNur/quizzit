@@ -8,7 +8,6 @@ use App\Models\Tenant;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Services\Externals\Lemonsqueezy;
 
 class WebhookController extends Controller
@@ -18,24 +17,28 @@ class WebhookController extends Controller
         $this->verifyStoreSubscription();
 
         DB::transaction(function () use ($request) {
-
             $subscription = $request->collect('data')['attributes'];
+
             $plan = Plan::firstWhere('identity', $subscription['product_id']);
-
-            $customer = Lemonsqueezy::getCustomer($subscription['customer_id'])['data'];
-
-            $customerData = [
-                'identity' => $customer['id'],
-                ...collect($customer['attributes'])->only([
-                    'name',
-                    'email',
-                    'city',
-                    'region',
-                    'country',
-                ])->all(),
-            ];
-            $tenant = Tenant::create($customerData);
             $user = User::firstWhere('email', $subscription['user_email']);
+            $tenant = Tenant::firstWhere('email', $subscription['user_email']);
+
+            if (!$tenant) {
+                $customer = Lemonsqueezy::getCustomer($subscription['customer_id'])['data'];
+                $customerData = [
+                    'identity' => $customer['id'],
+                    ...collect($customer['attributes'])->only([
+                        'name',
+                        'email',
+                        'city',
+                        'region',
+                        'country',
+                    ])->all(),
+                ];
+
+                $tenant = Tenant::create($customerData);
+                $tenant->plans()->sync($plan);
+            }
 
             if ($user) {
                 $user->tenant()->associate($tenant);
