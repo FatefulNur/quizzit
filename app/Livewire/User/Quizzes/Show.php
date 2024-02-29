@@ -34,8 +34,8 @@ class Show extends Component
     public function rules()
     {
         return [
-            'answers.*.answer' => 'array|required',
-            'answers.*.option_id' => 'array|required',
+            'answers.*.answer' => 'array',
+            'answers.*.option_id' => 'array',
             'answers.*.question_id' => 'required',
         ];
     }
@@ -53,9 +53,7 @@ class Show extends Component
 
         $response = UserResponseService::store($this->quiz, $validated['answers']);
 
-        session()->flash('status', 'Success!');
-
-        $this->reset();
+        session()->flash('status', 'Thanks!');
 
         $this->redirectRoute('notify.responses.show', $response->id, navigate: true);
     }

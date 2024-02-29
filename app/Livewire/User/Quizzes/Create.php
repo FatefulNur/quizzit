@@ -12,6 +12,7 @@ class Create extends Component
     public $title;
     public $description;
     public $type;
+    public $timer;
     public $started_at;
     public $expired_at;
 
@@ -67,6 +68,7 @@ class Create extends Component
             'title' => 'required|max:255',
             'description' => 'nullable',
             'type' => 'nullable',
+            'timer' => 'nullable|integer|max:150',
             'started_at' => 'required|date|before:expired_at',
             'expired_at' => 'required|date|after:started_at',
             'questions.*.title' => 'required|max:255',
