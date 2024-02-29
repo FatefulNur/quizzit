@@ -25,7 +25,7 @@ class UserResponse extends Model
 
     public function getFirstQuestionAnswer($questionId)
     {
-        return $this->answers()->where('question_id', $questionId)->first()->answer;
+        return $this->answers()->where('question_id', $questionId)->first()?->answer;
     }
 
     public function hasSelectedOption($optionId): bool
