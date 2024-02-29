@@ -13,6 +13,11 @@ class UserResponseService
     {
         return DB::transaction(function () use ($quiz, $data) {
             $result = 0;
+
+            if (!is_null($quiz->timer)) {
+                $quiz->update(['is_timeout' => 1]);
+            }
+
             $userResponse = UserResponse::create([
                 'result' => $result,
                 'user_id' => auth()?->id(),
@@ -42,7 +47,11 @@ class UserResponseService
 
                 foreach ($answers['answer'] as $key => $answer) {
 
-                    if (!$isMarked && in_array($answer, $trimmedCorrectOptionsLabel)) {
+                    if (
+                        !$isMarked &&
+                        !empty ($answer) &&
+                        in_array($answer, $trimmedCorrectOptionsLabel)
+                    ) {
                         $result += $question->marks;
                         $isMarked = true;
                     }
