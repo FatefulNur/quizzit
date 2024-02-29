@@ -382,6 +382,51 @@ test('quiz can be edited without any modification', function () {
     $this->assertSame(10, $this->quiz->fresh()->marks_total);
 });
 
+test('quiz timer can be edited', function () {
+    $this->actingAs($this->user);
+
+    $component = Livewire::test(Edit::class, ['quiz' => $this->quiz]);
+
+    // Quiz
+    $component
+        ->set('title', 'Updated Quiz Title')
+        ->set('description', 'Updated Quiz Description.')
+        ->set('type', true)
+        ->set('timer', 30)
+        ->set('started_at', now()->addDay())
+        ->set('expired_at', now()->addDays(3));
+
+    // Question 1
+    $component
+        ->set('questions.0.id', $this->quiz->questions[0]->id)
+        ->set('questions.0.title', 'question 1 updated?')
+        ->set('questions.0.hint', 'updated short text hint')
+        ->set('questions.0.marks', 3)
+        ->set('questions.0.type', 'short_text')
+
+        ->set('questions.0.options.0.id', $this->quiz->questions[0]->options[0]->id)
+        ->set('questions.0.options.0.is_correct', true)
+        ->set('questions.0.options.0.label', 'answer updated');
+
+
+    $component
+        ->call('save')
+        ->assertOk()
+        ->assertHasNoErrors()
+        ->assertSessionHas('status', 'Success!')
+        ->assertRedirect(route('user.quizzes.edit', $this->quiz->id));
+
+    $this->assertDatabaseCount('quizzes', 1);
+    $this->assertDatabaseHas('quizzes', [
+        'title' => 'Updated Quiz Title',
+        'description' => 'Updated Quiz Description.',
+        'type' => 'private',
+        'timer' => 30,
+    ]);
+    $this->assertDatabaseCount('questions', 2);
+    $this->assertDatabaseCount('options', 2);
+});
+
 test('quiz can be edited with modification of questions', function () {
     $this->actingAs($this->user);
 

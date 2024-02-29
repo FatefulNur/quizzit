@@ -307,6 +307,58 @@ test('quiz can be created', function () {
     $this->assertSame(11, Quiz::first()->marks_total);
 });
 
+test('quiz timer can be added', function () {
+    $this->actingAs(User::factory()->create());
+
+    $component = Livewire::test(Create::class);
+
+    // Quiz
+    $component
+        ->set('title', 'New Quiz')
+        ->set('description', 'new quiz description.')
+        ->set('type', false)
+        ->set('timer', 40)
+        ->set('started_at', now()->addDay())
+        ->set('expired_at', now()->addDays(3));
+
+    // Question 1
+    $component
+        ->set('questions.0.title', 'question 1?')
+        ->set('questions.0.hint', 'short text')
+        ->set('questions.0.marks', 2)
+        ->set('questions.0.type', 'short_text')
+
+        ->set('questions.0.options.0.is_correct', true)
+        ->set('questions.0.options.0.label', 'answer');
+
+    $component
+        ->call('save')
+        ->assertOk()
+        ->assertHasNoErrors()
+        ->assertSessionHas('status', 'Success!')
+        ->assertRedirect(route('user.quizzes.edit', Quiz::first()->id));
+
+    $this->assertDatabaseCount('quizzes', 1);
+    $this->assertDatabaseHas('quizzes', [
+        'title' => 'New Quiz',
+        'description' => 'new quiz description.',
+        'type' => 'public',
+        'timer' => 40,
+        'is_timeout' => 0,
+    ]);
+    $this->assertDatabaseCount('questions', 1);
+    $this->assertDatabaseHas('questions', [
+        'title' => 'question 1?',
+        'hint' => 'short text',
+        'marks' => 2,
+        'type' => 'short_text',
+        'quiz_id' => Quiz::first()->id,
+    ]);
+
+    $this->assertDatabaseCount('options', 1);
+    $this->assertSame(2, Quiz::first()->marks_total);
+});
+
 test('quiz cannot be created with invalid inputs', function ($title, $description, $type, $started_at, $expired_at, $question_title, $question_hint, $question_marks, $question_type, $errors) {
     $this->actingAs(User::factory()->create());
 
