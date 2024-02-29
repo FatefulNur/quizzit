@@ -13,7 +13,7 @@ class DestroyRelations
         }
 
         foreach ($relations as $relation) {
-            if (!$question->$relation()->exists()) {
+            if ($question->$relation()->doesntExist()) {
                 continue;
             }
 

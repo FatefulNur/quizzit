@@ -6,6 +6,20 @@
                     {{ __('Create new Quiz') }}
                 </h2>
 
+                {{-- ========================Timer=========================== --}}
+                {{-- ====================*************======================= --}}
+                {{-- ====================*************======================= --}}
+                <div class="text-md text-slate-600 font-bold">
+                    <label>
+                        <input wire:model="timer" type="number" placeholder="00"
+                            class="w-20 h-full text-center bg-transparent border-none placeholder:font-extrabold placeholder:text-slate-600 bg-gray-50 text-lg text-stone-500 focus:bg-gray-300"
+                            style="box-shadow: none">minutes
+                    </label>
+                    @error('timer')
+                        <x-input-error :messages="$message" />
+                    @enderror
+                </div>
+
                 {{-- ====================Switch Private======================= --}}
                 {{-- ====================*************======================= --}}
                 {{-- ====================*************======================= --}}
@@ -56,7 +70,8 @@
             {{-- ====================*****************======================= --}}
             <div class="flex items-start justify-between gap-2 space-y-1 text-right">
                 <div class="flex flex-col justify-center w-full max-w-xs">
-                    <label class="flex items-center gap-1 p-2 text-sm font-semibold text-gray-500 bg-white rounded-md shadow-md cursor-pointer border @error('started_at')
+                    <label
+                        class="flex items-center gap-1 p-2 text-sm font-semibold text-gray-500 bg-white rounded-md shadow-md cursor-pointer border @error('started_at')
                         border-red-500
                     @enderror">
                         <svg width="25px" height="25px" viewBox="-0.5 0 15 15" xmlns="http://www.w3.org/2000/svg"
@@ -75,11 +90,12 @@
                         Start Date
                     </label>
                     @error('started_at')
-                    <x-input-error :messages="$message" />
+                        <x-input-error :messages="$message" />
                     @enderror
                 </div>
                 <div class="flex flex-col justify-center w-full max-w-xs">
-                    <label class="flex flex-row-reverse items-center gap-1 p-2 text-sm font-semibold text-gray-500 bg-white rounded-md shadow-md cursor-pointer border @error('expired_at')
+                    <label
+                        class="flex flex-row-reverse items-center gap-1 p-2 text-sm font-semibold text-gray-500 bg-white rounded-md shadow-md cursor-pointer border @error('expired_at')
                         border-red-500
                     @enderror">
                         <svg width="25px" height="25px" viewBox="-0.5 0 15 15" xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +114,7 @@
                         Expiration Date
                     </label>
                     @error('expired_at')
-                    <x-input-error :messages="$message" />
+                        <x-input-error :messages="$message" />
                     @enderror
                 </div>
             </div>
@@ -109,16 +125,16 @@
             <div
                 class="flex flex-col p-4 sm:p-8 bg-white border border-slate-300 border-l-4 dark:bg-gray-800 shadow sm:rounded-lg rounded-md has-[:focus]:border-l-indigo-600 space-y-3">
 
-                <x-question.text-input wire:model="title" class="text-2xl" name="quiz_title"
-                    :error="$errors?->first('title')" placeholder="Quiz Heading" />
+                <x-question.text-input wire:model="title" class="text-2xl" name="quiz_title" :error="$errors?->first('title')"
+                    placeholder="Quiz Heading" />
                 @error('title')
-                <x-input-error :messages="$message" />
+                    <x-input-error :messages="$message" />
                 @enderror
 
                 <x-question.textarea wire:model="description" name="description" :error="$errors?->first('description')"
                     placeholder="Say more about this quiz!" />
                 @error('description')
-                <x-input-error :messages="$message" />
+                    <x-input-error :messages="$message" />
                 @enderror
             </div>
         </div>
@@ -132,288 +148,275 @@
         <div class="space-y-4" x-data>
 
             @foreach ($questions as $questionKey => $question)
+                <div class="relative group" wire:key="{{ $questionKey }}">
 
-            <div class="relative group" wire:key="{{ $questionKey }}">
+                    @if (count($questions) > 1)
+                        <button x-on:click="$el.parentNode.remove()" wire:click="removeQuestion({{ $questionKey }})"
+                            type="button"
+                            class="absolute z-30 invisible inline-block text-2xl font-bold leading-6 text-red-600 transition bg-white border rounded-full shadow-md -top-1 -right-1 w-7 h-7 group-hover:visible">&times;</button>
+                    @endif
 
-                @if (count($questions) > 1)
-
-                <button x-on:click="$el.parentNode.remove()" wire:click="removeQuestion({{ $questionKey }})"
-                    type="button"
-                    class="absolute z-30 invisible inline-block text-2xl font-bold leading-6 text-red-600 transition bg-white border rounded-full shadow-md -top-1 -right-1 w-7 h-7 group-hover:visible">&times;</button>
-
-                @endif
-
-                <div class="relative p-4 sm:p-8 bg-white border border-slate-300 border-l-4 dark:bg-gray-800 shadow sm:rounded-lg rounded-md has-[:focus]:border-l-indigo-600 space-y-3"
-                    x-data='{questionType: ""}' x-modelable="questionType"
-                    wire:model="questions.{{ $questionKey }}.type">
-                    <div>
-                        <div class="relative inline-block w-[70px]">
-                            <input wire:model="questions.{{ $questionKey }}.marks" min="0" type="number" name="marks"
-                                id="marks" placeholder="Marks"
-                                class="w-full h-12 px-0 text-center border-0 text-md bg-gray-50 focus:shadow-none outline-0 peer"
-                                style="box-shadow: none" autocomplete="off">
-                            <div
-                                class="absolute h-[2px] bottom-0 left-1/2 right-1/2 bg-indigo-700 peer-focus:left-0 peer-focus:right-0 peer-focus:transition-all z-20">
-                            </div>
-                            <div class="absolute h-[2px] bottom-0 left-0 right-0 bg-gray-200 w-full @error('questions.'.$questionKey.'.marks')
+                    <div class="relative p-4 sm:p-8 bg-white border border-slate-300 border-l-4 dark:bg-gray-800 shadow sm:rounded-lg rounded-md has-[:focus]:border-l-indigo-600 space-y-3"
+                        x-data='{questionType: ""}' x-modelable="questionType"
+                        wire:model="questions.{{ $questionKey }}.type">
+                        <div>
+                            <div class="relative inline-block w-[70px]">
+                                <input wire:model="questions.{{ $questionKey }}.marks" min="0" type="number"
+                                    name="marks" id="marks" placeholder="Marks"
+                                    class="w-full h-12 px-0 text-center border-0 text-md bg-gray-50 focus:shadow-none outline-0 peer"
+                                    style="box-shadow: none" autocomplete="off">
+                                <div
+                                    class="absolute h-[2px] bottom-0 left-1/2 right-1/2 bg-indigo-700 peer-focus:left-0 peer-focus:right-0 peer-focus:transition-all z-20">
+                                </div>
+                                <div
+                                    class="absolute h-[2px] bottom-0 left-0 right-0 bg-gray-200 w-full @error('questions.' . $questionKey . '.marks')
                                 !bg-red-500
                             @enderror z-10">
+                                </div>
                             </div>
-                        </div>
-                        @error("questions.$questionKey.marks")
-                        <x-input-error :messages="$message" />
-                        @enderror
-                    </div>
-
-                    <div class="flex justify-between gap-5">
-                        <div class="flex-1">
-                            <x-question.text-input wire:model="questions.{{ $questionKey }}.title" class="text-2xl"
-                                name="question_title" :error="$errors?->first('questions.'.$questionKey.'.title')"
-                                placeholder="Ask a question?" />
-                            @error("questions.$questionKey.title")
-                            <x-input-error :messages="$message" />
+                            @error("questions.$questionKey.marks")
+                                <x-input-error :messages="$message" />
                             @enderror
                         </div>
 
-                        <div class="flex-1">
-
-                            <x-question.select wire:model="questions.{{ $questionKey }}.type"
-                                wire:change="resetOptions({{ $questionKey }})" :items="App\Enums\QuestionType::cases()"
-                                :error="$errors?->first('questions.'.$questionKey.'.type')"
-                                :disabled="!empty($questions[$questionKey]['type'])" />
-                            @error("questions.$questionKey.type")
-                            <x-input-error :messages="$message" />
-                            @enderror
-
-                        </div>
-                    </div>
-
-                    <div>
-                        <x-question.textarea wire:model="questions.{{ $questionKey }}.hint" name="hint"
-                            :error="$errors?->first('questions.'.$questionKey.'.hint')"
-                            placeholder="Want to set any clue?" />
-                        @error("questions.$questionKey.hint")
-                        <x-input-error :messages="$message" />
-                        @enderror
-                    </div>
-
-                    {{-- ====================Short Text Option================== --}}
-                    {{-- ====================*****************================== --}}
-                    <template x-if="questionType === 'short_text'">
-                        <div class="flex-1 p-3 space-y-4 text-stone-600">
-                            <div class="w-1/2 border-b border-slate-500">
-                                <label
-                                    class="inline-block w-full h-8 px-0 text-sm text-gray-800 border-0 bg-gray-50 focus:shadow-none outline-0">Short
-                                    Text</label>
+                        <div class="flex justify-between gap-5">
+                            <div class="flex-1">
+                                <x-question.text-input wire:model="questions.{{ $questionKey }}.title"
+                                    class="text-2xl" name="question_title" :error="$errors?->first('questions.' . $questionKey . '.title')"
+                                    placeholder="Ask a question?" />
+                                @error("questions.$questionKey.title")
+                                    <x-input-error :messages="$message" />
+                                @enderror
                             </div>
 
-                            <label class="inline-block font-semibold text-indigo-500 cursor-pointer text-md peer">
-                                Set an Answer
-                                <input type="checkbox" name="answer_checkbox" id="answer_checkbox" class="hidden">
-                            </label>
+                            <div class="flex-1">
 
-                            <div class="hidden peer-has-[:checked]:block">
-                                @foreach ($question['options'] as $optionKey => $option)
+                                <x-question.select wire:model="questions.{{ $questionKey }}.type"
+                                    wire:change="resetOptions({{ $questionKey }})" :items="App\Enums\QuestionType::cases()"
+                                    :error="$errors?->first('questions.' . $questionKey . '.type')" :disabled="!empty($questions[$questionKey]['type'])" />
+                                @error("questions.$questionKey.type")
+                                    <x-input-error :messages="$message" />
+                                @enderror
 
-                                <div class="relative w-1/2" wire:key="{{ $optionKey }}" x-data="{isChecked: false}"
-                                    x-modelable="isChecked"
-                                    wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.is_correct">
-                                    <input type="checkbox" name="option" x-model="isChecked" class="hidden" hidden />
-                                    <x-question.text-input
-                                        x-on:input="isChecked = $event.target.value.trim().length ? true: false"
-                                        wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.label"
-                                        name="label"
-                                        :error="$errors?->first('questions.'.$questionKey.'.options.'.$optionKey.'.label')"
-                                        placeholder="e.g. answer1, answer2" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <x-question.textarea wire:model="questions.{{ $questionKey }}.hint" name="hint"
+                                :error="$errors?->first('questions.' . $questionKey . '.hint')" placeholder="Want to set any clue?" />
+                            @error("questions.$questionKey.hint")
+                                <x-input-error :messages="$message" />
+                            @enderror
+                        </div>
+
+                        {{-- ====================Short Text Option================== --}}
+                        {{-- ====================*****************================== --}}
+                        <template x-if="questionType === 'short_text'">
+                            <div class="flex-1 p-3 space-y-4 text-stone-600">
+                                <div class="w-1/2 border-b border-slate-500">
+                                    <label
+                                        class="inline-block w-full h-8 px-0 text-sm text-gray-800 border-0 bg-gray-50 focus:shadow-none outline-0">Short
+                                        Text</label>
                                 </div>
 
+                                <label class="inline-block font-semibold text-indigo-500 cursor-pointer text-md peer">
+                                    Set an Answer
+                                    <input type="checkbox" name="answer_checkbox" id="answer_checkbox"
+                                        class="hidden">
+                                </label>
+
+                                <div class="hidden peer-has-[:checked]:block">
+                                    @foreach ($question['options'] as $optionKey => $option)
+                                        <div class="relative w-1/2" wire:key="{{ $optionKey }}"
+                                            x-data="{ isChecked: false }" x-modelable="isChecked"
+                                            wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.is_correct">
+                                            <input type="checkbox" name="option" x-model="isChecked" class="hidden"
+                                                hidden />
+                                            <x-question.text-input
+                                                x-on:input="isChecked = $event.target.value.trim().length ? true: false"
+                                                wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.label"
+                                                name="label" :error="$errors?->first(
+                                                    'questions.' . $questionKey . '.options.' . $optionKey . '.label',
+                                                )"
+                                                placeholder="e.g. answer1, answer2" />
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </template>
+
+
+                        {{-- ====================Long Text Option================== --}}
+                        {{-- ====================****************================== --}}
+                        <template x-if="questionType === 'long_text'">
+                            <div class="flex-1 p-3 space-y-4 text-stone-600">
+                                <div class="w-1/2 border-b border-slate-500">
+                                    <label
+                                        class="inline-block w-full h-8 px-0 text-sm text-gray-800 border-0 bg-gray-50 focus:shadow-none outline-0">Long
+                                        Text</label>
+                                </div>
+
+                                <label class="inline-block font-semibold text-indigo-500 cursor-pointer text-md peer">
+                                    Set an Answer
+                                    <input type="checkbox" name="answer_checkbox" id="answer_checkbox"
+                                        class="hidden">
+                                </label>
+
+                                @foreach ($question['options'] as $optionKey => $option)
+                                    <div class="hidden peer-has-[:checked]:block" wire:key="{{ $optionKey }}"
+                                        x-data="{ isChecked: false }" x-modelable="isChecked"
+                                        wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.is_correct">
+                                        <input type="checkbox" name="option" x-model="isChecked" class="hidden"
+                                            hidden />
+                                        <x-question.textarea
+                                            x-on:input="isChecked = $event.target.value.trim().length ? true: false"
+                                            wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.label"
+                                            name="answer_text" :error="$errors?->first(
+                                                'questions.' . $questionKey . '.options.' . $optionKey . '.label',
+                                            )"
+                                            placeholder="e.g. answer1, answer2" />
+                                    </div>
                                 @endforeach
                             </div>
-                        </div>
-                    </template>
 
+                        </template>
 
-                    {{-- ====================Long Text Option================== --}}
-                    {{-- ====================****************================== --}}
-                    <template x-if="questionType === 'long_text'">
-                        <div class="flex-1 p-3 space-y-4 text-stone-600">
-                            <div class="w-1/2 border-b border-slate-500">
-                                <label
-                                    class="inline-block w-full h-8 px-0 text-sm text-gray-800 border-0 bg-gray-50 focus:shadow-none outline-0">Long
-                                    Text</label>
-                            </div>
+                        {{-- ====================Radio Option================== --}}
+                        {{-- ====================************================== --}}
+                        <template x-if="questionType === 'radio'">
 
-                            <label class="inline-block font-semibold text-indigo-500 cursor-pointer text-md peer">
-                                Set an Answer
-                                <input type="checkbox" name="answer_checkbox" id="answer_checkbox" class="hidden">
-                            </label>
+                            <div class="flex-1 p-3 space-y-4 text-stone-600">
+                                <label class="inline-block font-semibold text-indigo-500 cursor-pointer text-md peer">
+                                    Set Options
+                                    <input type="checkbox" name="answer_checkbox" id="answer_checkbox"
+                                        class="hidden">
+                                </label>
 
-                            @foreach ($question['options'] as $optionKey => $option)
+                                <div class="hidden peer-has-[:checked]:block">
+                                    <p class="mb-1 text-sm font-bold text-gray-400">Set correct answers by checking the
+                                        options.</p>
 
-                            <div class="hidden peer-has-[:checked]:block" wire:key="{{ $optionKey }}"
-                                x-data="{isChecked: false}" x-modelable="isChecked"
-                                wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.is_correct">
-                                <input type="checkbox" name="option" x-model="isChecked" class="hidden" hidden />
-                                <x-question.textarea
-                                    x-on:input="isChecked = $event.target.value.trim().length ? true: false"
-                                    wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.label"
-                                    name="answer_text"
-                                    :error="$errors?->first('questions.'.$questionKey.'.options.'.$optionKey.'.label')"
-                                    placeholder="e.g. answer1, answer2" />
-                            </div>
+                                    <div class="space-y-2">
+                                        @foreach ($question['options'] as $optionKey => $option)
+                                            <div class="relative flex items-center w-2/5 h-8 gap-2 me-4 bg-gray-50"
+                                                wire:key="{{ $optionKey }}">
 
-                            @endforeach
-                        </div>
+                                                @if (count($question['options']) > 1)
+                                                    <button wire:loading.attr="disabled" wire:target="removeOption"
+                                                        x-on:click="$el.parentNode.remove()"
+                                                        wire:click="removeOption({{ $questionKey }}, {{ $optionKey }})"
+                                                        type="button"
+                                                        class="absolute z-30 invisible inline-block text-2xl font-bold leading-6 text-red-600 transition bg-white border rounded-full shadow-md -top-1 -right-1 w-7 h-7 group-hover:visible">&times;</button>
+                                                @endif
 
-                    </template>
+                                                <input
+                                                    wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.is_correct"
+                                                    id="option" type="checkbox" name="option"
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 
-                    {{-- ====================Radio Option================== --}}
-                    {{-- ====================************================== --}}
-                    <template x-if="questionType === 'radio'">
+                                                <input
+                                                    wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.label"
+                                                    type="text" name="label_{{ $questionKey }}" id="label"
+                                                    placeholder="Set a label?"
+                                                    class="w-full h-8 p-0 border-0 text-md bg-gray-50 outline-0 peer"
+                                                    style="box-shadow: none" autocomplete="off">
+                                                <div
+                                                    class="absolute h-[2px] bottom-0 left-1/2 right-1/2 bg-indigo-700 peer-focus:left-0 peer-focus:right-0 peer-focus:transition-all z-20">
+                                                </div>
+                                                <div
+                                                    class="absolute h-[2px] bottom-0 left-0 right-0 bg-gray-200 w-full z-10">
+                                                </div>
+                                            </div>
+                                        @endforeach
 
-                        <div class="flex-1 p-3 space-y-4 text-stone-600">
-                            <label class="inline-block font-semibold text-indigo-500 cursor-pointer text-md peer">
-                                Set Options
-                                <input type="checkbox" name="answer_checkbox" id="answer_checkbox" class="hidden">
-                            </label>
-
-                            <div class="hidden peer-has-[:checked]:block">
-                                <p class="mb-1 text-sm font-bold text-gray-400">Set correct answers by checking the
-                                    options.</p>
-
-                                <div class="space-y-2">
-                                    @foreach ($question['options'] as $optionKey => $option)
-
-                                    <div class="relative flex items-center w-2/5 h-8 gap-2 me-4 bg-gray-50"
-                                        wire:key="{{ $optionKey }}">
-
-                                        @if (count($question['options']) > 1)
-
-                                        <button
-                                            wire:loading.attr="disabled"
-                                            wire:target="removeOption"
-                                            x-on:click="$el.parentNode.remove()"
-                                            wire:click="removeOption({{ $questionKey }}, {{ $optionKey }})"
-                                            type="button"
-                                            class="absolute z-30 invisible inline-block text-2xl font-bold leading-6 text-red-600 transition bg-white border rounded-full shadow-md -top-1 -right-1 w-7 h-7 group-hover:visible">&times;</button>
-
-                                        @endif
-
-                                        <input
-                                            wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.is_correct"
-                                            id="option" type="checkbox" name="option"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-
-                                        <input wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.label"
-                                            type="text" name="label_{{ $questionKey }}" id="label"
-                                            placeholder="Set a label?"
-                                            class="w-full h-8 p-0 border-0 text-md bg-gray-50 outline-0 peer"
-                                            style="box-shadow: none" autocomplete="off">
-                                        <div
-                                            class="absolute h-[2px] bottom-0 left-1/2 right-1/2 bg-indigo-700 peer-focus:left-0 peer-focus:right-0 peer-focus:transition-all z-20">
+                                        <div wire:loading.class="pointer-events-none" wire:target="addOption"
+                                            class="flex items-center w-2/5 h-8 me-4"
+                                            wire:click="addOption({{ $questionKey }})">
+                                            <label
+                                                class="inline-block w-full h-8 px-0 text-sm leading-8 text-gray-800 border-0 border-b-2 cursor-pointer bg-gray-50 focus:shadow-none outline-0">
+                                                <span
+                                                    class="inline-block w-4 h-4 mr-1 align-middle bg-gray-100 border border-gray-300 rounded"></span>
+                                                Add More Option
+                                                <span wire:loading wire:target="addOption({{ $questionKey }})"
+                                                    class="text-sm font-semibold text-green-400 animate-pulse">Waiting...</span>
+                                                </span>
+                                            </label>
                                         </div>
-                                        <div class="absolute h-[2px] bottom-0 left-0 right-0 bg-gray-200 w-full z-10">
-                                        </div>
-                                    </div>
-
-                                    @endforeach
-
-                                    <div
-                                        wire:loading.class="pointer-events-none"
-                                        wire:target="addOption"
-                                        class="flex items-center w-2/5 h-8 me-4"
-                                        wire:click="addOption({{ $questionKey }})">
-                                        <label
-                                            class="inline-block w-full h-8 px-0 text-sm leading-8 text-gray-800 border-0 border-b-2 cursor-pointer bg-gray-50 focus:shadow-none outline-0">
-                                            <span
-                                                class="inline-block w-4 h-4 mr-1 align-middle bg-gray-100 border border-gray-300 rounded"></span>
-                                            Add More Option
-                                            <span wire:loading wire:target="addOption({{ $questionKey }})"
-                                                class="text-sm font-semibold text-green-400 animate-pulse">Waiting...</span>
-                                            </span>
-                                        </label>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </template>
+                        </template>
 
 
-                    {{-- ====================Checkbox Option================== --}}
-                    {{-- ====================***************================== --}}
-                    <template x-if="questionType === 'checkbox'">
+                        {{-- ====================Checkbox Option================== --}}
+                        {{-- ====================***************================== --}}
+                        <template x-if="questionType === 'checkbox'">
 
-                        <div class="flex-1 p-3 space-y-4 text-stone-600">
-                            <label class="inline-block font-semibold text-indigo-500 cursor-pointer text-md peer">
-                                Set Options
-                                <input type="checkbox" name="answer_checkbox" id="answer_checkbox" class="hidden">
-                            </label>
+                            <div class="flex-1 p-3 space-y-4 text-stone-600">
+                                <label class="inline-block font-semibold text-indigo-500 cursor-pointer text-md peer">
+                                    Set Options
+                                    <input type="checkbox" name="answer_checkbox" id="answer_checkbox"
+                                        class="hidden">
+                                </label>
 
-                            <div class="hidden peer-has-[:checked]:block">
-                                <p class="mb-1 text-sm font-bold text-gray-400">Set correct answers by checking the
-                                    options.</p>
+                                <div class="hidden peer-has-[:checked]:block">
+                                    <p class="mb-1 text-sm font-bold text-gray-400">Set correct answers by checking the
+                                        options.</p>
 
-                                <div class="space-y-2">
-                                    @foreach ($question['options'] as $optionKey => $option)
+                                    <div class="space-y-2">
+                                        @foreach ($question['options'] as $optionKey => $option)
+                                            <div class="relative flex items-center w-2/5 h-8 gap-2 me-4 bg-gray-50"
+                                                wire:key="{{ $optionKey }}">
 
-                                    <div class="relative flex items-center w-2/5 h-8 gap-2 me-4 bg-gray-50"
-                                        wire:key="{{ $optionKey }}">
+                                                @if (count($question['options']) > 1)
+                                                    <button wire:loading.attr="disabled" wire:target="removeOption"
+                                                        x-on:click="$el.parentNode.remove()"
+                                                        wire:click="removeOption({{ $questionKey }}, {{ $optionKey }})"
+                                                        type="button"
+                                                        class="absolute z-30 invisible inline-block text-2xl font-bold leading-6 text-red-600 transition bg-white border rounded-full shadow-md -top-1 -right-1 w-7 h-7 group-hover:visible">&times;</button>
+                                                @endif
 
-                                        @if (count($question['options']) > 1)
+                                                <input
+                                                    wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.is_correct"
+                                                    id="option" type="checkbox" name="option"
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 
-                                        <button
-                                            wire:loading.attr="disabled"
-                                            wire:target="removeOption"
-                                            x-on:click="$el.parentNode.remove()"
-                                            wire:click="removeOption({{ $questionKey }}, {{ $optionKey }})"
-                                            type="button"
-                                            class="absolute z-30 invisible inline-block text-2xl font-bold leading-6 text-red-600 transition bg-white border rounded-full shadow-md -top-1 -right-1 w-7 h-7 group-hover:visible">&times;</button>
+                                                <input
+                                                    wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.label"
+                                                    type="text" name="label_{{ $questionKey }}" id="label"
+                                                    placeholder="Set a label?"
+                                                    class="w-full h-8 p-0 border-0 text-md bg-gray-50 outline-0 peer"
+                                                    style="box-shadow: none" autocomplete="off">
+                                                <div
+                                                    class="absolute h-[2px] bottom-0 left-1/2 right-1/2 bg-indigo-700 peer-focus:left-0 peer-focus:right-0 peer-focus:transition-all z-20">
+                                                </div>
+                                                <div
+                                                    class="absolute h-[2px] bottom-0 left-0 right-0 bg-gray-200 w-full z-10">
+                                                </div>
+                                            </div>
+                                        @endforeach
 
-                                        @endif
-
-                                        <input
-                                            wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.is_correct"
-                                            id="option" type="checkbox" name="option"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-
-                                        <input wire:model="questions.{{ $questionKey }}.options.{{ $optionKey }}.label"
-                                            type="text" name="label_{{ $questionKey }}" id="label"
-                                            placeholder="Set a label?"
-                                            class="w-full h-8 p-0 border-0 text-md bg-gray-50 outline-0 peer"
-                                            style="box-shadow: none" autocomplete="off">
-                                        <div
-                                            class="absolute h-[2px] bottom-0 left-1/2 right-1/2 bg-indigo-700 peer-focus:left-0 peer-focus:right-0 peer-focus:transition-all z-20">
+                                        <div wire:loading.class="pointer-events-none" wire:target="addOption"
+                                            class="flex items-center w-2/5 h-8 me-4"
+                                            wire:click="addOption({{ $questionKey }})">
+                                            <label
+                                                class="inline-block w-full h-8 px-0 text-sm leading-8 text-gray-800 border-0 border-b-2 cursor-pointer bg-gray-50 focus:shadow-none outline-0">
+                                                <span
+                                                    class="inline-block w-4 h-4 mr-1 align-middle bg-gray-100 border border-gray-300 rounded"></span>
+                                                Add More Option
+                                                <span wire:loading wire:target="addOption({{ $questionKey }})"
+                                                    class="text-sm font-semibold text-green-400 animate-pulse">Waiting...</span>
+                                                </span>
+                                            </label>
                                         </div>
-                                        <div class="absolute h-[2px] bottom-0 left-0 right-0 bg-gray-200 w-full z-10">
-                                        </div>
-                                    </div>
-
-                                    @endforeach
-
-                                    <div
-                                        wire:loading.class="pointer-events-none"
-                                        wire:target="addOption"
-                                        class="flex items-center w-2/5 h-8 me-4"
-                                        wire:click="addOption({{ $questionKey }})">
-                                        <label
-                                            class="inline-block w-full h-8 px-0 text-sm leading-8 text-gray-800 border-0 border-b-2 cursor-pointer bg-gray-50 focus:shadow-none outline-0">
-                                            <span
-                                                class="inline-block w-4 h-4 mr-1 align-middle bg-gray-100 border border-gray-300 rounded"></span>
-                                            Add More Option
-                                            <span wire:loading wire:target="addOption({{ $questionKey }})"
-                                                class="text-sm font-semibold text-green-400 animate-pulse">Waiting...</span>
-                                            </span>
-                                        </label>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </template>
+                        </template>
+                    </div>
                 </div>
-            </div>
-
             @endforeach
 
             {{-- ====================Add Question Floating Button================== --}}
@@ -428,13 +431,13 @@
 </form>
 
 @assets
-<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js" defer></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
 @endassets
 
 @script
-<script>
-    const startedField = document.querySelector('#started_at');
+    <script>
+        const startedField = document.querySelector('#started_at');
         const startedAtPicker = new Pikaday({
             field: startedField,
             position: 'bottom',
@@ -445,7 +448,7 @@
             }
         });
 
-    const expiredField = document.querySelector('#expired_at');
+        const expiredField = document.querySelector('#expired_at');
         const expiredAtPicker = new Pikaday({
             field: expiredField,
             position: 'bottom',
@@ -455,5 +458,5 @@
                 $wire.set('expired_at', date)
             }
         });
-</script>
+    </script>
 @endscript

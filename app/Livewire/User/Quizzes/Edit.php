@@ -18,6 +18,7 @@ class Edit extends Component
     public $title;
     public $description;
     public $type;
+    public $timer;
     public $started_at;
     public $expired_at;
     public $questions = [];
@@ -33,6 +34,7 @@ class Edit extends Component
         $this->title = $this->quiz->title;
         $this->description = $this->quiz->description;
         $this->type = $type;
+        $this->timer = $this->quiz->timer;
         $this->started_at = $this->quiz->started_at->toString();
         $this->expired_at = $this->quiz->expired_at->toString();
 
@@ -111,6 +113,7 @@ class Edit extends Component
             'title' => 'required|max:255',
             'description' => 'nullable',
             'type' => 'nullable',
+            'timer' => 'nullable|integer|max:150',
             'started_at' => 'required|date|before:expired_at',
             'expired_at' => 'required|date|after:started_at',
             'questions.*.id' => 'nullable|uuid',
