@@ -5,14 +5,14 @@ namespace App\Livewire\User\Billings;
 use Filament\Tables\Columns\TextColumn;
 use Livewire\Component;
 use Filament\Tables\Table;
-use App\Models\Subscription as SubscriptionModel;
+use App\Models\Subscription;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
 
-class Subscription extends Component implements HasTable, HasForms
+class Subscribe extends Component implements HasTable, HasForms
 {
     use InteractsWithTable;
     use InteractsWithForms;
@@ -21,7 +21,7 @@ class Subscription extends Component implements HasTable, HasForms
     {
         return $table
             ->query(function () {
-                return SubscriptionModel::where('user_email', auth()->user()->email);
+                return Subscription::where('user_email', auth()->user()->email);
             })
             ->columns([
                 TextColumn::make('plan_name')
@@ -57,6 +57,6 @@ class Subscription extends Component implements HasTable, HasForms
 
     public function render()
     {
-        return view('livewire.user.billings.subscription');
+        return view('livewire.user.billings.subscribe');
     }
 }
