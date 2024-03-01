@@ -30,15 +30,18 @@ class QuizService
                 'type' => $type,
             ]);
 
-            $questionsData = collect($data['questions'])->all();
-            foreach ($questionsData as $item) {
-                $questionData = collect($item)->except('options')->all();
-                $marks_total += $questionData['marks'];
+            if (array_key_exists('questions', $data)) {
+                $questionsData = collect($data['questions'])->all();
 
-                $question = $quiz->questions()->create($questionData);
+                foreach ($questionsData as $item) {
+                    $questionData = collect($item)->except('options')->all();
+                    $marks_total += $questionData['marks'];
 
-                $optionData = collect($item['options'])->all();
-                $question->options()->createMany($optionData);
+                    $question = $quiz->questions()->create($questionData);
+
+                    $optionData = collect($item['options'])->all();
+                    $question->options()->createMany($optionData);
+                }
             }
 
             $quiz->marks_total = $marks_total;
@@ -58,25 +61,29 @@ class QuizService
                 ...$quizzes,
                 'type' => $type,
             ]);
-            $questionsData = collect($data['questions'])->all();
-            foreach ($questionsData as $item) {
 
-                $questionData = collect($item)->except('id', 'options')->all();
-                $marks_total += $questionData['marks'];
+            if (array_key_exists('questions', $data)) {
 
-                $question = $quiz->questions()->updateOrCreate(
-                    ['id' => $item['id']],
-                    $questionData,
-                );
+                $questionsData = collect($data['questions'])->all();
+                foreach ($questionsData as $item) {
+                    $questionData = collect($item)->except('id', 'options')->all();
 
-                if (isset($item['options'])) {
-                    $optionData = collect($item['options'])->all();
+                    $marks_total += $questionData['marks'];
 
-                    foreach ($optionData as $option) {
-                        $question->options()->updateOrCreate(
-                            ['id' => $option['id']],
-                            $option,
-                        );
+                    $question = $quiz->questions()->updateOrCreate(
+                        ['id' => $item['id']],
+                        $questionData,
+                    );
+
+                    if (isset ($item['options'])) {
+                        $optionData = collect($item['options'])->all();
+
+                        foreach ($optionData as $option) {
+                            $question->options()->updateOrCreate(
+                                ['id' => $option['id']],
+                                $option,
+                            );
+                        }
                     }
                 }
             }
