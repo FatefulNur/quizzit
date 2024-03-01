@@ -3,7 +3,7 @@
 use App\Http\Controllers\WebhookController;
 use App\Livewire\User\Billings\Index as BillingIndex;
 use App\Livewire\User\Billings\Plan as BillingPlan;
-use App\Livewire\User\Billings\Subscription as BillingSubscription;
+use App\Livewire\User\Billings\Subscribe as BillingSubscribe;
 use App\Livewire\User\Quizzes\Create;
 use App\Livewire\User\Quizzes\Edit;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +36,7 @@ Route::middleware([/* 'verified', */ 'auth'])->prefix('user')->name('user.')->gr
         ->withoutMiddleware('auth');
     Route::get('billings', BillingIndex::class)->name('billings.index');
     Route::get('billings/plan', BillingPlan::class)->name('billings.plan');
-    Route::get('billings/subscription', BillingSubscription::class)->name('billings.subscription');
+    Route::get('billings/subscribe', BillingSubscribe::class)->name('billings.subscribe');
 });
 
 Route::prefix('webhook')->name('webhook.')->group(function () {
