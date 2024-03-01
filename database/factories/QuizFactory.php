@@ -24,7 +24,7 @@ class QuizFactory extends Factory
             'description' => fake()->paragraph(3),
             'marks_total' => fake()->numberBetween(1, 25),
             'type' => fake()->randomElement(QuizType::class),
-            'timer' => fake()->randomNumber(2, 5),
+            'timer' => fake()->numberBetween(2, 5),
             'is_timeout' => false,
             'user_id' => User::factory(),
             'started_at' => fake()->dateTimeBetween('-3 days', '3 days'),
