@@ -116,7 +116,7 @@
                     BDT <span class="h-full text-3xl font-extrabold text-slate-800">500</span>
                 </span>
                 <a href="{{ route('user.billings.plan') }}"
-                    class="px-3 py-1 text-white bg-indigo-500 rounded-lg text-md">Upgrade Plan</a>
+                    class="px-3 py-2 text-sm text-white bg-indigo-500 rounded-lg hover:bg-indigo-700">Upgrade Plan</a>
             </div>
         </div>
     </div>
