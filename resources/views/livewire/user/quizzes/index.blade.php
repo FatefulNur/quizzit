@@ -96,7 +96,8 @@
                             </svg>
                         </a>
                     </div>
-                    <a href="{{ route('user.quizzes.show', $quiz->id) }}" class="flex flex-col gap-2 p-4">
+                    <a target="_blank" href="{{ route('user.quizzes.show', $quiz->id) }}"
+                        class="flex flex-col gap-2 p-4">
                         <div>
 
                             @if ($quiz->hasExpired())

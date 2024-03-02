@@ -27,7 +27,7 @@
         <div class="p-4 max-w-4xl grid m-auto gap-3 grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))]">
 
             @forelse ($quizzes as $quiz)
-                <a href="{{ route('user.quizzes.show', $quiz->id) }}" wire:navigate @class([
+                <a target="_blank" href="{{ route('user.quizzes.show', $quiz->id) }}" @class([
                     'relative flex flex-col justify-between p-4 leading-normal bg-white border border-gray-400 rounded',
                     '!bg-gray-200 opacity-60' => $quiz->hasExpired(),
                 ])>
