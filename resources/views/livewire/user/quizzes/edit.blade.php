@@ -1,6 +1,6 @@
 <form wire:submit="save">
     <header class="sticky z-40 bg-white shadow dark:bg-gray-800 -top-2">
-        <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="p-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                     {{ __('Edit the Quiz') }}
@@ -9,11 +9,12 @@
                 {{-- ========================Timer=========================== --}}
                 {{-- ====================*************======================= --}}
                 {{-- ====================*************======================= --}}
-                <div class="text-md text-slate-600 font-bold">
-                    <label>
+                <div class="text-md font-bold">
+                    <label class="grid text-center space-y-1">
                         <input wire:model="timer" type="number" placeholder="00"
-                            class="w-20 h-full text-center bg-transparent border-none placeholder:font-extrabold placeholder:text-slate-600 bg-gray-50 text-lg text-stone-500 focus:bg-gray-300"
-                            style="box-shadow: none">minutes
+                            class="text-center w-20 h-full bg-transparent border-0 !border-b border-b-gray-200 placeholder:font-extrabold placeholder:text-slate-600 bg-gray-50 text-lg text-stone-500 focus:bg-gray-300"
+                            style="box-shadow: none">
+                        <span class="text-center text-xs capitalize font-bold text-stone-500">timer (minutes)</span>
                     </label>
                     @error('timer')
                         <x-input-error :messages="$message" />

@@ -62,7 +62,7 @@ new class extends Component {
                                 <x-dropdown-link :href="route('user.billings.plan')" wire:navigate>
                                     {{ __('Plans') }}
                                 </x-dropdown-link>
-                                <x-dropdown-link :href="route('user.billings.subscription')" wire:navigate>
+                                <x-dropdown-link :href="route('user.billings.subscribe')" wire:navigate>
                                     {{ __('Subscriptions') }}
                                 </x-dropdown-link>
                             </x-slot>
@@ -151,7 +151,7 @@ new class extends Component {
                 <x-responsive-nav-link :href="route('user.billings.plan')" wire:navigate>
                     {{ __('Plans') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('user.billings.subscription')" wire:navigate>
+                <x-responsive-nav-link :href="route('user.billings.subscribe')" wire:navigate>
                     {{ __('Subscriptions') }}
                 </x-responsive-nav-link>
             </div>

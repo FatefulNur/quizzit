@@ -34,7 +34,7 @@
                     {{-- ================ Timer ==================== --}}
                     {{-- ==============***********================== --}}
                     {{-- =========================================== --}}
-                    @if ($quiz && !is_null($quiz->timer))
+                    @if (!is_null($quiz->timer))
                         <div x-data="{
                             totalSeconds: {{ $quiz->timer }} * 60,
                             minutes: Math.floor({{ $quiz->timer }}),
@@ -47,7 +47,7 @@
                             tick() {
                                 if (this.totalSeconds === 0) {
                                     clearInterval(this.timerInterval)
-
+                        
                                     $wire.call('save')
                                     return
                                 }

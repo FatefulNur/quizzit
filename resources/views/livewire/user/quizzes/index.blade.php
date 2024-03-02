@@ -4,18 +4,26 @@
             <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                 {{ __('Your Quizzes') }}
             </h2>
-            <a href="{{ route('user.quizzes.create') }}" wire:navigate
-                class="relative px-5 py-1 text-white bg-indigo-600 rounded-md text-md hover:bg-indigo-500 focus:ring-2 ring-indigo-600 ring-offset-2 disabled:opacity-50">
-                Add New
-            </a>
+
+            @can('create-quiz')
+                <a href="{{ route('user.quizzes.create') }}" wire:navigate
+                    class="relative px-3 py-1 text-white bg-indigo-600 rounded-md text-sm hover:bg-indigo-500 focus:ring-2 ring-indigo-600 ring-offset-2 disabled:opacity-50">
+                    Add New
+                </a>
+            @else
+                <a href="{{ route('user.billings.plan') }}" wire:navigate
+                    class="relative px-3 py-1 text-white bg-red-600 rounded-md text-sm hover:bg-red-500 focus:ring-2 ring-red-600 ring-offset-2 disabled:opacity-50">
+                    Upgrate / Renew
+                </a>
+            @endcan
         </div>
     </x-slot>
 
     <div class="max-w-4xl p-5 m-auto">
 
         <div class="flex flex-row-reverse items-center justify-start gap-4 mb-3 text-right">
-            <select wire:model.live="date" class="border-none rounded-lg outline-none ring-2 ring-slate-600" name="date"
-                id="date">
+            <select wire:model.live="date" class="border-none rounded-lg outline-none ring-2 ring-slate-600"
+                name="date" id="date">
                 <option value="">None</option>
                 @foreach (App\Enums\QuizDateFilter::cases() as $case)
                     <option value="{{ $case->value }}">{{ $case->getLabel() }}</option>
