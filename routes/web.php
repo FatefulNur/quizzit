@@ -17,7 +17,7 @@ use App\Livewire\User\Responses\Index as ResponseIndex;
 
 require __DIR__ . '/auth.php';
 
-Route::get('/', HomeController::class)->name('home');
+Route::get('/', HomeController::class)->name('home')->middleware('guest');
 
 Route::middleware([/* 'verified', */ 'auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
