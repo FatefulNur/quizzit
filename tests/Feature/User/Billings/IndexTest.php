@@ -1,7 +1,9 @@
 <?php
 
+use App\Jobs\UpdateLemonCustomer;
 use App\Models\User;
 use App\Models\Tenant;
+use Illuminate\Support\Facades\Queue;
 use Livewire\Livewire;
 use App\Livewire\User\Billings\Index;
 
@@ -28,6 +30,8 @@ test('index page cannot be visited when unauthenticated', function () {
 });
 
 test('user can update their tenant information', function () {
+    Queue::fake();
+
     $tenant = Tenant::factory()->create();
 
     $this->actingAs($user = User::factory()->create(['tenant_id' => $tenant->id]));
@@ -56,6 +60,8 @@ test('user can update their tenant information', function () {
         'country' => 'America',
     ]);
     $this->assertEquals($user->tenant_id, $tenant->id);
+
+    Queue::assertPushed(UpdateLemonCustomer::class, 1);
 });
 
 test('name & email cannot be null', function ($name, $email, $errors) {
