@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Constants\Plan\Fresher;
+use App\Constants\Product\Fresher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Plan extends Model
+class Product extends Model
 {
     use HasFactory;
 
@@ -28,5 +29,15 @@ class Plan extends Model
     public function isFresher(): bool
     {
         return $this->name === Fresher::NAME;
+    }
+
+    public function isCurrent()
+    {
+        return $this->tenants()->where('id', auth()->user()->tenant->id)->get();
+    }
+
+    public function tenants(): BelongsToMany
+    {
+        return $this->belongsToMany(Tenant::class);
     }
 }

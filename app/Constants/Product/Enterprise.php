@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Constants\Plan;
+namespace App\Constants\Product;
 
-class Fresher
+class Enterprise
 {
-    public const NAME = 'Fresher';
+    public const NAME = 'Enterprise';
     public const MAX_ATTEMPT_QUIZZES = 5;
 
     public static function getFacilities(): array
     {
         return [
-            '5 total Quizzes',
+            'Unlimited Quizzes',
         ];
     }
 }

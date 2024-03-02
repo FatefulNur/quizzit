@@ -79,20 +79,21 @@
             </div>
         @endif
 
-        @if ($plans->count())
-            {{-- Available Plans Card --}}
+        @if ($products->count())
+            {{-- Available Products Card --}}
             <div id="pricing"
                 class="mx-auto !mt-36 py-36 pt-12 flex flex-row-reverse flex-wrap md:flex-nowrap justify-center gap-8 px-4 sm:px-8 md:px-32 *:shadow-lg *:min-w-[320px] bg-gradient-to-t from-slate-100 to-slate-300 from-30% md:*:-mt-28">
 
-                @foreach ($plans as $plan)
+                @foreach ($products as $product)
                     <div
                         class="relative flex items-center justify-between flex-1 max-w-md p-4 bg-white rounded-lg shadow-xl shadow-indigo-400">
                         <div>
                             <h2 class="text-lg font-bold text-gray-900">Total Ballance</h2>
-                            <h3 class="mt-2 text-xl font-bold text-left text-indigo-500">{{ $plan->price_formatted }}
+                            <h3 class="mt-2 text-xl font-bold text-left text-indigo-500">
+                                {{ $product->price_formatted }}
                             </h3>
                             <ul class="mt-4 space-y-3">
-                                @foreach (call_user_func(["App\\Constants\\Plan\\$plan->name", 'getFacilities']) as $facility)
+                                @foreach (call_user_func(["App\\Constants\\Product\\$product->name", 'getFacilities']) as $facility)
                                     <li class="flex items-center">
                                         <svg class="flex-shrink-0 w-4 h-4 text-indigo-700 dark:text-indigo-500"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -105,22 +106,22 @@
                                     </li>
                                 @endforeach
                             </ul>
-                            @if ($plan->isFresher())
+                            @if ($product->isFresher())
                                 <a href="{{ route('login') }}"
                                     class="inline-block px-4 py-2 mt-6 text-sm tracking-wider text-white bg-indigo-400 rounded-lg outline-none hover:bg-indigo-500">Try
                                     it Out</a>
                             @else
-                                <a href="{{ route('user.billings.plan') }}"
+                                <a href="{{ route('user.billings.product') }}"
                                     class="inline-block px-4 py-2 mt-6 text-sm tracking-wider text-white bg-red-400 rounded-lg outline-none hover:bg-red-500">Try
                                     it Out</a>
                             @endif
                         </div>
                         <div @class([
                             'absolute flex items-center justify-center w-32 h-32 border-2 border-white border-dashed rounded-full shadow-2xl -top-2 -right-2 bg-gradient-to-tr from-indigo-500 to-indigo-500 shadow-indigo-400',
-                            'from-red-500 to-red-500 shadow-red-400' => !$plan->isFresher(),
+                            'from-red-500 to-red-500 shadow-red-400' => !$product->isFresher(),
                         ])>
                             <div>
-                                <h1 class="text-2xl text-white">{{ $plan->name }}</h1>
+                                <h1 class="text-2xl text-white">{{ $product->name }}</h1>
                             </div>
                         </div>
                     </div>

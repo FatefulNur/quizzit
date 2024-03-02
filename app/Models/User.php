@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Constants\Plan\Fresher;
+use App\Constants\Product\Fresher;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
 use App\Enums\UserType;

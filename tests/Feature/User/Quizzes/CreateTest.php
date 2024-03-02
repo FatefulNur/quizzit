@@ -45,7 +45,7 @@ test('quiz cannot be created when fresher reached their max attempt', function (
 });
 
 test('unlimited quiz can be created when fresher upgrade to enterprise plan', function () {
-    $this->artisan('app:generate-plans')->assertSuccessful();
+    $this->artisan('app:generate-products')->assertSuccessful();
 
     $this->actingAs($user = User::factory()->create());
 
@@ -55,7 +55,7 @@ test('unlimited quiz can be created when fresher upgrade to enterprise plan', fu
     $user->tenant()->associate($tenant);
     Subscription::create([
         'identity' => 2187281,
-        'plan_name' => 'Enterprise',
+        'product_name' => 'Enterprise',
         'user_name' => 'robert',
         'user_email' => 'robert@test.io',
         'status' => 'active',
@@ -63,7 +63,7 @@ test('unlimited quiz can be created when fresher upgrade to enterprise plan', fu
         'renews_at' => null,
         'ends_at' => null,
         'tenant_id' => $tenant->id,
-        'plan_id' => 1,
+        'product_id' => 1,
     ]);
 
     Quiz::factory(78)->create(['user_id' => $user->id]);

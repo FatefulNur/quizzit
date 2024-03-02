@@ -12,7 +12,7 @@ class Subscription extends Model
 
     protected $fillable = [
         'identity',
-        'plan_name',
+        'product_name',
         'user_name',
         'user_email',
         'status',
@@ -20,7 +20,7 @@ class Subscription extends Model
         'renews_at',
         'ends_at',
         'tenant_id',
-        'plan_id',
+        'product_id',
     ];
 
     protected $casts = [
@@ -28,6 +28,11 @@ class Subscription extends Model
         'renews_at' => 'datetime',
         'ends_at' => 'datetime',
     ];
+
+    public function shouldRenew(): bool
+    {
+        return $this->isNotActive() && ($this->renews_at <= now());
+    }
 
     public function isActive(): bool
     {

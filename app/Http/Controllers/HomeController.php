@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Plan;
+use App\Models\Product;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
 
@@ -24,11 +24,11 @@ class HomeController extends Controller
             ->where('started_at', '<=', now())
             ->latest()->paginate(12);
 
-        $plans = Plan::select([
+        $products = Product::select([
             'name',
             'price_formatted'
         ])->get();
 
-        return view('index', compact('quizzes', 'plans'));
+        return view('index', compact('quizzes', 'products'));
     }
 }

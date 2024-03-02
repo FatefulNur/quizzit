@@ -2,15 +2,15 @@
 
 namespace App\Livewire\User\Billings;
 
-use App\Models\Plan as PlanModel;
+use App\Models\Product;
 use Livewire\Component;
 
 class Plan extends Component
 {
     public function render()
     {
-        $plans = PlanModel::all();
+        $products = Product::all();
 
-        return view('livewire.user.billings.plan', compact('plans'));
+        return view('livewire.user.billings.plan', compact('products'));
     }
 }

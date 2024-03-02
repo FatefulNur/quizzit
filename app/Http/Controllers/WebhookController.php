@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Plan;
+use App\Models\Product;
 use App\Models\User;
 use App\Models\Tenant;
 use App\Models\Subscription;
@@ -19,7 +19,7 @@ class WebhookController extends Controller
         DB::transaction(function () use ($request) {
             $subscription = $request->collect('data')['attributes'];
 
-            $plan = Plan::firstWhere('identity', $subscription['product_id']);
+            $product = Product::firstWhere('identity', $subscription['product_id']);
             $user = User::firstWhere('email', $subscription['user_email']);
             $tenant = Tenant::firstWhere('email', $subscription['user_email']);
 
@@ -37,7 +37,7 @@ class WebhookController extends Controller
                 ];
 
                 $tenant = Tenant::create($customerData);
-                $tenant->plans()->sync($plan);
+                $tenant->products()->sync($product);
             }
 
             if ($user) {
@@ -47,9 +47,9 @@ class WebhookController extends Controller
 
             $subscriptionData = [
                 'identity' => $request->collect('data')['id'],
-                'plan_id' => $plan?->id,
+                'product_id' => $product?->id,
                 'tenant_id' => $tenant?->id,
-                'plan_name' => $subscription['product_name'],
+                'product_name' => $subscription['product_name'],
                 'user_name' => $subscription['user_name'],
                 'user_email' => $subscription['user_email'],
                 'status' => $subscription['status'],

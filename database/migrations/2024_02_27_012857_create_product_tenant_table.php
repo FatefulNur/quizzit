@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Plan;
+use App\Models\Product;
 use App\Models\Tenant;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,10 +12,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('plan_tenant', function (Blueprint $table) {
+        Schema::create('product_tenant', function (Blueprint $table) {
             $table->id();
             $table
-                ->foreignIdFor(Plan::class)
+                ->foreignIdFor(Product::class)
                 ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
@@ -34,7 +34,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('plan_tenant', function (Blueprint $table) {
-            $table->dropForeignIdFor(Plan::class);
+            $table->dropForeignIdFor(Product::class);
             $table->dropForeignIdFor(Tenant::class);
             $table->dropIfExists();
         });

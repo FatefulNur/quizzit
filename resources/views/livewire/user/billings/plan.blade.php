@@ -6,7 +6,7 @@
     </x-slot>
 
     <!-- ====== Pricing Section Start -->
-    @if ($plans->count())
+    @if ($products->count())
         <div class="container mx-auto">
             <div class="flex flex-wrap -mx-4">
                 <div class="w-full px-4">
@@ -27,22 +27,22 @@
                 </div>
             </div>
             <div class="flex flex-row-reverse flex-wrap justify-center gap-5">
-                @foreach ($plans as $plan)
+                @foreach ($products as $product)
                     <div class="flex-1 max-w-lg min-w-[320px]">
                         <div
                             class="relative z-10 mb-10 overflow-hidden rounded-[10px] border-2  border-t-4 border-t-indigo-600 dark:border-dark-3 bg-white dark:bg-dark-2 p-5">
                             <span class="block mb-3 text-lg font-semibold text-indigo-500">
-                                {{ $plan->name }}
+                                {{ $product->name }}
                             </span>
                             <h2 class="mb-5 text-xl font-extrabold text-slate-700 dark:text-white">
-                                <span>{{ $plan->price_formatted }}</span>
+                                <span>{{ $product->price_formatted }}</span>
                             </h2>
                             <div
                                 class="pb-8 mb-8 text-gray-600 border-b text-md border-stroke dark:border-dark-3 dark:text-dark-6">
-                                {!! $plan->description !!}
+                                {!! $product->description !!}
                             </div>
                             <div class="flex flex-col gap-5 mb-9">
-                                @foreach (call_user_func(["App\\Constants\\Plan\\$plan->name", 'getFacilities']) as $facility)
+                                @foreach (call_user_func(["App\\Constants\\Product\\$product->name", 'getFacilities']) as $facility)
                                     <p class="inline-flex gap-2 text-sm font-bold text-stone-700 dark:text-dark-6">
                                         <svg class="flex-shrink-0 w-4 h-4 text-lime-700 dark:text-lime-500"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -55,13 +55,13 @@
                                 @endforeach
                             </div>
 
-                            @if ($plan->isFresher())
+                            @if ($product->isFresher())
                                 <button disabled
                                     class="block w-full p-3 text-base font-bold text-center text-white duration-100 bg-indigo-600 rounded-lg hover:bg-indigo-800 disabled:bg-gray-400">
                                     Free
                                 </button>
                             @else
-                                <a href="{{ $plan->buy_now_url }}" target="_blank"
+                                <a href="{{ $product->buy_now_url }}" target="_blank"
                                     class="block w-full p-3 text-base font-bold text-center text-white duration-100 bg-indigo-600 rounded-lg hover:bg-indigo-800">
                                     Buy Now
                                 </a>

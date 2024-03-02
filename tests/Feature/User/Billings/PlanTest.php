@@ -27,7 +27,7 @@ test('plan page cannot be visited when unauthenticated', function () {
 });
 
 test('responses data can be displayed', function () {
-    $this->artisan('app:generate-plans')->assertSuccessful();
+    $this->artisan('app:generate-products')->assertSuccessful();
 
     $this->actingAs(User::factory()->create());
 

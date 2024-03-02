@@ -33,9 +33,9 @@ class Tenant extends Model
         return false;
     }
 
-    public function plans(): BelongsToMany
+    public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Plan::class);
+        return $this->belongsToMany(Product::class);
     }
 
     public function subscriptions(): HasMany

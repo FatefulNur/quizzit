@@ -2,25 +2,25 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Plan;
+use App\Models\Product;
 use App\Services\Externals\Lemonsqueezy;
 use Illuminate\Console\Command;
 
-class GeneratePlans extends Command
+class GenerateProducts extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:generate-plans';
+    protected $signature = 'app:generate-products';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate available plans for subscription.';
+    protected $description = 'Generate available products for subscription.';
 
     /**
      * Execute the console command.
@@ -37,16 +37,16 @@ class GeneratePlans extends Command
             return $this->error('Cannot be processed of current request.');
         }
 
-        if (Plan::count()) {
+        if (Product::count()) {
             $this->newLine();
-            return $this->info('You already have existing plans.');
+            return $this->info('You already have existing products.');
         }
 
         $this->newLine();
 
-        $plansList = $response->collect('data');
-        foreach ($plansList as $key => $item) {
-            $plan = collect($item['attributes'])->only([
+        $productsList = $response->collect('data');
+        foreach ($productsList as $key => $item) {
+            $product = collect($item['attributes'])->only([
                 'name',
                 'slug',
                 'description',
@@ -56,14 +56,14 @@ class GeneratePlans extends Command
                 'buy_now_url',
             ])->toArray();
 
-            $plan = Plan::create([
+            $product = Product::create([
                 'identity' => $item['id'],
-                ...$plan,
+                ...$product,
             ]);
-            $this->line(($key + 1) . ". {$plan->name} created.");
+            $this->line(($key + 1) . ". {$product->name} created.");
         }
 
         $this->newLine();
-        $this->info("All plans has been generated!");
+        $this->info("All products has been generated!");
     }
 }
