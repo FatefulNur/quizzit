@@ -28,11 +28,7 @@ test('index page cannot be visited when unauthenticated', function () {
 });
 
 test('user can update their tenant information', function () {
-    $tenant = Tenant::create([
-        'identity' => 8172812,
-        'name' => 'Robert bruce',
-        'email' => 'robert@test.io',
-    ]);
+    $tenant = Tenant::factory()->create();
 
     $this->actingAs($user = User::factory()->create(['tenant_id' => $tenant->id]));
 
