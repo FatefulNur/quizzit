@@ -17,12 +17,13 @@ it('has access without authentication', function () {
     $this->assertGuest();
 });
 
-it('has access with authentication', function () {
+it('has no access with authentication', function () {
     $response = $this
         ->actingAs(User::factory()->create())
         ->get('/');
 
-    $response->assertOk();
+    $response->assertStatus(302)
+        ->assertRedirectToRoute('user.dashboard');
 
     $this->assertAuthenticated();
 });
