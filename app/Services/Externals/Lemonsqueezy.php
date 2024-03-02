@@ -15,4 +15,25 @@ class Lemonsqueezy
     {
         return Http::lemonsqueezy()->get("/v1/customers/{$id}");
     }
+
+    public static function updateCustomer(int $id, array $data)
+    {
+        Http::lemonsqueezy()->patch(
+            "/v1/customers/{$id}",
+            static::patchObject('customers', $id, $data),
+        );
+    }
+
+    private static function patchObject(string $type, int $id, array $data): array
+    {
+        return [
+            'data' => [
+                'type' => $type,
+                'id' => "{$id}",
+                'attributes' => [
+                    ...$data,
+                ],
+            ],
+        ];
+    }
 }

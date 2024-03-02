@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Jobs\UpdateLemonCustomer;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 use App\Models\Tenant;
@@ -42,8 +43,21 @@ class TenantForm extends Form
     {
         $this->validate();
 
-        auth()->user()->tenant()->update(
+        $tenant = tap(auth()->user()->tenant)->update(
             $this->all()
+        );
+
+        $data = $tenant->only([
+            'name',
+            'email',
+            'city',
+            'region',
+            'country'
+        ]);
+
+        UpdateLemonCustomer::dispatch(
+            $tenant->identity,
+            $data,
         );
     }
 }
