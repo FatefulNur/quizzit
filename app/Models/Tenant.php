@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\SubscriptionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Tenant extends Model
 {
@@ -20,17 +22,14 @@ class Tenant extends Model
         'country',
     ];
 
-    public function hasAnyActiveSubscription(): bool
+    public function hasActiveSubscription(): bool
     {
-        foreach ($this->subscriptions as $subscription) {
-            if ($subscription->isNotActive()) {
-                continue;
-            }
+        return $this->activeSubscription()?->exists();
+    }
 
-            return $subscription->isActive();
-        }
-
-        return false;
+    public function activeSubscription(): HasOne
+    {
+        return $this->subscriptions()->one()->where('status', SubscriptionStatus::ACTIVE);
     }
 
     public function products(): BelongsToMany

@@ -24,7 +24,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('create-quiz', function (User $user) {
-            if ($user->tenant?->hasAnyActiveSubscription()) {
+            if ($user->tenant?->hasActiveSubscription()) {
                 return true;
             }
 
