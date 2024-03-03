@@ -59,6 +59,7 @@ test('unlimited quiz can be created when fresher upgrade to enterprise plan', fu
         'user_name' => 'robert',
         'user_email' => 'robert@test.io',
         'status' => 'active',
+        'cancelled' => 0,
         'card_brand' => 'visa',
         'renews_at' => null,
         'ends_at' => null,
