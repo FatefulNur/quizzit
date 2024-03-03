@@ -111,7 +111,7 @@
                                     class="inline-block px-4 py-2 mt-6 text-sm tracking-wider text-white bg-indigo-400 rounded-lg outline-none hover:bg-indigo-500">Try
                                     it Out</a>
                             @else
-                                <a href="{{ route('user.billings.product') }}"
+                                <a href="{{ route('user.billings.plan') }}"
                                     class="inline-block px-4 py-2 mt-6 text-sm tracking-wider text-white bg-red-400 rounded-lg outline-none hover:bg-red-500">Try
                                     it Out</a>
                             @endif
