@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Constants\Product\Fresher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -31,13 +31,21 @@ class Product extends Model
         return $this->name === Fresher::NAME;
     }
 
-    public function isCurrent()
+    public function isCurrent(): bool
     {
-        return $this->tenants()->where('id', auth()->user()->tenant->id)->get();
+        foreach ($this->subscriptions as $subscription) {
+            if ($subscription->isNotActive()) {
+                continue;
+            }
+
+            return $subscription->isActive();
+        }
+
+        return false;
     }
 
-    public function tenants(): BelongsToMany
+    public function subscriptions(): HasMany
     {
-        return $this->belongsToMany(Tenant::class);
+        return $this->hasMany(Subscription::class);
     }
 }
