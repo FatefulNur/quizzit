@@ -18,9 +18,24 @@ class Lemonsqueezy
 
     public static function updateCustomer(int $id, array $data)
     {
-        Http::lemonsqueezy()->patch(
+        return Http::lemonsqueezy()->patch(
             "/v1/customers/{$id}",
             static::patchObject('customers', $id, $data),
+        );
+    }
+
+    public static function cancelSubscription(int $id)
+    {
+        return Http::lemonsqueezy()->delete("v1/subscriptions/{$id}");
+    }
+
+    public static function resumeSubscription(int $id)
+    {
+        return Http::lemonsqueezy()->patch(
+            "v1/subscriptions/{$id}",
+            static::patchObject('subscriptions', $id, [
+                "cancelled" => false,
+            ]),
         );
     }
 
