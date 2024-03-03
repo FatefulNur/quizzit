@@ -29,12 +29,12 @@
             <div class="flex flex-row-reverse flex-wrap justify-center gap-5">
                 @foreach ($products as $product)
                     <div @class([
-                        'flex-1 max-w-lg min-w-[320px]',
-                        'scale-105' => $product->isCurrent() || $product->isCancelled(),
+                        'flex-1 max-w-lg min-w-[320px] scale-95',
+                        '!scale-105' => $product->isCurrent() || $product->isCancelled(),
                     ])>
                         <div @class([
-                            'relative z-10 mb-10 overflow-hidden rounded-[10px] border-2  border-t-4 border-t-indigo-600 dark:border-dark-3 bg-white dark:bg-dark-2 p-5',
-                            'shadow-lg shadow-indigo-200 bg-green-50' =>
+                            'relative shadow-md z-10 mb-10 overflow-hidden rounded-[10px] border-2  border-t-4 border-t-indigo-600 dark:border-dark-3 bg-white dark:bg-dark-2 p-5',
+                            '!shadow-lg shadow-indigo-200 !bg-green-50' =>
                                 $product->isCurrent() || $product->isCancelled(),
                         ])>
                             <span class="block mb-3 text-lg font-semibold text-indigo-500">
@@ -73,7 +73,8 @@
                                         Please wait until processing...<span
                                             class="inline-block size-4 rounded-full border-2 border-b-0 border-green-500 animate-spin"></span>
                                     </p>
-                                    <button wire:loading.attr="disabled"
+                                    <button wire:confirm="Be sure if you want to cancel it!"
+                                        wire:loading.attr="disabled"
                                         wire:click="cancel({{ $product->currentSubscription->identity }})"
                                         class="block w-full p-3 text-base font-bold text-center text-white duration-100 bg-indigo-600 rounded-lg hover:bg-indigo-800 disabled:bg-gray-600 disabled:opacity-50">
                                         Cancel Subscription
