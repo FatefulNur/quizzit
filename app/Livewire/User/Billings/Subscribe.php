@@ -2,11 +2,12 @@
 
 namespace App\Livewire\User\Billings;
 
-use Filament\Tables\Columns\TextColumn;
 use Livewire\Component;
 use Filament\Tables\Table;
 use App\Models\Subscription;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -33,6 +34,8 @@ class Subscribe extends Component implements HasTable, HasForms
                 TextColumn::make('status')
                     ->badge()
                     ->label('Status'),
+                IconColumn::make('cancelled')
+                    ->boolean(),
                 TextColumn::make('card_brand')
                     ->label('Card'),
                 TextColumn::make('renews_at')
