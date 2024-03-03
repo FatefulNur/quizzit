@@ -28,9 +28,15 @@
             </div>
             <div class="flex flex-row-reverse flex-wrap justify-center gap-5">
                 @foreach ($products as $product)
-                    <div class="flex-1 max-w-lg min-w-[320px]">
-                        <div
-                            class="relative z-10 mb-10 overflow-hidden rounded-[10px] border-2  border-t-4 border-t-indigo-600 dark:border-dark-3 bg-white dark:bg-dark-2 p-5">
+                    <div @class([
+                        'flex-1 max-w-lg min-w-[320px]',
+                        'scale-105' => $product->isCurrent() || $product->isCancelled(),
+                    ])>
+                        <div @class([
+                            'relative z-10 mb-10 overflow-hidden rounded-[10px] border-2  border-t-4 border-t-indigo-600 dark:border-dark-3 bg-white dark:bg-dark-2 p-5',
+                            'shadow-lg shadow-indigo-200 bg-green-50' =>
+                                $product->isCurrent() || $product->isCancelled(),
+                        ])>
                             <span class="block mb-3 text-lg font-semibold text-indigo-500">
                                 {{ $product->name }}
                             </span>
@@ -61,10 +67,34 @@
                                     Free
                                 </button>
                             @else
-                                <a href="{{ $product->buy_now_url }}" target="_blank"
-                                    class="block w-full p-3 text-base font-bold text-center text-white duration-100 bg-indigo-600 rounded-lg hover:bg-indigo-800">
-                                    Buy Now
-                                </a>
+                                @if ($product->isCurrent())
+                                    <p wire:loading.inline-flex wire:target="cancel"
+                                        class="inline-flex items-center gap-2 text-sm text-green-600 py-2">
+                                        Please wait until processing...<span
+                                            class="inline-block size-4 rounded-full border-2 border-b-0 border-green-500 animate-spin"></span>
+                                    </p>
+                                    <button wire:loading.attr="disabled"
+                                        wire:click="cancel({{ $product->currentSubscription->identity }})"
+                                        class="block w-full p-3 text-base font-bold text-center text-white duration-100 bg-indigo-600 rounded-lg hover:bg-indigo-800 disabled:bg-gray-600 disabled:opacity-50">
+                                        Cancel Subscription
+                                    </button>
+                                @elseif($product->isCancelled())
+                                    <p wire:loading.inline-flex wire:target="resume"
+                                        class="inline-flex items-center gap-2 text-sm text-green-600 py-2">
+                                        Please wait until processing...<span
+                                            class="inline-block size-4 rounded-full border-2 border-b-0 border-green-500 animate-spin"></span>
+                                    </p>
+                                    <button wire:loading.attr="disabled"
+                                        wire:click="resume({{ $product->cancelledSubscription->identity }})"
+                                        class="block w-full p-3 text-base font-bold text-center text-white duration-100 bg-indigo-600 rounded-lg hover:bg-indigo-800 disabled:bg-gray-600 disabled:opacity-50">
+                                        Resume Subscription
+                                    </button>
+                                @else
+                                    <a href="{{ $product->buy_now_url }}"
+                                        class="block w-full p-3 text-base font-bold text-center text-white duration-100 bg-indigo-600 rounded-lg hover:bg-indigo-800">
+                                        Buy Now
+                                    </a>
+                                @endif
                             @endif
                             <div>
                                 <span class="absolute right-0 top-7 z-[-1]">
