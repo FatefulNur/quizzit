@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Constants\Product\Fresher;
+use App\Enums\SubscriptionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
@@ -33,15 +35,22 @@ class Product extends Model
 
     public function isCurrent(): bool
     {
-        foreach ($this->subscriptions as $subscription) {
-            if ($subscription->isNotActive()) {
-                continue;
-            }
+        return $this->currentSubscription()?->exists();
+    }
 
-            return $subscription->isActive();
-        }
+    public function isCancelled(): bool
+    {
+        return $this->cancelledSubscription()?->exists();
+    }
 
-        return false;
+    public function currentSubscription(): HasOne
+    {
+        return $this->subscriptions()->one()->where('status', SubscriptionStatus::ACTIVE);
+    }
+
+    public function cancelledSubscription(): HasOne
+    {
+        return $this->subscriptions()->one()->where('status', SubscriptionStatus::CANCELLED);
     }
 
     public function subscriptions(): HasMany
