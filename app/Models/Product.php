@@ -45,12 +45,16 @@ class Product extends Model
 
     public function currentSubscription(): HasOne
     {
-        return $this->subscriptions()->one()->where('status', SubscriptionStatus::ACTIVE);
+        return $this->subscriptions()->one()
+            ->where('tenant_id', auth()->user()->tenant?->id)
+            ->where('status', SubscriptionStatus::ACTIVE);
     }
 
     public function cancelledSubscription(): HasOne
     {
-        return $this->subscriptions()->one()->where('status', SubscriptionStatus::CANCELLED);
+        return $this->subscriptions()->one()
+            ->where('tenant_id', auth()->user()->tenant?->id)
+            ->where('status', SubscriptionStatus::CANCELLED);
     }
 
     public function subscriptions(): HasMany
