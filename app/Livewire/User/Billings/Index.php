@@ -24,7 +24,7 @@ class Index extends Component
 
         session()->flash('status', 'Saved!');
 
-        $this->redirect(self::class);
+        $this->redirect(self::class, navigate: true);
     }
 
     public function render()
