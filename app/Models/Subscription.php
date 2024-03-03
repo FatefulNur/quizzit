@@ -16,6 +16,7 @@ class Subscription extends Model
         'user_name',
         'user_email',
         'status',
+        'cancelled',
         'card_brand',
         'renews_at',
         'ends_at',
@@ -25,22 +26,8 @@ class Subscription extends Model
 
     protected $casts = [
         'status' => SubscriptionStatus::class,
+        'cancelled' => 'boolean',
         'renews_at' => 'datetime',
         'ends_at' => 'datetime',
     ];
-
-    public function shouldRenew(): bool
-    {
-        return $this->isNotActive() && ($this->renews_at <= now());
-    }
-
-    public function isActive(): bool
-    {
-        return $this->status === SubscriptionStatus::ACTIVE;
-    }
-
-    public function isNotActive(): bool
-    {
-        return !$this->isActive();
-    }
 }
