@@ -11,7 +11,7 @@
                 {{-- ====================*************======================= --}}
                 <div class="text-md font-bold">
                     <label class="grid text-center space-y-1">
-                        <input wire:model="timer" type="number" placeholder="00"
+                        <input wire:model="timer" min="1" type="number" placeholder="00"
                             class="text-center w-20 h-full bg-transparent border-0 !border-b border-b-gray-200 placeholder:font-extrabold placeholder:text-slate-600 bg-gray-50 text-lg text-stone-500 focus:bg-gray-300"
                             style="box-shadow: none">
                         <span class="text-center text-xs capitalize font-bold text-stone-500">timer (minutes)</span>
