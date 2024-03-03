@@ -40,7 +40,8 @@ Route::middleware([/* 'verified', */ 'auth'])->prefix('user')->name('user.')->gr
 });
 
 Route::prefix('webhook')->name('webhook.')->group(function () {
-    Route::post('/subscriptions', [WebhookController::class, 'storeSubscription'])->name('subscriptions.store');
+    Route::post('/subscriptions/created', [WebhookController::class, 'subscriptionCreated'])->name('subscriptions.created');
+    Route::post('/subscriptions/updated', [WebhookController::class, 'subscriptionUpdated'])->name('subscriptions.updated');
 });
 
 Route::prefix('notify')->name('notify.')->group(function () {
