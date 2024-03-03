@@ -20,6 +20,8 @@ class Plan extends Component
 
         sleep(3);
 
+        session()->flash('status', 'Success!');
+
         $this->redirect(self::class, navigate: true);
     }
 
@@ -34,6 +36,8 @@ class Plan extends Component
         }
 
         sleep(3);
+
+        session()->flash('status', 'Success!');
 
         $this->redirect(self::class, navigate: true);
     }
