@@ -13,7 +13,7 @@
             @else
                 <a href="{{ route('user.billings.plan') }}" wire:navigate
                     class="relative px-3 py-1 text-white bg-red-600 rounded-md text-sm hover:bg-red-500 focus:ring-2 ring-red-600 ring-offset-2 disabled:opacity-50">
-                    Upgrate
+                    Upgrade Plan
                 </a>
             @endcan
         </div>
