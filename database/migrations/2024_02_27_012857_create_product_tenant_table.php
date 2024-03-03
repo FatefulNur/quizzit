@@ -33,7 +33,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('plan_tenant', function (Blueprint $table) {
+        Schema::table('product_tenant', function (Blueprint $table) {
             $table->dropForeignIdFor(Product::class);
             $table->dropForeignIdFor(Tenant::class);
             $table->dropIfExists();

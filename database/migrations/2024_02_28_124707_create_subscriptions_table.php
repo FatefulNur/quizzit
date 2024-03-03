@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('user_name');
             $table->string('user_email');
             $table->string('status');
+            $table->boolean('cancelled');
             $table->string('card_brand');
             $table->timestamp('renews_at')->nullable();
             $table->timestamp('ends_at')->nullable();
