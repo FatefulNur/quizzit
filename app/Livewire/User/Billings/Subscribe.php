@@ -24,8 +24,8 @@ class Subscribe extends Component implements HasTable, HasForms
                 return Subscription::where('user_email', auth()->user()->email);
             })
             ->columns([
-                TextColumn::make('plan_name')
-                    ->label('Plan'),
+                TextColumn::make('product_name')
+                    ->label('Product'),
                 TextColumn::make('user_name')
                     ->label('User Name'),
                 TextColumn::make('user_email')
