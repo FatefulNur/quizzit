@@ -36,8 +36,7 @@ enum SubscriptionStatus: string implements HasColor, HasLabel
             self::PAUSED => 'warning',
             self::PAST_DUE => 'danger',
             self::UNPAID => 'danger',
-            self::CANCELLED => 'secondary',
-            self::EXPIRED => 'dark',
+            default => 'warning',
         };
     }
 }
