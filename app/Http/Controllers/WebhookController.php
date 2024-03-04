@@ -43,6 +43,9 @@ class WebhookController extends Controller
             if ($user) {
                 $user->tenant()->associate($tenant);
                 $user->save();
+
+                $user->quizzes?->each->update(['tenant_id' => $tenant->id]);
+                $user->userResponses?->each->update(['tenant_id' => $tenant->id]);
             }
 
             $subscriptionData = [
