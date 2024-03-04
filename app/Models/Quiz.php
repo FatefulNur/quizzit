@@ -73,6 +73,11 @@ class Quiz extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
     public function questions(): HasMany
     {
         return $this->hasMany(Question::class);

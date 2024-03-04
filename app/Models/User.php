@@ -72,6 +72,11 @@ class User extends Authenticatable implements FilamentUser/* , MustVerifyEmail *
         return $this->hasMany(Quiz::class);
     }
 
+    public function userResponses(): HasMany
+    {
+        return $this->hasMany(UserResponse::class);
+    }
+
     public function tenant(): BelongsTo
     {
         return $this->belongsTo(Tenant::class);
