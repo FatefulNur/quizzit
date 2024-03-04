@@ -28,6 +28,7 @@ class QuizService
             $quiz = auth()->user()->quizzes()->create([
                 ...$quizzes,
                 'type' => $type,
+                'tenant_id' => auth()->user()->tenant?->id,
             ]);
 
             if (array_key_exists('questions', $data)) {
@@ -60,6 +61,7 @@ class QuizService
             $quiz = tap($quiz)->update([
                 ...$quizzes,
                 'type' => $type,
+                'tenant_id' => auth()->user()->tenant?->id,
             ]);
 
             if (array_key_exists('questions', $data)) {

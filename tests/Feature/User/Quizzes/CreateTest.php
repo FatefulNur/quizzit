@@ -244,7 +244,7 @@ test('options can be removed', function () {
 });
 
 test('quiz can be created', function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs($user = User::factory()->create());
 
     $component = Livewire::test(Create::class);
 
@@ -322,6 +322,8 @@ test('quiz can be created', function () {
         'title' => 'New Quiz',
         'description' => 'new quiz description.',
         'type' => 'public',
+        'user_id' => $user->id,
+        'tenant_id' => null,
     ]);
     $this->assertDatabaseCount('questions', 4);
     $this->assertDatabaseHas('questions', [
@@ -354,6 +356,51 @@ test('quiz can be created', function () {
     ]);
     $this->assertDatabaseCount('options', 8);
     $this->assertSame(11, Quiz::first()->marks_total);
+});
+
+test('quiz can belongs to a tenant', function () {
+    $tenant = Tenant::factory()->create();
+    $this->actingAs($user = User::factory()->create(['tenant_id' => $tenant->id]));
+
+    $component = Livewire::test(Create::class);
+
+    // Quiz
+    $component
+        ->set('title', 'New Quiz')
+        ->set('description', 'new quiz description.')
+        ->set('type', false)
+        ->set('started_at', now()->addDay())
+        ->set('expired_at', now()->addDays(3));
+
+    // Question 1
+    $component
+        ->set('questions.0.title', 'question 1?')
+        ->set('questions.0.hint', 'short text')
+        ->set('questions.0.marks', 2)
+        ->set('questions.0.type', 'short_text')
+
+        ->set('questions.0.options.0.is_correct', true)
+        ->set('questions.0.options.0.label', 'answer');
+
+    $component
+        ->call('save')
+        ->assertOk()
+        ->assertHasNoErrors()
+        ->assertSessionHas('status', 'Success!')
+        ->assertRedirect(route('user.quizzes.edit', Quiz::first()->id));
+
+    $this->assertDatabaseCount('quizzes', 1);
+    $this->assertDatabaseHas('quizzes', [
+        'title' => 'New Quiz',
+        'description' => 'new quiz description.',
+        'type' => 'public',
+        'user_id' => $user->id,
+        'tenant_id' => $tenant->id,
+    ]);
+
+    $this->assertDatabaseCount('questions', 1);
+    $this->assertDatabaseCount('options', 1);
+    $this->assertSame(2, Quiz::first()->marks_total);
 });
 
 test('quiz timer can be added', function () {

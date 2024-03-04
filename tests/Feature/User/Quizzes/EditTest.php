@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Quiz;
+use App\Models\Tenant;
 use App\Models\User;
 use App\Models\Option;
 use Livewire\Livewire;
@@ -348,6 +349,7 @@ test('quiz can be edited without any modification', function () {
         'title' => 'Updated Quiz Title',
         'description' => 'Updated Quiz Description.',
         'type' => 'private',
+        'tenant_id' => null,
     ]);
     $this->assertDatabaseCount('questions', 4);
     $this->assertDatabaseHas('questions', [
@@ -381,6 +383,54 @@ test('quiz can be edited without any modification', function () {
     $this->assertDatabaseCount('options', 8);
     $this->assertSame(10, $this->quiz->fresh()->marks_total);
 });
+
+test('quiz can belongs to a tenant when edited', function () {
+    $this->actingAs($this->user);
+
+    $tenant = Tenant::factory()->create();
+    $this->user->tenant()->associate($tenant);
+    $this->user->save();
+
+    $component = Livewire::test(Edit::class, ['quiz' => $this->quiz]);
+
+    // Quiz
+    $component
+        ->set('title', 'Updated Quiz Title')
+        ->set('description', 'Updated Quiz Description.')
+        ->set('type', true)
+        ->set('timer', 30)
+        ->set('started_at', now()->addDay())
+        ->set('expired_at', now()->addDays(3));
+
+    // Question 1
+    $component
+        ->set('questions.0.id', $this->quiz->questions[0]->id)
+        ->set('questions.0.title', 'question 1 updated?')
+        ->set('questions.0.hint', 'updated short text hint')
+        ->set('questions.0.marks', 3)
+        ->set('questions.0.type', 'short_text')
+
+        ->set('questions.0.options.0.id', $this->quiz->questions[0]->options[0]->id)
+        ->set('questions.0.options.0.is_correct', true)
+        ->set('questions.0.options.0.label', 'answer updated');
+
+
+    $component
+        ->call('save')
+        ->assertOk()
+        ->assertHasNoErrors()
+        ->assertSessionHas('status', 'Success!')
+        ->assertRedirect(route('user.quizzes.edit', $this->quiz->id));
+
+    $this->assertDatabaseCount('quizzes', 1);
+    $this->assertDatabaseHas('quizzes', [
+        'title' => 'Updated Quiz Title',
+        'description' => 'Updated Quiz Description.',
+        'type' => 'private',
+        'timer' => 30,
+        'tenant_id' => $tenant->id,
+    ]);
+})->only();
 
 test('quiz timer can be edited', function () {
     $this->actingAs($this->user);
