@@ -36,6 +36,7 @@ class Index extends Component
         if (!$product) {
             $product = Product::firstWhere('name', Fresher::NAME);
         }
+
         return view('livewire.user.billings.index', compact('product'));
     }
 }
