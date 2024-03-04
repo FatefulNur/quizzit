@@ -9,12 +9,12 @@
                 {{-- ========================Timer=========================== --}}
                 {{-- ====================*************======================= --}}
                 {{-- ====================*************======================= --}}
-                <div class="text-md font-bold">
-                    <label class="grid text-center space-y-1">
+                <div class="font-bold text-md">
+                    <label class="grid space-y-1 text-center">
                         <input wire:model="timer" min="1" type="number" placeholder="00"
                             class="text-center w-20 h-full bg-transparent border-0 !border-b border-b-gray-200 placeholder:font-extrabold placeholder:text-slate-600 bg-gray-50 text-lg text-stone-500 focus:bg-gray-300"
                             style="box-shadow: none">
-                        <span class="text-center text-xs capitalize font-bold text-stone-500">timer (minutes)</span>
+                        <span class="text-xs font-bold text-center capitalize text-stone-500">timer (minutes)</span>
                     </label>
                     @error('timer')
                         <x-input-error :messages="$message" />
@@ -426,7 +426,7 @@
             <button wire:loading.attr="disabled" wire:target="addQuestion" type="button" title="Add More Questions"
                 wire:click="addQuestion()"
                 class="fixed z-30 block w-12 h-12 px-1 text-3xl font-bold text-white transition bg-indigo-800 rounded-full bottom-5 right-5 leading-12 hover:bg-indigo-600 disabled:opacity-30">&plus;</button>
-            <div x-ref="scrollToBottom"></div>
+            <div id="scrollToBottom"></div>
         </div>
     </div>
 </form>
@@ -458,6 +458,18 @@
             onSelect: function(date) {
                 $wire.set('expired_at', date)
             }
+        });
+
+        // Listening events
+        $wire.on('question-added', () => {
+            const scrollView = document.getElementById("scrollToBottom");
+            let interval = setInterval(() => {
+                scrollView.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+                clearInterval(interval)
+            }, 0);
         });
     </script>
 @endscript

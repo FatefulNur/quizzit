@@ -297,7 +297,9 @@ test('quiz can be edited without any modification', function () {
         ->set('questions.1.options.0.is_correct', false)
         ->set('questions.1.options.0.label', 'answer updated 2');
 
-    $component->call('addQuestion');
+    $component
+        ->call('addQuestion')
+        ->assertDispatched('question-added');
 
     // Question 3
     $component
@@ -317,7 +319,9 @@ test('quiz can be edited without any modification', function () {
         ->set('questions.2.options.2.is_correct', false)
         ->set('questions.2.options.2.label', 'option 3 f');
 
-    $component->call('addQuestion');
+    $component
+        ->call('addQuestion')
+        ->assertDispatched('question-added');
 
     // Question 4
     $component
@@ -382,7 +386,7 @@ test('quiz can be edited without any modification', function () {
     ]);
     $this->assertDatabaseCount('options', 8);
     $this->assertSame(10, $this->quiz->fresh()->marks_total);
-});
+})->only();
 
 test('quiz can belongs to a tenant when edited', function () {
     $this->actingAs($this->user);

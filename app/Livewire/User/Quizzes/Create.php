@@ -34,6 +34,8 @@ class Create extends Component
             'type' => '',
             'options' => $this->option(),
         ];
+
+        $this->dispatch('question-added');
     }
 
     public function removeQuestion($questionKey)

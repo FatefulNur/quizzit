@@ -266,7 +266,9 @@ test('quiz can be created', function () {
         ->set('questions.0.options.0.is_correct', true)
         ->set('questions.0.options.0.label', 'answer');
 
-    $component->call('addQuestion');
+    $component
+        ->call('addQuestion')
+        ->assertDispatched('question-added');
 
     // Question 2
     $component
@@ -278,7 +280,9 @@ test('quiz can be created', function () {
         ->set('questions.1.options.0.is_correct', true)
         ->set('questions.1.options.0.label', 'answer');
 
-    $component->call('addQuestion');
+    $component
+        ->call('addQuestion')
+        ->assertDispatched('question-added');
 
     // Question 3
     $component
@@ -294,7 +298,9 @@ test('quiz can be created', function () {
         ->set('questions.2.options.2.is_correct', false)
         ->set('questions.2.options.2.label', 'option 3 f');
 
-    $component->call('addQuestion');
+    $component
+        ->call('addQuestion')
+        ->assertDispatched('question-added');
 
     // Question 4
     $component
