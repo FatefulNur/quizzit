@@ -7,12 +7,12 @@
 
             @can('create-quiz')
                 <a href="{{ route('user.quizzes.create') }}" wire:navigate
-                    class="relative px-3 py-1 text-white bg-indigo-600 rounded-md text-sm hover:bg-indigo-500 focus:ring-2 ring-indigo-600 ring-offset-2 disabled:opacity-50">
+                    class="relative px-3 py-1 text-sm text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:ring-2 ring-indigo-600 ring-offset-2 disabled:opacity-50">
                     Add New
                 </a>
             @else
                 <a href="{{ route('user.billings.plan') }}" wire:navigate
-                    class="relative px-3 py-1 text-white bg-red-600 rounded-md text-sm hover:bg-red-500 focus:ring-2 ring-red-600 ring-offset-2 disabled:opacity-50">
+                    class="relative px-3 py-1 text-sm text-white bg-red-600 rounded-md hover:bg-red-500 focus:ring-2 ring-red-600 ring-offset-2 disabled:opacity-50">
                     Upgrade Plan
                 </a>
             @endcan
@@ -67,7 +67,7 @@
                                 </g>
                             </svg>
                         </a>
-                        @if (auth()->user()->tenant)
+                        @if ($quiz->tenant?->hasActiveSubscription())
                             <a wire:click="delete('{{ $quiz->id }}')"
                                 wire:confirm="Are you sure you want to delete this post?">
                                 <svg height="25px" width="25px" version="1.1" id="Layer_1"
