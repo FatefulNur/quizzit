@@ -2,7 +2,9 @@
 
 namespace App\Livewire\User\Billings;
 
+use App\Constants\Product\Fresher;
 use App\Livewire\Forms\TenantForm;
+use App\Models\Product;
 use Livewire\Component;
 
 class Index extends Component
@@ -29,6 +31,11 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.user.billings.index');
+        $product = auth()->user()->tenant?->products()?->first();
+
+        if (!$product) {
+            $product = Product::firstWhere('name', Fresher::NAME);
+        }
+        return view('livewire.user.billings.index', compact('product'));
     }
 }
