@@ -30,10 +30,12 @@
 
                         <a href="{{ route('user.billings.plan') }}" wire:navigate
                             class="px-4 py-2 text-sm text-white bg-indigo-500 rounded-lg hover:bg-indigo-700">
-                            @if (!$product->isActive())
+                            @if ($product->isFresher())
                                 Upgrade
-                            @else
+                            @elseif ($product->isActive())
                                 Cancel
+                            @else
+                                Resume
                             @endif
                         </a>
                     </div>
