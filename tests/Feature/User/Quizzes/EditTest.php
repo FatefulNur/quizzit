@@ -430,7 +430,7 @@ test('quiz can belongs to a tenant when edited', function () {
         'timer' => 30,
         'tenant_id' => $tenant->id,
     ]);
-})->only();
+});
 
 test('quiz timer can be edited', function () {
     $this->actingAs($this->user);
