@@ -33,9 +33,9 @@ class Product extends Model
         return $this->name === Fresher::NAME;
     }
 
-    public function isCurrent(): bool
+    public function isActive(): bool
     {
-        return $this->currentSubscription()?->exists();
+        return $this->activeSubscription()?->exists();
     }
 
     public function isCancelled(): bool
@@ -43,7 +43,7 @@ class Product extends Model
         return $this->cancelledSubscription()?->exists();
     }
 
-    public function currentSubscription(): HasOne
+    public function activeSubscription(): HasOne
     {
         return $this->subscriptions()->one()
             ->where('tenant_id', auth()->user()->tenant?->id)
