@@ -45,6 +45,7 @@ class Index extends Component
                 'title',
                 'description',
                 'type',
+                'tenant_id',
                 'marks_total',
                 'started_at',
                 'expired_at',
