@@ -97,6 +97,53 @@
                                 </svg>
                             </a>
                         @endif
+                        <button class="relative" x-data="{ show: false }" x-on:click="show = true">
+                            <svg width="20px" height="20px" viewBox="0 0 1024.00 1024.00" class="icon"
+                                version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000"
+                                stroke-width="43.007999999999996">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M811.3 938.7H217.5c-71.5 0-129.8-58.2-129.8-129.8V215.1c0-71.6 58.2-129.8 129.8-129.8h296.9c23.6 0 42.7 19.1 42.7 42.7s-19.1 42.7-42.7 42.7H217.5c-24.5 0-44.4 19.9-44.4 44.4v593.8c0 24.5 19.9 44.4 44.4 44.4h593.8c24.5 0 44.4-19.9 44.4-44.4V512c0-23.6 19.1-42.7 42.7-42.7S941 488.4 941 512v296.9c0 71.6-58.2 129.8-129.7 129.8z"
+                                        fill="#3688FF"></path>
+                                    <path
+                                        d="M898.4 405.3c-23.6 0-42.7-19.1-42.7-42.7V212.9c0-23.3-19-42.3-42.3-42.3H663.7c-23.6 0-42.7-19.1-42.7-42.7s19.1-42.7 42.7-42.7h149.7c70.4 0 127.6 57.2 127.6 127.6v149.7c0 23.7-19.1 42.8-42.6 42.8z"
+                                        fill="#5F6379"></path>
+                                    <path
+                                        d="M373.6 712.6c-10.9 0-21.8-4.2-30.2-12.5-16.7-16.7-16.7-43.7 0-60.3L851.2 132c16.7-16.7 43.7-16.7 60.3 0 16.7 16.7 16.7 43.7 0 60.3L403.8 700.1c-8.4 8.3-19.3 12.5-30.2 12.5z"
+                                        fill="#5F6379"></path>
+                                </g>
+                            </svg>
+
+                            <div x-show="show" x-on:click.outside="show = false"
+                                class="absolute right-0 z-10 w-48 p-2 bg-white border border-indigo-400 shadow-md cursor-default top-full">
+                                <header class="flex justify-between">
+                                    <h3 class="text-sm font-bold text-indigo-600">Copy Link</h3>
+                                    <svg x-on:click="
+                                    $refs.copyText.select()
+                                    navigator.clipboard.writeText($refs.copyText.value)
+                                    "
+                                        class="cursor-pointer" width="18px" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M6.59961 11.3974C6.59961 8.67119 6.59961 7.3081 7.44314 6.46118C8.28667 5.61426 9.64432 5.61426 12.3596 5.61426H15.2396C17.9549 5.61426 19.3125 5.61426 20.1561 6.46118C20.9996 7.3081 20.9996 8.6712 20.9996 11.3974V16.2167C20.9996 18.9429 20.9996 20.306 20.1561 21.1529C19.3125 21.9998 17.9549 21.9998 15.2396 21.9998H12.3596C9.64432 21.9998 8.28667 21.9998 7.44314 21.1529C6.59961 20.306 6.59961 18.9429 6.59961 16.2167V11.3974Z"
+                                                fill="#1C274C"></path>
+                                            <path opacity="0.5"
+                                                d="M4.17157 3.17157C3 4.34315 3 6.22876 3 10V12C3 15.7712 3 17.6569 4.17157 18.8284C4.78913 19.446 5.6051 19.738 6.79105 19.8761C6.59961 19.0353 6.59961 17.8796 6.59961 16.2167V11.3974C6.59961 8.6712 6.59961 7.3081 7.44314 6.46118C8.28667 5.61426 9.64432 5.61426 12.3596 5.61426H15.2396C16.8915 5.61426 18.0409 5.61426 18.8777 5.80494C18.7403 4.61146 18.4484 3.79154 17.8284 3.17157C16.6569 2 14.7712 2 11 2C7.22876 2 5.34315 2 4.17157 3.17157Z"
+                                                fill="#1C274C"></path>
+                                        </g>
+                                    </svg>
+                                </header>
+                                <input x-ref="copyText" type="text" readonly
+                                    value="{{ route('user.quizzes.show', $quiz->id) }}"
+                                    class="w-full h-5 text-xs truncate rounded">
+                            </div>
+                        </button>
                     </div>
                     <a target="_blank" href="{{ route('user.quizzes.show', $quiz->id) }}"
                         class="flex flex-col gap-2 p-4">
