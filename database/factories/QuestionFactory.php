@@ -24,7 +24,10 @@ class QuestionFactory extends Factory
             'title' => fake()->sentence(),
             'hint' => fake()->sentence(),
             'marks' => fake()->numberBetween(1, 5),
-            'type' => fake()->randomElement(QuestionType::class),
+            'type' => fake()->randomElement([
+                QuestionType::RADIO,
+                QuestionType::CHECKBOX
+            ]),
             'quiz_id' => Quiz::factory(),
         ];
     }
