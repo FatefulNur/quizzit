@@ -6,7 +6,7 @@
     </x-slot>
 
     @forelse ($responses as $response)
-        <a wire:navigate href="{{ route('user.responses.show', $response->id) }}"
+        <a href="{{ route('user.responses.show', $response->id) }}" target="_blank"
             class="flex flex-col flex-wrap gap-4 p-4 transition transform bg-white rounded-sm shadow hover:shadow-2xl border-2 border-dotted border-indigo-500">
 
             <!-- Icon -->
@@ -16,10 +16,6 @@
                         class="px-3 py-1 text-xs font-extrabold text-indigo-800 bg-indigo-100 rounded-full shadow-sm w-fit me-2 dark:bg-indigo-900 dark:text-indigo-300">Result:
                         {{ $response->result }} / {{ $response->quiz->marks_total }}</span>
                 @endif
-
-                <div class="text-sm font-bold text-stone-600">
-                    by: <span class="text-xs font-extrabold text-green-700">{{ $response->user->name }}</span>
-                </div>
             </div>
 
             <div>
