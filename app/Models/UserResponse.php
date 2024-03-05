@@ -42,20 +42,17 @@ class UserResponse extends Model
         }
 
         $correctOptions = explode(',', $answer->correct);
+        $filteredCorrectOptions = array_filter(array_map('trim', $correctOptions));
 
-        $trimmedCorrectOptions = array_map('trim', $correctOptions);
-
-        return in_array($answer->answer, $trimmedCorrectOptions);
+        return in_array($answer->answer, $filteredCorrectOptions);
     }
 
     public function hasCorrectAnswer($questionId): bool
     {
-        $answers = $this
-            ->answers()
-            ->where('question_id', $questionId)->get();
+        $answers = $this->answers()->where('question_id', $questionId)->get();
 
-        $answerList = array_unique($answers->pluck('answer')->toArray());
-        $correctOption = array_unique($answers->pluck('correct')->toArray());
+        $answerList = $answers->pluck('answer')->unique()->filter()->all();
+        $correctOption = $answers->pluck('correct')->unique()->filter()->all();
 
         if (empty($correctOption) || empty($answerList)) {
             return false;
@@ -67,18 +64,19 @@ class UserResponse extends Model
         $correctAnswers = array_intersect($answerList, $trimmedCorrectOptionList);
 
         return !empty($correctAnswers);
-        // TODO: To Fix empty array keys [0 => '']
     }
 
 
     public function hasAnyCorrectOptions($question, $optionId): bool
     {
-        $correctOptionIds = $question
-            ->options()
-            ->where('is_correct', true)
-            ->pluck('id')->toArray();
+        $optionQuery = $question->options()->where('is_correct', true);
+        $correctOptionLabels = $optionQuery->pluck('label')->filter()->all();
 
-        return in_array($optionId, $correctOptionIds);
+        if (empty($correctOptionLabels)) {
+            return false;
+        }
+
+        return in_array($optionId, $optionQuery->pluck('id')->all());
     }
 
     public function answers(): HasMany
