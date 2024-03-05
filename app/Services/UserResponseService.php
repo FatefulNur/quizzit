@@ -33,7 +33,7 @@ class UserResponseService
                 $correctOptionsLabel = $question->options()
                     ->select('label')
                     ->where('is_correct', true)
-                    ->get()->map->label->toArray();
+                    ->get()->map->label->all();
 
                 if ($question->isShortText() || $question->isLongText()) {
                     if (count($correctOptionsLabel)) {
@@ -41,17 +41,16 @@ class UserResponseService
                     }
                 }
 
-                $trimmedCorrectOptionsLabel = array_map('trim', $correctOptionsLabel);
+                $filteredCorrectOptionsLabel = array_filter(array_map('trim', $correctOptionsLabel));
 
                 $correct = implode(', ', $correctOptionsLabel);
                 $isMarked = false;
 
                 foreach ($answers['answer'] as $key => $answer) {
-
                     if (
                         !$isMarked &&
                         !empty ($answer) &&
-                        in_array($answer, $trimmedCorrectOptionsLabel)
+                        in_array($answer, $filteredCorrectOptionsLabel)
                     ) {
                         $result += $question->marks;
                         $isMarked = true;
