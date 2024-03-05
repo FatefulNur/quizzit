@@ -21,6 +21,7 @@ class UserResponseService
             $userResponse = UserResponse::create([
                 'result' => $result,
                 'user_id' => auth()?->id(),
+                'tenant_id' => auth()->user()->tenant?->id ?? null,
                 'quiz_id' => $quiz->id,
             ]);
 
