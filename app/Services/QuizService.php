@@ -61,7 +61,7 @@ class QuizService
             $quiz = tap($quiz)->update([
                 ...$quizzes,
                 'type' => $type,
-                'tenant_id' => auth()->user()->tenant?->id,
+                'tenant_id' => auth()->user()->tenant?->id ?? null,
             ]);
 
             if (array_key_exists('questions', $data)) {
