@@ -25,11 +25,6 @@ return new class extends Migration {
                 ->constrained()
                 ->cascadeOnDelete();
             $table
-                ->foreignIdFor(Tenant::class)
-                ->nullable()
-                ->constrained()
-                ->cascadeOnDelete();
-            $table
                 ->foreignIdFor(UserResponse::class)
                 ->constrained()
                 ->cascadeOnDelete();
