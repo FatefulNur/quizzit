@@ -27,6 +27,7 @@ class QuizService
             $type = ($data['type']) ? QuizType::PRIVATE : QuizType::PUBLIC;
             $quiz = auth()->user()->quizzes()->create([
                 ...$quizzes,
+                'timer' => $quizzes['timer'] ?: null,
                 'type' => $type,
                 'tenant_id' => auth()->user()->tenant?->id,
             ]);
@@ -60,6 +61,7 @@ class QuizService
             $type = ($data['type']) ? QuizType::PRIVATE : QuizType::PUBLIC;
             $quiz = tap($quiz)->update([
                 ...$quizzes,
+                'timer' => $quizzes['timer'] ?: null,
                 'type' => $type,
                 'tenant_id' => auth()->user()->tenant?->id ?? null,
             ]);
