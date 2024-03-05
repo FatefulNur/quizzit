@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Quiz;
 use App\Models\User;
 use App\Enums\QuizType;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,10 +22,27 @@ class QuizFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'description' => fake()->paragraph(3),
-            'marks_total' => fake()->numberBetween(10, 100),
+            'marks_total' => fake()->numberBetween(1, 25),
             'type' => fake()->randomElement(QuizType::class),
+            'timer' => fake()->numberBetween(2, 5),
+            'is_timeout' => false,
             'user_id' => User::factory(),
-            'expired_at' => now()->addDays(fake()->numberBetween(1, 30)),
+            'started_at' => fake()->dateTimeBetween('-3 days', '3 days'),
+            'expired_at' => fake()->dateTimeBetween('4 days', '12 days'),
         ];
+    }
+
+    public function public(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => QuizType::PUBLIC ->value,
+        ]);
+    }
+
+    public function private(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => QuizType::PRIVATE ->value,
+        ]);
     }
 }

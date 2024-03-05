@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Models\Answer;
 use App\Models\Option;
 use App\Models\Question;
 use App\Models\UserResponse;
@@ -24,6 +23,7 @@ class AnswerFactory extends Factory
     {
         return [
             'correct' => fake()->word(),
+            'answer' => fake()->word(),
             'user_id' => User::factory(),
             'user_response_id' => UserResponse::factory(),
             'question_id' => Question::factory(),
