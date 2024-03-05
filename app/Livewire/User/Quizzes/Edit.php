@@ -155,7 +155,7 @@ class Edit extends Component
 
         session()->flash('status', 'Success!');
 
-        $this->redirectAction(self::class, $quiz->id);
+        $this->redirectAction(self::class, $quiz->id, navigate: true);
     }
 
     public function render()
