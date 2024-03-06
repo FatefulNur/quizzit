@@ -47,7 +47,6 @@ return new class extends Migration {
     {
         Schema::table('answers', function (Blueprint $table) {
             $table->dropForeignIdFor(User::class);
-            $table->dropForeignIdFor(Tenant::class);
             $table->dropForeignIdFor(UserResponse::class);
             $table->dropForeignIdFor(Question::class);
             $table->dropForeignIdFor(Option::class);
