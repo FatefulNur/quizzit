@@ -446,7 +446,6 @@ test('quiz timer can be added', function () {
         'description' => 'new quiz description.',
         'type' => 'public',
         'timer' => 40,
-        'is_timeout' => 0,
     ]);
     $this->assertDatabaseCount('questions', 1);
     $this->assertDatabaseHas('questions', [
