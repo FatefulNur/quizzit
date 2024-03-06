@@ -4,9 +4,9 @@
 ])
 
 <div
-    class="fixed inset-0 top-0 left-0 z-50 flex flex-col items-center justify-start pt-8 h-screen space-y-4 bg-gray-100 outline-none min-w-screen animated fadeIn faster focus:outline-none">
+    class="fixed inset-0 top-0 left-0 z-50 flex flex-col items-center justify-start h-screen pt-8 space-y-4 bg-gray-100 outline-none min-w-screen animated fadeIn faster focus:outline-none">
     <div class="flex flex-col p-5 bg-white border-l-4 shadow-md border-l-indigo-600 hover:shodow-lg rounded-2xl">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     class="w-16 h-16 p-3 text-blue-400 border border-blue-100 rounded-2xl bg-blue-50" fill="none"
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <a
-                {{ $button->attributes->class(['px-5 py-2 ml-4 text-sm font-medium tracking-wider text-center text-white bg-red-500 border-2 border-red-500 rounded-full shadow-sm flex-no-shrink hover:shadow-lg truncate']) }}>{{ $button }}</a>
+                {{ $button->attributes->class(['px-5 py-2 ml-4 text-sm font-medium tracking-wider text-center text-white bg-red-500 border-2 border-red-500 rounded-full shadow-sm flex-no-shrink hover:shadow-lg truncate w-full sm:w-auto']) }}>{{ $button }}</a>
         </div>
     </div>
 </div>
