@@ -87,22 +87,6 @@ test('user cannot participate an expired quiz', function () {
     $this->assertGuest();
 });
 
-test('user cannot participate of timeout quiz', function () {
-    $quiz = Quiz::factory()->public()->create([
-        'is_timeout' => true,
-        'started_at' => now()->subDay(),
-        'expired_at' => now()->addDay(),
-    ]);
-
-    $response = $this->get(route('user.quizzes.show', $quiz->id));
-
-    $response
-        ->assertStatus(302)
-        ->assertRedirectToRoute('notify.quizzes.show_timeout');
-
-    $this->assertGuest();
-});
-
 test('quiz can be participated', function () {
     $this->actingAs($this->user);
 
@@ -142,7 +126,6 @@ test('quiz can be participated', function () {
     $this->assertDatabaseCount('user_responses', 1);
     $this->assertDatabaseCount('answers', 5);
 
-    $this->assertTrue($this->quiz->fresh()->is_timeout);
     $this->assertEquals(null, UserResponse::first()->tenant_id);
 });
 
@@ -151,7 +134,6 @@ test('quiz can be participated by tenant', function () {
     $user = User::factory()->create(['tenant_id' => $tenant->id]);
 
     $this->actingAs($user);
-
 
     $component = Livewire::test(Show::class, ['quiz' => $this->quiz]);
 
@@ -189,51 +171,7 @@ test('quiz can be participated by tenant', function () {
     $this->assertDatabaseCount('user_responses', 1);
     $this->assertDatabaseCount('answers', 5);
 
-    $this->assertTrue($this->quiz->fresh()->is_timeout);
     $this->assertEquals($tenant->id, UserResponse::first()->tenant_id);
-});
-
-test('quiz cannot be timeout when timer is not set', function () {
-    $this->actingAs($this->user);
-
-    $quiz = Quiz::factory()->public()->create([
-        'timer' => null,
-        'user_id' => $this->user->id,
-        'started_at' => now()->subDay(),
-        'expired_at' => now()->addWeek(),
-    ]);
-
-    $component = Livewire::test(Show::class, ['quiz' => $quiz]);
-
-    $component
-        ->set('answers.0.answer.0', 'A short text answer')
-        ->set('answers.0.option_id.0', $this->shortTextQuestion->options[0]->id)
-        ->set('answers.0.question_id', $this->shortTextQuestion->id);
-
-    $component
-        ->set('answers.1.answer.0', 'A Long text answer')
-        ->set('answers.1.option_id.0', $this->longTextQuestion->options[0]->id)
-        ->set('answers.1.question_id', $this->longTextQuestion->id);
-
-    $component
-        ->set('answers.2.answer.0', $this->radioQuestion->options[1]->label)
-        ->set('answers.2.option_id.0', $this->radioQuestion->options[1]->id)
-        ->set('answers.2.question_id', $this->radioQuestion->id);
-
-    $component
-        ->set('answers.3.answer.0', $this->checkboxQuestion->options[1]->label)
-        ->set('answers.3.answer.1', $this->checkboxQuestion->options[2]->label)
-        ->set('answers.3.option_id.0', $this->checkboxQuestion->options[1]->id)
-        ->set('answers.3.option_id.1', $this->checkboxQuestion->options[2]->id)
-        ->set('answers.3.question_id', $this->checkboxQuestion->id);
-
-    $component->call('save')
-        ->assertOk()
-        ->assertHasNoErrors()
-        ->assertSessionHas('status', 'Thanks!')
-        ->assertRedirect(route('notify.responses.show', UserResponse::first()->id));
-
-    $this->assertFalse($this->quiz->fresh()->is_timeout);
 });
 
 test('result can be generate from the quiz response', function () {
@@ -283,7 +221,7 @@ test('result can be generate from the quiz response', function () {
 });
 
 test('marks is not evaluate when answer is empty', function () {
-    $quiz = Quiz::factory()->public()->create(['is_timeout' => true]);
+    $quiz = Quiz::factory()->public()->create();
 
     $shortTextQuestion = Question::factory()->shortText()->create(['quiz_id' => $quiz->id]);
     $longTextQuestion = Question::factory()->longText()->create(['quiz_id' => $quiz->id]);

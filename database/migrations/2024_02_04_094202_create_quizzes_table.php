@@ -20,7 +20,6 @@ return new class extends Migration {
             $table->integer('marks_total')->nullable();
             $table->string('type')->default(QuizType::PUBLIC ->value);
             $table->integer('timer')->nullable();
-            $table->boolean('is_timeout')->default(0);
             $table
                 ->foreignIdFor(User::class)
                 ->constrained()
