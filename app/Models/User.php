@@ -67,6 +67,17 @@ class User extends Authenticatable implements FilamentUser/* , MustVerifyEmail *
         return $this->type === UserType::ADMIN;
     }
 
+    public function getTotalQuizResponses(): int
+    {
+        $count = 0;
+
+        foreach ($this->quizzes as $quiz) {
+            $count += $quiz->userResponses()->count();
+        }
+
+        return $count;
+    }
+
     public function quizzes(): HasMany
     {
         return $this->hasMany(Quiz::class);
