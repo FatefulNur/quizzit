@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div class="p-4 max-w-4xl grid m-auto gap-3 grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))]">
+        <div class="px-4 py-14 max-w-4xl grid m-auto gap-3 grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))]">
 
             @forelse ($quizzes as $quiz)
                 <a target="_blank" href="{{ route('user.quizzes.show', $quiz->id) }}" @class([
@@ -130,7 +130,7 @@
         @endif
     </section>
     <!--Copyright section-->
-    <footer class="bg-slate-300 text-stone-700 font-bold border-t text-sm w-full p-4 text-center">
+    <footer class="w-full p-4 text-sm font-bold text-center border-t bg-slate-300 text-stone-700">
         © {{ date('Y') }} Copyright:
         <a href="{{ route('home') }}">{{ config('app.name') }}</a>
     </footer>
