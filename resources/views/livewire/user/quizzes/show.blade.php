@@ -26,7 +26,30 @@
         {{-- ====================*************======================= --}}
         {{-- ====================*************======================= --}}
 
-        <form wire:submit="save" class="space-y-4">
+        <form wire:submit="save" class="space-y-4" x-data="{
+            totalSeconds: {{ $quiz->timer }} * 60,
+            minutes: Math.floor({{ $quiz->timer }}),
+            seconds: 0,
+            startTimer() {
+                this.timerInterval = setInterval(() => {
+                    this.tick()
+                }, 1000)
+            },
+            tick() {
+                if (this.totalSeconds === 0) {
+                    clearInterval(this.timerInterval)
+        
+                    $wire.call('save')
+                    return
+                }
+                this.totalSeconds--;
+                this.minutes = Math.floor(this.totalSeconds / 60)
+                this.seconds = this.totalSeconds % 60
+            },
+            formatTime(time) {
+                return time < 10 ? '0' + time : time
+            }
+        }" x-init="startTimer()">
             @foreach ($quiz->questions as $questionKey => $question)
                 <div class="relative p-4 sm:p-8 bg-white border border-slate-300 border-l-4 dark:bg-gray-800 shadow sm:rounded-lg rounded-md has-[:focus]:border-l-indigo-600 space-y-3"
                     wire:key="{{ $questionKey }}">
@@ -35,30 +58,7 @@
                     {{-- ==============***********================== --}}
                     {{-- =========================================== --}}
                     @if (!is_null($quiz->timer))
-                        <div x-data="{
-                            totalSeconds: {{ $quiz->timer }} * 60,
-                            minutes: Math.floor({{ $quiz->timer }}),
-                            seconds: 0,
-                            startTimer() {
-                                this.timerInterval = setInterval(() => {
-                                    this.tick()
-                                }, 1000)
-                            },
-                            tick() {
-                                if (this.totalSeconds === 0) {
-                                    clearInterval(this.timerInterval)
-                        
-                                    $wire.call('save')
-                                    return
-                                }
-                                this.totalSeconds--;
-                                this.minutes = Math.floor(this.totalSeconds / 60)
-                                this.seconds = this.totalSeconds % 60
-                            },
-                            formatTime(time) {
-                                return time < 10 ? '0' + time : time
-                            }
-                        }" x-init="startTimer()"
+                        <div
                             class="fixed flex top-4 right-4 p-2 bg-indigo-600 text-white shadow-lg min-w-20 justify-center text-xl rounded-md border-2 border-indigo-800">
                             <span x-text="formatTime(minutes)"></span>:
                             <span x-text="formatTime(seconds)"></span>
