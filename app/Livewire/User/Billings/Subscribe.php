@@ -35,7 +35,8 @@ class Subscribe extends Component implements HasTable, HasForms
                     ->badge()
                     ->label('Status'),
                 IconColumn::make('cancelled')
-                    ->boolean(),
+                    ->boolean()
+                    ->alignCenter(),
                 TextColumn::make('card_brand')
                     ->label('Card'),
                 TextColumn::make('renews_at')
