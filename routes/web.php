@@ -19,7 +19,7 @@ require __DIR__ . '/auth.php';
 
 Route::get('/', HomeController::class)->name('home')->middleware('guest');
 
-Route::middleware([/* 'verified', */ 'auth'])->prefix('user')->name('user.')->group(function () {
+Route::middleware(['verified', 'auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('/profile', ProfileController::class)->name('profile');
 
