@@ -27,12 +27,12 @@ Route::middleware(['verified', 'auth'])->prefix('user')->name('user.')->group(fu
     Route::get('/quizzes/{quiz}/edit', Edit::class)->name('quizzes.edit');
     Route::get('/quizzes', QuizIndex::class)->name('quizzes.index');
     Route::get('/quizzes/{quiz}', QuizShow::class)->name('quizzes.show')
-        ->withoutMiddleware('auth')
+        ->withoutMiddleware(['verified', 'auth'])
         ->middleware('intercept.expired')
         ->middleware('intercept.private');
     Route::get('/responses', ResponseIndex::class)->name('responses.index');
     Route::get('/responses/{response}', ResponseShow::class)->name('responses.show')
-        ->withoutMiddleware('auth');
+        ->withoutMiddleware(['verified', 'auth']);
     Route::get('billings', BillingIndex::class)->name('billings.index');
     Route::get('billings/plan', BillingPlan::class)->name('billings.plan');
     Route::get('billings/subscribe', BillingSubscribe::class)->name('billings.subscribe');
