@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum QuestionType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum QuestionType: string implements HasLabel
 {
     case SHORT_TEXT = 'short_text';
     case LONG_TEXT = 'long_text';
