@@ -14,10 +14,6 @@ class UserResponseService
         return DB::transaction(function () use ($quiz, $data) {
             $result = 0;
 
-            if (!is_null($quiz->timer)) {
-                $quiz->update(['is_timeout' => 1]);
-            }
-
             $userResponse = UserResponse::create([
                 'result' => $result,
                 'user_id' => auth()?->id(),
