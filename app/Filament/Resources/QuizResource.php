@@ -4,18 +4,27 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use App\Models\Quiz;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Tables;
 use App\Enums\QuizType;
+use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Enums\QuestionType;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Grid;
+use Filament\Tables\Filters\Filter;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\QuizResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\QuizResource\RelationManagers;
 
 class QuizResource extends Resource
 {
@@ -27,41 +36,68 @@ class QuizResource extends Resource
     {
         return $form
             ->schema([
-                Section::make()
+                Section::make('Quiz Details')
+                    ->icon('heroicon-m-check')
                     ->columns([
+                        'default' => 1,
                         'sm' => 2,
+                        '2xl' => 3
                     ])
                     ->schema([
+                        Forms\Components\TextInput::make('timer')
+                            ->numeric()
+                            ->placeholder('00 (Minutes)')
+                            ->maxLength(150),
                         Forms\Components\Select::make('user_id')
                             ->relationship('user', 'name')
-                            ->required(),
-                        Select::make('Publish Type')
+                            ->required()
+                            ->columnStart(1),
+                        Select::make('type')
                             ->options(QuizType::class)
                             ->required(),
-
-                        Forms\Components\TextInput::make('Quiz Heading')
-                            ->required(),
-                        Forms\Components\Textarea::make('Say more about this Quiz')
+                        Forms\Components\TextInput::make('title')
+                            ->required()
+                            ->maxLength(255)
                             ->columnSpanFull(),
-                        Forms\Components\TextInput::make('marks_total')
-                            ->numeric(),
-                        Forms\Components\TextInput::make('Ask a Question?')
-                            ->required(),
-                        Select::make('Select a Question Type')
-                            ->options(QuestionType::class)
-                            ->required(),
-                        Forms\Components\TextInput::make('Want to say any clue?'),
-                        // ->required(),
-                        // Forms\Components\TextInput::make('type')
-                        //     ->required(),
-
-
+                        Textarea::make('description')
+                            ->autosize()
+                            ->rows(3)
+                            ->columnSpanFull(),
                         Forms\Components\DateTimePicker::make('started_at')
+                            ->before('expired_at')
                             ->required(),
                         Forms\Components\DateTimePicker::make('expired_at')
+                            ->after('started_at')
                             ->required(),
 
                     ]),
+
+                Repeater::make('questions')
+                    ->relationship()
+                    ->schema([
+                        Section::make()
+                            ->columns([
+                                'default' => 1,
+                                'sm' => 2,
+                                '2xl' => 3
+                            ])
+                            ->schema([
+                                Forms\Components\TextInput::make('marks')
+                                    ->numeric()
+                                    ->maxLength(100),
+                                Forms\Components\TextInput::make('title')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->columnSpanFull(),
+                                Textarea::make('hint')
+                                    ->autosize()
+                                    ->rows(3)
+                                    ->columnSpanFull(),
+                            ]),
+                    ])
+                    ->collapsible()
+                    ->columnSpanFull()
+                    ->itemLabel(fn(array $state): ?string => "Question: {$state['title']}" ?? null),
             ]);
     }
 
@@ -74,13 +110,34 @@ class QuizResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('tenant_exists')
+                    ->label('Is Tenant')
+                    ->exists('tenant')
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('title')
+                    ->limit(20)
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('description')
+                    ->limit(40)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('marks_total')
                     ->numeric()
+                    ->alignCenter()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->badge()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('timer')
+                    ->numeric()
+                    ->alignCenter()
+                    ->default(0)
+                    ->searchable(),
+                IconColumn::make('is_timeout')
+                    ->boolean()
+                    ->alignCenter(),
+                Tables\Columns\TextColumn::make('questions_count')
+                    ->counts('questions')
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('started_at')
                     ->dateTime()
                     ->sortable(),
@@ -97,7 +154,11 @@ class QuizResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('type')
+                    ->options(QuizType::class),
+                Filter::make('is_timeout')
+                    ->query(fn(Builder $query): Builder => $query->where('is_timeout', true))
+                    ->toggle(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

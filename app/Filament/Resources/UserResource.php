@@ -57,6 +57,10 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('type')
                     ->badge()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('tenant_exists')
+                    ->label('Is Tenant')
+                    ->exists('tenant')
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
