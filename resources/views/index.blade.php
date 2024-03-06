@@ -44,8 +44,8 @@
                         @endif
 
                         <div class="mb-2 text-xl font-bold text-gray-900">{{ $quiz->title }}</div>
-                        <p class="text-sm leading-tight text-gray-600 line-clamp-2">Lorem,
-                            {{ $quiz->description }}
+                        <p class="text-sm leading-tight text-gray-600 line-clamp-2">
+                            {{ $quiz->description ?: 'Said nothing about this quiz' }}
                         </p>
                     </div>
                     <div class="flex flex-wrap items-center justify-between gap-2 text-sm">
@@ -129,4 +129,9 @@
             </div>
         @endif
     </section>
+    <!--Copyright section-->
+    <footer class="bg-slate-300 text-stone-700 font-bold border-t text-sm w-full p-4 text-center">
+        © {{ date('Y') }} Copyright:
+        <a href="{{ route('home') }}">{{ config('app.name') }}</a>
+    </footer>
 </x-frontend-layout>
