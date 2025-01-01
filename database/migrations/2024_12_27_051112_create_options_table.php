@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('label');
             $table->foreignUuid('tenant_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('question_id')->constrained()->cascadeOnDelete();
-            $table->string('order_index')->default(0)->index();
+            $table->unsignedSmallInteger('order_index')->default(0)->index();
             $table->timestamps();
         });
     }
