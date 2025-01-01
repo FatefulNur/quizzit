@@ -28,6 +28,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tenants');
+        Schema::table('tenants', function (Blueprint $table) {
+            $table->dropUnique(['path']);
+            $table->dropIfExists();
+        });
     }
 };
