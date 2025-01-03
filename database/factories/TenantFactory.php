@@ -47,7 +47,7 @@ class TenantFactory extends Factory
 
     /**
      * Indicate that the tenant is banned.
-     */ 
+     */
     public function banned(): static
     {
         return $this->state(fn (array $attributes) => [

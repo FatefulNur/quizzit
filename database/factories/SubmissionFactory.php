@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Enums\SubmissionStatus;
 use App\Models\Form;
-use App\Models\Tenant;
+use App\Models\Option;
 use App\Models\Question;
 use App\Models\Respondent;
-use App\Enums\SubmissionStatus;
-use App\Models\Option;
+use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,7 +26,7 @@ class SubmissionFactory extends Factory
             'answer' => fake()->text(),
             'status' => fake()->randomElement(SubmissionStatus::class),
             'tenant_id' => Tenant::factory(),
-            'form_id' => Form::factory(),   
+            'form_id' => Form::factory(),
             'question_id' => Question::factory(),
             'respondent_id' => Respondent::factory(),
             'option_id' => Option::factory(),

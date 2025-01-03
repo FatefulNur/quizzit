@@ -20,6 +20,7 @@ class ValidationFactory extends Factory
     public function definition(): array
     {
         $rule = fake()->randomElement(ValidationRule::class);
+
         return [
             'rule' => $rule->value,
             'tenant_id' => Tenant::factory(),
@@ -30,7 +31,6 @@ class ValidationFactory extends Factory
     }
 
     /**
-     * @param ValidationRule $rule
      * @return array<string, mixed>|null
      */
     private function fakeParameters(ValidationRule $rule): ?array

@@ -13,10 +13,10 @@ class Tenant extends Model
     use HasFactory, HasUuids, SoftDeletes;
 
     protected $fillable = [
-        'name', 
-        'path', 
-        'description', 
-        'status'
+        'name',
+        'path',
+        'description',
+        'status',
     ];
 
     protected function casts(): array

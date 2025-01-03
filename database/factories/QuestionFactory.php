@@ -75,7 +75,7 @@ class QuestionFactory extends Factory
      *
      * @return \Database\Factories\QuestionFactory
      */
-    public function checkboxes(): static  
+    public function checkboxes(): static
     {
         return $this->state(fn (array $attributes) => [
             'type' => QuestionType::CHECKBOXES->value,

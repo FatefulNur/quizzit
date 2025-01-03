@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Enums\FeedbackType;
-use App\Models\Tenant;
 use App\Models\Question;
+use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -29,8 +29,6 @@ class FeedbackFactory extends Factory
 
     /**
      * Indicate that the feedback is general.
-     *
-     * @return \Database\Factories\FeedbackFactory
      */
     public function general(): self
     {
@@ -41,8 +39,6 @@ class FeedbackFactory extends Factory
 
     /**
      * Indicate that the feedback is correct answer.
-     *
-     * @return \Database\Factories\FeedbackFactory
      */
     public function correctAnswer(): self
     {
@@ -53,8 +49,6 @@ class FeedbackFactory extends Factory
 
     /**
      * Indicate that the feedback is incorrect answer.
-     *
-     * @return \Database\Factories\FeedbackFactory
      */
     public function incorrectAnswer(): self
     {

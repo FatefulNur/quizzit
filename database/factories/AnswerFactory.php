@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Option;
-use App\Models\Tenant;
 use App\Models\Question;
+use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
