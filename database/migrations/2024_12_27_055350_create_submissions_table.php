@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignUuid('form_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('question_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('respondent_id')->constrained()->cascadeOnDelete();
-            $table->foreignUuid('option_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('option_id')->nullable()->constrained()->cascadeOnDelete();
             $table->boolean('is_correct')->default(false);
             $table->unsignedInteger('score')->nullable();
             $table->softDeletes();
