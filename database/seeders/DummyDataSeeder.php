@@ -12,10 +12,9 @@ use App\Models\Respondent;
 use App\Models\Section;
 use App\Models\Setting;
 use App\Models\Submission;
-use App\Models\User;
 use App\Models\Tenant;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\DB;
 
 class DummyDataSeeder extends Seeder

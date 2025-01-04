@@ -39,5 +39,5 @@ class RespondentFactory extends Factory
             'email' => null,
             'user_id' => null,
         ]);
-    }    
+    }
 }
