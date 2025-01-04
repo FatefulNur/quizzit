@@ -27,4 +27,24 @@ class SectionFactory extends Factory
             'order_index' => fake()->numberBetween(0, 100),
         ];
     }
+
+    /**
+     * Indicate that the section is default.
+     */
+    public function default(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_default' => true,
+        ]);
+    }
+
+    /**
+     * Indicate that the section is not default.
+     */
+    public function notDefault(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_default' => false,
+        ]);
+    }
 }

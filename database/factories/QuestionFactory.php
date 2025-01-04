@@ -24,7 +24,7 @@ class QuestionFactory extends Factory
             'title' => fake()->sentence(),
             'hint' => fake()->optional()->sentence(),
             'description' => fake()->optional()->paragraph(),
-            'type' => fake()->randomElement(QuestionType::class),
+            'type' => fake()->randomElement(QuestionType::class)->value,
             'tenant_id' => Tenant::factory(),
             'form_id' => Form::factory(),
             'section_id' => Section::factory(),

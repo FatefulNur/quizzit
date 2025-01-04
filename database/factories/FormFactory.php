@@ -22,7 +22,7 @@ class FormFactory extends Factory
         return [
             'name' => fake()->words(3, true),
             'description' => fake()->optional()->sentence(),
-            'status' => fake()->randomElement(FormStatus::class),
+            'status' => fake()->randomElement(FormStatus::class)->value,
             'tenant_id' => Tenant::factory(),
             'user_id' => User::factory(),
             'started_at' => fake()->optional()->dateTime(),
@@ -67,6 +67,8 @@ class FormFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'status' => FormStatus::SCHEDULED->value,
+            'started_at' => fake()->dateTime(),
+            'expired_at' => fake()->dateTime(),
         ]);
     }
 
@@ -77,6 +79,7 @@ class FormFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'status' => FormStatus::EXPIRED->value,
+            'expired_at' => fake()->dateTime(),
         ]);
     }
 }

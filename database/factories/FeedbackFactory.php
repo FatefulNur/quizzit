@@ -21,7 +21,7 @@ class FeedbackFactory extends Factory
     {
         return [
             'message' => fake()->sentence(),
-            'type' => fake()->randomElement(FeedbackType::class),
+            'type' => fake()->randomElement(FeedbackType::class)->value,
             'tenant_id' => Tenant::factory(),
             'question_id' => Question::factory(),
         ];
@@ -30,7 +30,7 @@ class FeedbackFactory extends Factory
     /**
      * Indicate that the feedback is general.
      */
-    public function general(): self
+    public function general(): static
     {
         return $this->state(fn (array $attributes) => [
             'type' => FeedbackType::GENERAL->value,
@@ -40,7 +40,7 @@ class FeedbackFactory extends Factory
     /**
      * Indicate that the feedback is correct answer.
      */
-    public function correctAnswer(): self
+    public function correctAnswer(): static
     {
         return $this->state(fn (array $attributes) => [
             'type' => FeedbackType::CORRECT_ANSWER->value,
@@ -50,7 +50,7 @@ class FeedbackFactory extends Factory
     /**
      * Indicate that the feedback is incorrect answer.
      */
-    public function incorrectAnswer(): self
+    public function incorrectAnswer(): static
     {
         return $this->state(fn (array $attributes) => [
             'type' => FeedbackType::INCORRECT_ANSWER->value,

@@ -27,4 +27,17 @@ class RespondentFactory extends Factory
             'user_id' => User::factory(),
         ];
     }
+
+    /**
+     * Indicate that the respondent is anonymous.
+     *
+     * @return \Database\Factories\RespondentFactory
+     */
+    public function anonymous(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'email' => null,
+            'user_id' => null,
+        ]);
+    }    
 }

@@ -21,7 +21,7 @@ class TenantFactory extends Factory
             'name' => fake()->company(),
             'path' => fake()->unique()->slug(),
             'description' => fake()->optional()->sentence(),
-            'status' => fake()->randomElement(TenantStatus::class),
+            'status' => fake()->randomElement(TenantStatus::class)->value,
         ];
     }
 

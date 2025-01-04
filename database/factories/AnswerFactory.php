@@ -28,4 +28,32 @@ class AnswerFactory extends Factory
             'points' => fake()->numberBetween(0, 10),
         ];
     }
+
+    /**
+     * Indicate that the answer has no option.
+     *
+     * @return \Database\Factories\AnswerFactory
+     */
+    public function noOption(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'option_id' => null,
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the answer has no text.
+     *
+     * @return \Database\Factories\AnswerFactory
+     */
+    public function noText(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'text' => null,
+            ];
+        });
+    }
 }

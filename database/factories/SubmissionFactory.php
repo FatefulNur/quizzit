@@ -24,7 +24,7 @@ class SubmissionFactory extends Factory
     {
         return [
             'answer' => fake()->text(),
-            'status' => fake()->randomElement(SubmissionStatus::class),
+            'status' => fake()->randomElement(SubmissionStatus::class)->value,
             'tenant_id' => Tenant::factory(),
             'form_id' => Form::factory(),
             'question_id' => Question::factory(),
@@ -33,6 +33,16 @@ class SubmissionFactory extends Factory
             'is_correct' => fake()->boolean(),
             'score' => fake()->numberBetween(0, 100),
         ];
+    }
+
+    /**
+     * Indicate that the submission has no option.
+     */
+    public function noOption(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'option_id' => null,
+        ]);
     }
 
     /**
